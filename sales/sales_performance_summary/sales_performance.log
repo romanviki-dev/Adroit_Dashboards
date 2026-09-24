@@ -1,0 +1,134 @@
+waf-security.min.a36373ce25c771a22909d7841cb34112.js:1 STOP!
+waf-security.min.a36373ce25c771a22909d7841cb34112.js:1 This is a browser feature intended for developers. Do not enter or paste code which you don't understand. It may allow attackers to steal your information or impersonate you.See https://en.wikipedia.org/wiki/Self-XSS for more details
+security.225e825e0d8b491c6952634e6cdabd7c.js:332 STOP!
+security.225e825e0d8b491c6952634e6cdabd7c.js:333 This is a browser feature intended for developers. Do not enter or paste code which you don't understand. It may allow attackers to steal your information or impersonate you.See https://en.wikipedia.org/wiki/Self-XSS for more details
+crmpluslibrary.993b7e07904c09d220ee96223724b090.js:52 [Violation] Permissions policy violation: unload is not allowed in this document.
+CrmPlusLib.setUpMessageListener @ crmpluslibrary.993b7e07904c09d220ee96223724b090.js:52
+zclivechat.44dd45cc6bd4105dcae917090783106b.js:1 Loading the script 'https://salesiq.zohocorppublic.in/widget?wc=zsiqd74be4298608b787050c8f744a1c8e81d5902c140c930fcf18bc597e60275bc2eabe9d2efba8f795a89329d8b15d1d2d1ee7493b3401b252e7fdaf67&bcpcode=true' violates the following Content Security Policy directive: "script-src 'self'          'report-sample'          'unsafe-inline'          https://*.zohocdn.com          https://static.zohocdn.com.cn       https://*.zohostatic.in       https://*.zohostatic.com          https://*.zohowebstatic.com          https://*.zoho.in          https://salesiq.zoho.com          https://salesiq.zoho.in          https://desk.zoho.com          https://cdn.pagesense.io". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback. The policy is report-only, so the violation has been logged but no further action has been taken.
+inproductsdk.js:548 An iframe which has both allow-scripts and allow-same-origin for its sandbox attribute can escape its sandboxing.
+createDivforIframe @ inproductsdk.js:548
+handlebars.5d57814ac627a685830a0dab666127c8.js:1 Evaluating a string as JavaScript violates the following Content Security Policy directive because 'unsafe-eval' is not an allowed source of script: "script-src 'self'          'report-sample'          'unsafe-inline'          https://*.zohocdn.com          https://static.zohocdn.com.cn       https://*.zohostatic.in       https://*.zohostatic.com          https://*.zohowebstatic.com          https://*.zoho.in          https://salesiq.zoho.com          https://salesiq.zoho.in          https://desk.zoho.com          https://cdn.pagesense.io".
+ The policy is report-only, so the violation has been logged but no further action has been taken.
+handlebars.5d57814ac627a685830a0dab666127c8.js:1 Evaluating a string as JavaScript violates the following Content Security Policy directive because 'unsafe-eval' is not an allowed source of script: "script-src 'self'          'report-sample'          'unsafe-inline'          https://*.zohocdn.com          https://static.zohocdn.com.cn       https://*.zohostatic.in       https://*.zohostatic.com          https://*.zohowebstatic.com          https://*.zoho.in          https://salesiq.zoho.com          https://salesiq.zoho.in          https://desk.zoho.com          https://cdn.pagesense.io".
+ The policy is report-only, so the violation has been logged but no further action has been taken.
+handlebars.5d57814ac627a685830a0dab666127c8.js:1 Evaluating a string as JavaScript violates the following Content Security Policy directive because 'unsafe-eval' is not an allowed source of script: "script-src 'self'          'report-sample'          'unsafe-inline'          https://*.zohocdn.com          https://static.zohocdn.com.cn       https://*.zohostatic.in       https://*.zohostatic.com          https://*.zohowebstatic.com          https://*.zoho.in          https://salesiq.zoho.com          https://salesiq.zoho.in          https://desk.zoho.com          https://cdn.pagesense.io".
+ The policy is report-only, so the violation has been logged but no further action has been taken.
+widgetFramework.5a5bfabce8b14dfac483178001a2b9c4.js:1 https://e16302c1-ab16-44d5-9462-c84bd1ddec7f-v1-r3.sigmacdncontent.in
+widgetsdk-min.js:1 [Violation] Permissions policy violation: unload is not allowed in this document.
+i @ widgetsdk-min.js:1
+adroitWidgetKit.js:782 Adroit Widget Kit ready — salesPerformanceSummary
+adroitWidgetKit.js:784 Debug helpers: AK.report()  |  copy(AK.reportText())  |  AK.drills()
+adroitWidgetKit.js:231 [salesPerformanceSummary] Payment Tracking (page 1) -> 38 records (ok)
+adroitWidgetKit.js:231 [salesPerformanceSummary] Order Confirmation (page 1) -> 171 records (ok)
+adroitWidgetKit.js:231 [salesPerformanceSummary] Customer Calling Follow-up (page 1) -> 672 records (ok)
+adroitWidgetKit.js:231 [salesPerformanceSummary] Quotation (page 1) -> 698 records (ok)
+adroitWidgetKit.js:231 [salesPerformanceSummary] Payment Made (page 1) -> 1 records (ok)
+adroitWidgetKit.js:231 [salesPerformanceSummary] Quotation Follow Up (page 1) -> 720 records (ok)
+adroitWidgetKit.js:231 [salesPerformanceSummary] Customer Pre Site Visit Observation (page 1) -> 14 records (ok)
+adroitWidgetKit.js:231 [salesPerformanceSummary] Customer (page 1) -> 1000 records (ok)
+adroitWidgetKit.js:231 [salesPerformanceSummary] Customer Feedback (page 1) -> 1 records (ok)
+/creator/v2.1/data/shanth_adroitpower/adroit/report/Order_lost_Analysis_Report?max_records=1000&field_config=custom&fields=Date_field%2CType_Of_Lost%2CCustomer_Name%2CQuotation:1  Failed to load resource: the server responded with a status of 400 ()
+adroitWidgetKit.js:231 [salesPerformanceSummary] Order Lost Analysis (page 1) -> 0 records (FAILED)
+salesPerformance.js:182 Sales Dashboard: "Order Lost Analysis (page 1)" fetch failed, treating as empty. Object
+safeGetRecords @ salesPerformance.js:182
+/creator/v2.1/data/shanth_adroitpower/adroit/report/Installation_Calls_Handling_for_Sales?max_records=1000&field_config=custom&fields=Date_field%2CFeedback_Status:1  Failed to load resource: the server responded with a status of 400 ()
+adroitWidgetKit.js:231 [salesPerformanceSummary] Installation Calls Handling (page 1) -> 0 records (FAILED)
+salesPerformance.js:182 Sales Dashboard: "Installation Calls Handling (page 1)" fetch failed, treating as empty. Object
+safeGetRecords @ salesPerformance.js:182
+adroitWidgetKit.js:231 [salesPerformanceSummary] Dealers (page 1) -> 1 records (ok)
+adroitWidgetKit.js:231 [salesPerformanceSummary] Service Executive (page 1) -> 1 records (ok)
+adroitWidgetKit.js:231 [salesPerformanceSummary] Standby Unit Tracker (page 1) -> 2 records (ok)
+/creator/v2.1/data/shanth_adroitpower/adroit/report/Expense_of_Engineer_Report?max_records=1000&field_config=custom&fields=Date_field1234567890%2COverall_Direct:1  Failed to load resource: the server responded with a status of 400 ()
+adroitWidgetKit.js:231 [salesPerformanceSummary] Expense of Engineer (page 1) -> 0 records (FAILED)
+salesPerformance.js:182 Sales Dashboard: "Expense of Engineer (page 1)" fetch failed, treating as empty. Object
+safeGetRecords @ salesPerformance.js:182
+adroitWidgetKit.js:231 [salesPerformanceSummary] Service Report (page 1) -> 64 records (ok)
+/creator/v2.1/data/shanth_adroitpower/adroit/report/Service_Feedback_Format?max_records=1000&field_config=custom&fields=Call_attended_date%2CRating:1  Failed to load resource: the server responded with a status of 400 ()
+adroitWidgetKit.js:231 [salesPerformanceSummary] Service Feedback (page 1) -> 0 records (FAILED)
+salesPerformance.js:182 Sales Dashboard: "Service Feedback (page 1)" fetch failed, treating as empty. Object
+safeGetRecords @ salesPerformance.js:182
+adroitWidgetKit.js:231 [salesPerformanceSummary] BOM (page 1) -> 85 records (ok)
+adroitWidgetKit.js:231 [salesPerformanceSummary] Purchase Order (page 1) -> 233 records (ok)
+adroitWidgetKit.js:231 [salesPerformanceSummary] Benchmark (page 1) -> 2 records (ok)
+adroitWidgetKit.js:231 [salesPerformanceSummary] Competitor Analysis (page 1) -> 2 records (ok)
+adroitWidgetKit.js:231 [salesPerformanceSummary] Customer (page 2) -> 1000 records (ok)
+adroitWidgetKit.js:231 [salesPerformanceSummary] Customer (page 3) -> 1000 records (ok)
+adroitWidgetKit.js:231 [salesPerformanceSummary] Customer (page 4) -> 155 records (ok)
+adroitWidgetKit.js:366 [salesPerformanceSummary] data load summary
+adroitWidgetKit.js:367 Array(24)
+adroitWidgetKit.js:372 Reports that FAILED: Order_lost_Analysis_Report, Installation_Calls_Handling_for_Sales, Expense_of_Engineer_Report, Service_Feedback_Format
+report @ adroitWidgetKit.js:372
+salesPerformance.js:1993 [salesPerformanceSummary] ready — click any count to see the records behind it.
+adroitWidgetKit.js:324 [salesPerformanceSummary] discovering real fields for 21 report(s) — paste this whole block back to fix every guessed field name in one pass.
+adroitWidgetKit.js:281 [salesPerformanceSummary] discoverFields(Customer_Calling_follow_up_Format) -> 672 sample record(s)
+adroitWidgetKit.js:281 [salesPerformanceSummary] discoverFields(Quotation1) -> 698 sample record(s)
+adroitWidgetKit.js:281 [salesPerformanceSummary] discoverFields(All_Order_Confirmations) -> 171 sample record(s)
+adroitWidgetKit.js:281 [salesPerformanceSummary] discoverFields(Payment_Trackings_Format) -> 38 sample record(s)
+adroitWidgetKit.js:281 [salesPerformanceSummary] discoverFields(Payment_Made_Report) -> 1 sample record(s)
+adroitWidgetKit.js:281 [salesPerformanceSummary] discoverFields(Quotation_Follow_Up_Format) -> 720 sample record(s)
+adroitWidgetKit.js:281 [salesPerformanceSummary] discoverFields(Customer_Pre_Site_Visit_Observation1) -> 14 sample record(s)
+adroitWidgetKit.js:292 preSiteVisit -> Customer_Pre_Site_Visit_Observation1 has 25 field(s), seen across 14 record(s):
+adroitWidgetKit.js:294 Visit_Date, Customer_Name, Starting_Current, Photos_Documents, Incoming_Voltage_Details, Remarks, High_Voltage, Customer_Expectation, ID, Connected_Load, Status, Capacity_Of_the_Machine, Order_Taken_By_Whom, Power_Audit_Findings, Prepared_By, Observation_ID, Normal_Load_Current, Competitor_Details, Installation_Location_Notes, Customer_Phone_NO, Power_Audit_Required, Max_Load_Current, EB_Source, Voltage_between_neutral_and_earth, Customer_Address
+adroitWidgetKit.js:295 First sample record: {Visit_Date: '20-11-2025', Customer_Name: {…}, Starting_Current: '', Photos_Documents: '', Incoming_Voltage_Details: '', …}
+adroitWidgetKit.js:281 [salesPerformanceSummary] discoverFields(All_Customer_Feedback) -> 1 sample record(s)
+adroitWidgetKit.js:281 [salesPerformanceSummary] discoverFields(All_Customers) -> 1000 sample record(s)
+widgetFramework.5a5bfabce8b14dfac483178001a2b9c4.js:1  GET https://creatorapp.zoho.in/creator/v2.1/data/shanth_adroitpower/adroit/report/Order_lost_Analysis_Report?max_records=1000&field_config=all 400 (Bad Request)
+S @ widgetFramework.5a5bfabce8b14dfac483178001a2b9c4.js:1
+API_OPERATION @ widgetFramework.5a5bfabce8b14dfac483178001a2b9c4.js:1
+_e @ widgetFramework.5a5bfabce8b14dfac483178001a2b9c4.js:1
+I @ widgetFramework.5a5bfabce8b14dfac483178001a2b9c4.js:1
+E @ widgetFramework.5a5bfabce8b14dfac483178001a2b9c4.js:1
+C @ widgetFramework.5a5bfabce8b14dfac483178001a2b9c4.js:1
+adroitWidgetKit.js:301 [salesPerformanceSummary] discoverFields(Order_lost_Analysis_Report) failed: {status: 400, statusText: '', responseText: '{"code":9220,"message":"No records exist in this report."}'}
+(anonymous) @ adroitWidgetKit.js:301
+Promise.catch
+discoverFields @ adroitWidgetKit.js:300
+(anonymous) @ adroitWidgetKit.js:329
+adroitWidgetKit.js:281 [salesPerformanceSummary] discoverFields(All_Dealers) -> 1 sample record(s)
+widgetFramework.5a5bfabce8b14dfac483178001a2b9c4.js:1  GET https://creatorapp.zoho.in/creator/v2.1/data/shanth_adroitpower/adroit/report/Installation_Calls_Handling_for_Sales?max_records=1000&field_config=all 400 (Bad Request)
+S @ widgetFramework.5a5bfabce8b14dfac483178001a2b9c4.js:1
+API_OPERATION @ widgetFramework.5a5bfabce8b14dfac483178001a2b9c4.js:1
+_e @ widgetFramework.5a5bfabce8b14dfac483178001a2b9c4.js:1
+I @ widgetFramework.5a5bfabce8b14dfac483178001a2b9c4.js:1
+E @ widgetFramework.5a5bfabce8b14dfac483178001a2b9c4.js:1
+C @ widgetFramework.5a5bfabce8b14dfac483178001a2b9c4.js:1
+adroitWidgetKit.js:301 [salesPerformanceSummary] discoverFields(Installation_Calls_Handling_for_Sales) failed: {status: 400, statusText: '', responseText: '{"code":9220,"message":"No records exist in this report."}'}
+(anonymous) @ adroitWidgetKit.js:301
+Promise.catch
+discoverFields @ adroitWidgetKit.js:300
+(anonymous) @ adroitWidgetKit.js:329
+adroitWidgetKit.js:281 [salesPerformanceSummary] discoverFields(Standby_Unit_Tracker2_Report) -> 2 sample record(s)
+adroitWidgetKit.js:281 [salesPerformanceSummary] discoverFields(Service_Executive_Format) -> 1 sample record(s)
+adroitWidgetKit.js:281 [salesPerformanceSummary] discoverFields(Service_Reports_Format) -> 64 sample record(s)
+widgetFramework.5a5bfabce8b14dfac483178001a2b9c4.js:1  GET https://creatorapp.zoho.in/creator/v2.1/data/shanth_adroitpower/adroit/report/Expense_of_Engineer_Report?max_records=1000&field_config=all 400 (Bad Request)
+S @ widgetFramework.5a5bfabce8b14dfac483178001a2b9c4.js:1
+API_OPERATION @ widgetFramework.5a5bfabce8b14dfac483178001a2b9c4.js:1
+_e @ widgetFramework.5a5bfabce8b14dfac483178001a2b9c4.js:1
+I @ widgetFramework.5a5bfabce8b14dfac483178001a2b9c4.js:1
+E @ widgetFramework.5a5bfabce8b14dfac483178001a2b9c4.js:1
+C @ widgetFramework.5a5bfabce8b14dfac483178001a2b9c4.js:1
+adroitWidgetKit.js:301 [salesPerformanceSummary] discoverFields(Expense_of_Engineer_Report) failed: {status: 400, statusText: '', responseText: '{"code":9220,"message":"No records exist in this report."}'}
+(anonymous) @ adroitWidgetKit.js:301
+Promise.catch
+discoverFields @ adroitWidgetKit.js:300
+(anonymous) @ adroitWidgetKit.js:329
+adroitWidgetKit.js:281 [salesPerformanceSummary] discoverFields(All_Purchase_Orders) -> 233 sample record(s)
+adroitWidgetKit.js:292 purchaseOrder -> All_Purchase_Orders has 20 field(s), seen across 233 record(s):
+adroitWidgetKit.js:294 Status, Bill_Number, Bill_Date, PO_Number, Vendor_Name, Total_Amount, Delivered_On, Expected_Delivery_Date, Reference, Sub_Total, Warehouse_Name, Attachments, Tax_Amount, Item_Details, PO_Date, Is_Trading_Order, ID, Notes, Bills, Added_Time
+adroitWidgetKit.js:295 First sample record: {Status: 'Waiting For Approval', Bill_Number: '', Bill_Date: '', PO_Number: '429', Vendor_Name: {…}, …}
+adroitWidgetKit.js:281 [salesPerformanceSummary] discoverFields(BOM_Report) -> 85 sample record(s)
+widgetFramework.5a5bfabce8b14dfac483178001a2b9c4.js:1  GET https://creatorapp.zoho.in/creator/v2.1/data/shanth_adroitpower/adroit/report/Service_Feedback_Format?max_records=1000&field_config=all 400 (Bad Request)
+S @ widgetFramework.5a5bfabce8b14dfac483178001a2b9c4.js:1
+API_OPERATION @ widgetFramework.5a5bfabce8b14dfac483178001a2b9c4.js:1
+_e @ widgetFramework.5a5bfabce8b14dfac483178001a2b9c4.js:1
+I @ widgetFramework.5a5bfabce8b14dfac483178001a2b9c4.js:1
+E @ widgetFramework.5a5bfabce8b14dfac483178001a2b9c4.js:1
+C @ widgetFramework.5a5bfabce8b14dfac483178001a2b9c4.js:1
+adroitWidgetKit.js:301 [salesPerformanceSummary] discoverFields(Service_Feedback_Format) failed: {status: 400, statusText: '', responseText: '{"code":9220,"message":"No records exist in this report."}'}
+(anonymous) @ adroitWidgetKit.js:301
+Promise.catch
+discoverFields @ adroitWidgetKit.js:300
+(anonymous) @ adroitWidgetKit.js:329
+adroitWidgetKit.js:281 [salesPerformanceSummary] discoverFields(All_Benchmarks) -> 2 sample record(s)
+adroitWidgetKit.js:281 [salesPerformanceSummary] discoverFields(All_Competitor_Analysis) -> 2 sample record(s)
+adroitWidgetKit.js:332 [salesPerformanceSummary] field discovery complete for all 21 report(s).

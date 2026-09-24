@@ -1,0 +1,361 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Production Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Zoho Creator Widget SDK (v2 — ZOHO.CREATOR.DATA.getRecords) -->
+  <script src="https://static.zohocdn.com/creator/widgets/version/2.0/widgetsdk-min.js"></script>
+  <!-- ApexCharts -- donut/gauge/line/bar charts, replacing the old hand-built CSS/SVG ones -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.45.2/dist/apexcharts.min.js"></script>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- HEADER -->
+    <div class="header">
+      <h1><i class="fas fa-chart-line"></i> Production Dashboard</h1>
+      <p>DATE: <span id="prod-date">&ndash;</span></p>
+    </div>
+
+    <div id="notice-container"></div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+    <!-- TODAY'S & WEEKLY OVERVIEW (real logic, ported from the getKPITableData()
+         function that existed in delugefunctions.txt but was never wired into
+         the original page — added per the Production Dashboard doc's own
+         "Today's & Weekly overview Panel" heading) -->
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+
+    <div class="panel">
+      <div class="panel-title"><i class="fas fa-gauge-high"></i> Today's &amp; Weekly Overview</div>
+      <div class="tiles-container" id="today-weekly-tiles"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+    <!-- PANEL 1: PRODUCTION PERFORMANCE OVERVIEW -->
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+
+    <div class="panel">
+      <div class="panel-title">
+        <i class="fas fa-chart-bar"></i> Production Performance Overview
+      </div>
+
+      <!-- Weekly Planned vs Actual -->
+      <details open>
+        <summary>
+          <span><i class="fas fa-calendar-week"></i> Weekly Planned vs Actual Production</span>
+          <i class="fas fa-chevron-down"></i>
+        </summary>
+        <div class="details-content">
+          <div class="chart-container">
+            <div id="prod-weekly-chart"></div>
+          </div>
+        </div>
+      </details>
+
+      <!-- Monthly Planned vs Actual -->
+      <details>
+        <summary>
+          <span><i class="fas fa-calendar-alt"></i> Monthly Planned vs Actual Production</span>
+          <i class="fas fa-chevron-down"></i>
+        </summary>
+        <div class="details-content">
+          <div class="chart-container">
+            <div id="prod-monthly-chart"></div>
+          </div>
+        </div>
+      </details>
+
+      <!-- Yearly Planned vs Actual -->
+      <details>
+        <summary>
+          <span><i class="fas fa-calendar"></i> Yearly Planned vs Actual Production</span>
+          <i class="fas fa-chevron-down"></i>
+        </summary>
+        <div class="details-content">
+          <div class="chart-container">
+            <div id="prod-yearly-chart"></div>
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+    <!-- ON-TIME DELIVERY TREND -->
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+
+    <div class="panel">
+      <h3 class="panel-title"><i class="fas fa-chart-bar"></i> On-Time Delivery Trend</h3>
+      <div class="chart-container">
+        <div id="delivery-chart"></div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+    <!-- ORDER COMMITMENT & DELAY STATUS -->
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+
+    <div class="panel">
+      <div class="panel-title"><i class="fas fa-calendar-alt"></i> Order Commitment &amp; Delay Status</div>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px,1fr)); gap:12px; margin-bottom:20px;">
+        <div style="background:#f0f7ff;border-left:4px solid #667eea;border-radius:8px;padding:14px 16px;text-align:center;">
+          <div style="font-size:11px;font-weight:600;color:#555;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;">Total Orders</div>
+          <div style="font-size:28px;font-weight:700;color:#667eea;" id="ord-total">0</div>
+        </div>
+        <div style="background:#f0fff4;border-left:4px solid #28a745;border-radius:8px;padding:14px 16px;text-align:center;">
+          <div style="font-size:11px;font-weight:600;color:#555;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;">On Time</div>
+          <div style="font-size:28px;font-weight:700;color:#28a745;" id="ord-ontime">0</div>
+        </div>
+        <div style="background:#fffdf0;border-left:4px solid #ffc107;border-radius:8px;padding:14px 16px;text-align:center;">
+          <div style="font-size:11px;font-weight:600;color:#555;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;">Delayed</div>
+          <div style="font-size:28px;font-weight:700;color:#e0a800;" id="ord-delayed">0</div>
+        </div>
+        <div style="background:#fff5f5;border-left:4px solid #dc3545;border-radius:8px;padding:14px 16px;text-align:center;">
+          <div style="font-size:11px;font-weight:600;color:#555;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;">Critical</div>
+          <div style="font-size:28px;font-weight:700;color:#dc3545;" id="ord-critical">0</div>
+        </div>
+        <div style="background:#f5f5f5;border-left:4px solid #888;border-radius:8px;padding:14px 16px;text-align:center;">
+          <div style="font-size:11px;font-weight:600;color:#555;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;">Pending</div>
+          <div style="font-size:28px;font-weight:700;color:#888;" id="ord-pending">0</div>
+        </div>
+      </div>
+
+      <div style="width:100%; overflow-x:auto; overflow-y:auto; max-height:420px; border-radius:8px; border:1px solid #e0e0e0; box-shadow:0 2px 8px rgba(0,0,0,0.05); -webkit-overflow-scrolling:touch;">
+        <table style="width:100%; min-width:800px; border-collapse:collapse; table-layout:auto;">
+          <thead>
+            <tr>
+              <th style="position:sticky;top:0;z-index:3;background:#667eea;color:white;padding:13px 12px;text-align:left;font-size:13px;font-weight:600;white-space:nowrap;border-right:1px solid rgba(255,255,255,0.15);">Order No</th>
+              <th style="position:sticky;top:0;z-index:3;background:#667eea;color:white;padding:13px 12px;text-align:left;font-size:13px;font-weight:600;white-space:nowrap;border-right:1px solid rgba(255,255,255,0.15);">Customer</th>
+              <th style="position:sticky;top:0;z-index:3;background:#667eea;color:white;padding:13px 12px;text-align:left;font-size:13px;font-weight:600;white-space:nowrap;border-right:1px solid rgba(255,255,255,0.15);">Product</th>
+              <th style="position:sticky;top:0;z-index:3;background:#667eea;color:white;padding:13px 12px;text-align:left;font-size:13px;font-weight:600;white-space:nowrap;border-right:1px solid rgba(255,255,255,0.15);">Committed Date</th>
+              <th style="position:sticky;top:0;z-index:3;background:#667eea;color:white;padding:13px 12px;text-align:left;font-size:13px;font-weight:600;white-space:nowrap;border-right:1px solid rgba(255,255,255,0.15);">Actual Dispatch</th>
+              <th style="position:sticky;top:0;z-index:3;background:#667eea;color:white;padding:13px 12px;text-align:center;font-size:13px;font-weight:600;white-space:nowrap;border-right:1px solid rgba(255,255,255,0.15);">Delay (Days)</th>
+              <th style="position:sticky;top:0;z-index:3;background:#667eea;color:white;padding:13px 12px;text-align:left;font-size:13px;font-weight:600;white-space:nowrap;border-right:1px solid rgba(255,255,255,0.15);">Reason</th>
+              <th style="position:sticky;top:0;z-index:3;background:#667eea;color:white;padding:13px 12px;text-align:center;font-size:13px;font-weight:600;white-space:nowrap;">Status</th>
+            </tr>
+          </thead>
+          <tbody id="order-delay-tbody"></tbody>
+        </table>
+      </div>
+
+      <div style="margin-top:10px; font-size:12px; color:#888; text-align:right; padding:0 4px;" id="order-footer"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+    <!-- QUALITY, COMPLAINTS & REWORK -->
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+
+    <div class="panel">
+      <div class="panel-title"><i class="fas fa-shield-alt"></i> Quality, Complaints &amp; Rework</div>
+
+      <div class="tiles-container">
+        <div class="tile status-red">
+          <div class="ribbon"><span>Alert</span></div>
+          <div class="tile-title">Customer Complaints</div>
+          <div class="tile-value">N/A</div>
+          <div class="tile-target">No data source — see note below</div>
+        </div>
+
+        <div class="tile status-yellow">
+          <div class="ribbon"><span>Warning</span></div>
+          <div class="tile-title">Rework Cases (Today)</div>
+          <div class="tile-value" id="val-rework-count">0</div>
+          <div class="tile-target">Target: &le; 3%</div>
+        </div>
+
+        <div class="tile status-green">
+          <div class="ribbon"><span>Good</span></div>
+          <div class="tile-title">Rejection Cases (Today)</div>
+          <div class="tile-value" id="val-rejection-count">0</div>
+          <div class="tile-target">Target: &le; 2%</div>
+        </div>
+      </div>
+      <div style="font-size:11px;color:#999;margin-top:10px;">
+        The original page filtered these two tiles to "today" only (its own week-start variable was computed but never used) — ported as written. Customer Complaints has no source field in the Deluge template at all.
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+    <!-- COMPLAINT BREAKDOWN PIE CHART -->
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+
+    <div class="panel">
+      <h3 class="panel-title"><i class="fas fa-chart-pie"></i> Complaint Types Breakdown</h3>
+      <div class="chart-container" id="complaint-breakdown-container"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+    <!-- REWORK TREND -->
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+
+    <div class="panel">
+      <div class="panel-title"><i class="fas fa-chart-bar"></i> Rework Trend</div>
+
+      <details open>
+        <summary><span><i class="fas fa-calendar-week"></i> Weekly Rework Trend</span><i class="fas fa-chevron-down"></i></summary>
+        <div class="details-content">
+          <div class="chart-container">
+            <div id="rework-weekly-chart"></div>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary><span><i class="fas fa-calendar-alt"></i> Monthly Rework Trend</span><i class="fas fa-chevron-down"></i></summary>
+        <div class="details-content">
+          <div class="chart-container">
+            <div id="rework-monthly-chart"></div>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary><span><i class="fas fa-calendar"></i> Yearly Rework Trend</span><i class="fas fa-chevron-down"></i></summary>
+        <div class="details-content">
+          <div class="chart-container">
+            <div id="rework-yearly-chart"></div>
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+    <!-- MAINTENANCE -->
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+
+    <div class="panel">
+      <div class="panel-title"><i class="fas fa-tools"></i> Maintenance</div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr><th>Activity</th><th>Frequency</th><th>Completed</th><th>Remarks</th><th>Progress</th></tr>
+          </thead>
+          <tbody id="maintenance-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+    <!-- MAINTENANCE COMPLIANCE -->
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+
+    <div class="panel">
+      <h3 class="panel-title"><div class="icon-circle-small"><i class="fas fa-chart-bar"></i></div>Maintenance Compliance %</h3>
+      <div class="chart-container">
+        <div class="h-bar-chart">
+          <div class="h-bar-item">
+            <div class="h-bar-label"><span>Planned Maintenance</span><span><strong id="maint-planned-label">0 activities</strong></span></div>
+            <div class="h-bar-track"><div class="h-bar-fill h-bar-primary" style="width:100%;">Target: 100%</div></div>
+          </div>
+          <div class="h-bar-item">
+            <div class="h-bar-label"><span>Achieved</span><span><strong id="maint-completed-label">0 completed (0%)</strong></span></div>
+            <div class="h-bar-track"><div class="h-bar-fill" id="maint-compliance-fill" style="width:0%;">0%</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+    <!-- MATERIAL, BOM & INVENTORY CONTROL -->
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+
+    <div class="panel">
+      <div class="panel-title"><i class="fas fa-boxes"></i> Material, BOM &amp; Inventory Control</div>
+      <div id="material-bom-container"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+    <!-- MATERIAL SHORTAGE -->
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+
+    <div class="panel">
+      <div class="panel-title"><i class="fas fa-exclamation-triangle"></i> Material Shortage Impact</div>
+      <div id="material-shortage-container"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+    <!-- RED-TAG ITEMS TABLE -->
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+
+    <div class="panel">
+      <h3 class="panel-title"><i class="fas fa-tag"></i> Top 5 Red-Tag Items by Value</h3>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr><th>Item Description</th><th>Value (&#8377;)</th><th>Aging (Days)</th><th>Priority</th></tr>
+          </thead>
+          <tbody id="redtag-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+    <!-- PRODUCTS & INDIRECT EXPENSES -->
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+
+    <div class="panel">
+      <div class="panel-title"><i class="fas fa-boxes"></i> This Month Products &amp; Indirect Expenses</div>
+      <div id="products-expense-container"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+    <!-- INVENTORY & MATERIAL -->
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+
+    <div class="panel">
+      <div class="panel-title"><i class="fas fa-boxes"></i> Inventory &amp; Material</div>
+      <div id="inventory-material-container"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+    <!-- IMPROVEMENT, TRAINING & RISK MANAGEMENT -->
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+
+    <div class="panel">
+      <div class="panel-title"><i class="fas fa-lightbulb"></i> Improvement, Training &amp; Risk Management</div>
+      <div id="improvement-training-container"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+    <!-- IMPROVEMENTS VS COST SAVINGS -->
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+
+    <div class="panel">
+      <h3 class="panel-title"><i class="fas fa-chart-line"></i> Improvements Implemented vs Cost Savings</h3>
+      <div class="chart-container" id="improvement-savings-container"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+    <!-- KPI PERFORMANCE TREND -->
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+
+    <div class="panel">
+      <h3 class="panel-title"><i class="fas fa-chart-area"></i> KPI Performance Trend - On-Time Delivery</h3>
+      <div class="chart-container" id="kpi-trend-container"></div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+    <!-- INDIVIDUAL KPI & TEAM EVALUATION -->
+    <!-- ═══════════════════════════════════════════════════════════════════════════════ -->
+
+    <div class="panel">
+      <div class="panel-title"><i class="fas fa-user-check"></i> Individual KPI &amp; Team Evaluation</div>
+      <div id="individual-kpi-container"></div>
+    </div>
+
+  </div>
+
+  <!-- Shared runtime: number formatting, drill-down modal, fetch diagnostics -->
+  <script src="adroitWidgetKit.js"></script>
+  <!-- Dashboard logic -->
+  <script src="productionOverview.js"></script>
+</body>
+</html>

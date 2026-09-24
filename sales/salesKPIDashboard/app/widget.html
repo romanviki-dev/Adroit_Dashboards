@@ -1,0 +1,326 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KPI Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="ection">
+    <div class="dashboard-header">
+        <h1>KPI Dashboard</h1>
+        <p>Real-time Performance Metrics & Analytics</p>
+    </div>
+
+    <div class="dashboard-container">
+        <!-- Admin KPI Section -->
+        <div class="section-title">Admin KPI Dashboard</div>
+
+        <div class="kpi-grid">
+            <!-- Quotations Created -->
+            <div class="kpi-card">
+                <div class="kpi-header">Quotations Created</div>
+                <div class="kpi-value" id="val-quotations-created">0</div>
+                <span class="percentage-badge badge-positive" id="badge-quotations-change">↑ 0%</span>
+            </div>
+
+            <!-- Avg Quote Delay -->
+            <div class="kpi-card">
+                <div class="kpi-header">Avg. Quote Delay</div>
+                <div class="kpi-value" id="val-avg-quote-delay">0 days</div>
+                <div class="progress-container">
+                    <div class="progress-bar-wrapper">
+                        <div class="progress-bar-fill" id="bar-quote-delay" style="width: 0%;"></div>
+                    </div>
+                    <div class="progress-label"><span id="lbl-curr-quote-delay">Current: 0d</span></div>
+                </div>
+                <div class="kpi-subtext">Lead → Quote time</div>
+            </div>
+
+            <!-- Payment Delay -->
+            <div class="kpi-card">
+                <div class="kpi-header">Payment Delay</div>
+                <div class="kpi-value" id="val-payment-delay">0 days</div>
+                <div class="progress-container">
+                    <div class="progress-bar-wrapper">
+                        <div class="progress-bar-fill" id="bar-payment-delay" style="width: 0%;"></div>
+                    </div>
+                    <div class="progress-label"><span id="lbl-curr-payment-delay">Current: 0d</span></div>
+                </div>
+                <div class="kpi-subtext">Sale order payment delay</div>
+            </div>
+
+            <!-- Leads Attended -->
+            <div class="kpi-card">
+                <div class="kpi-header">Leads Attended</div>
+                <div class="horizontal-bars">
+                    <div class="h-bar-item">
+                        <div class="h-bar-label-row"><span class="h-bar-label">IndiaMART</span><span class="h-bar-value" id="val-lead-im">0</span></div>
+                        <div class="h-bar-track"><div class="h-bar-fill gradient-purple" id="bar-lead-im" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="h-bar-item">
+                        <div class="h-bar-label-row"><span class="h-bar-label">Justdial</span><span class="h-bar-value" id="val-lead-jd">0</span></div>
+                        <div class="h-bar-track"><div class="h-bar-fill gradient-purple" id="bar-lead-jd" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="h-bar-item">
+                        <div class="h-bar-label-row"><span class="h-bar-label">Referral</span><span class="h-bar-value" id="val-lead-ref">0</span></div>
+                        <div class="h-bar-track"><div class="h-bar-fill gradient-purple" id="bar-lead-ref" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="h-bar-item">
+                        <div class="h-bar-label-row"><span class="h-bar-label">Direct</span><span class="h-bar-value" id="val-lead-dir">0</span></div>
+                        <div class="h-bar-track"><div class="h-bar-fill gradient-purple" id="bar-lead-dir" style="width: 0%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Customer Feedback -->
+            <div class="kpi-card">
+                <div class="kpi-header">Customer Feedback Collected</div>
+                <div class="kpi-value" id="val-customer-feedback">0</div>
+                <div class="kpi-subtext">Total responses this month</div>
+            </div>
+
+            <!-- Missed Calls Alert -->
+            <div class="kpi-card">
+                <div class="kpi-header">Missed Calls / Unattended</div>
+                <div class="alert-box">
+                    <div class="alert-icon">⚠️</div>
+                    <div class="alert-number" id="val-missed-calls">0</div>
+                    <div style="font-size: 0.85em;">Requires Immediate Attention</div>
+                </div>
+            </div>
+
+            <!-- Quote Accuracy Score -->
+            <div class="kpi-card">
+                <div class="kpi-header">Quote Accuracy Score</div>
+                <div class="speedometer">
+                    <div id="quote-accuracy-chart"></div>
+                </div>
+                <div class="gauge-value" id="val-quote-accuracy">0%</div>
+                <div class="gauge-range"><span>0%</span><span>50%</span><span>100%</span></div>
+                <div class="kpi-subtext" style="text-align: center; margin-top: 8px;">Approved vs Revised</div>
+            </div>
+
+            <!-- Quotations Followed Up -->
+            <div class="kpi-card">
+                <div class="kpi-header">Quotations Followed Up</div>
+                <div class="donut-chart">
+                    <div id="followup-chart"></div>
+                    <div class="donut-center">
+                        <div class="donut-percentage" id="val-followup-pct">0%</div>
+                        <div class="donut-label">Done</div>
+                    </div>
+                </div>
+                <div class="donut-legend">
+                    <div class="legend-item"><span class="legend-color" style="background: #667eea;"></span><span id="legend-done">Done (0)</span></div>
+                    <div class="legend-item"><span class="legend-color" style="background: rgba(255,255,255,0.1);"></span><span id="legend-pending">Pending (0)</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Comparison Table -->
+        <div class="comparison-table">
+            <h3>Admin Performance Comparison</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Quotations Count</th>
+                        <th>Quotations Sent</th>
+                        <th>Avg Follow-ups</th>
+                        <th>Missed Calls</th>
+                        <th>Conversion Rate</th>
+                        <th>Quote Delay (Days)</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-table-body">
+                    <tr><td colspan="7" style="text-align:center;">Loading records...</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Sales Head & MD Dashboard -->
+        <div class="section-title">KPI Dashboard (Sales Head & MD)</div>
+
+        <div class="kpi-grid-sales top-row-master">
+            <div class="kpi-card">
+                <div class="kpi-header">Quotations Approved</div>
+                <div class="kpi-value" id="val-quotations-approved">0</div>
+                <div class="kpi-subtext">Company - This Quarter</div>
+                <span class="percentage-badge badge-positive" id="badge-approved-change">↑ 0%</span>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-header">Pre-Visits Coordinated</div>
+                <div class="kpi-value" id="val-pre-visits">0</div>
+                <div class="kpi-subtext">Scheduled meetings</div>
+                <span class="percentage-badge badge-positive" id="badge-previsits-change">↑ 0%</span>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-header">Customer Visits / Meetings</div>
+                <div class="kpi-value" id="val-customer-visits">0</div>
+                <div class="kpi-subtext">Completed this month</div>
+                <span class="percentage-badge badge-positive" id="badge-visits-change">↑ 0%</span>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-header">Customer Satisfaction</div>
+                <div class="kpi-value" id="val-customer-satisfaction">0</div>
+                <div class="kpi-subtext">Feedback responses collected</div>
+                <span class="percentage-badge badge-positive" id="badge-satisfaction-change">↑ 0%</span>
+            </div>
+        </div>
+
+        <div class="kpi-grid-sales bottom-row-master">
+            <div class="kpi-card">
+                <div class="kpi-header">Lead Response Delay</div>
+                <div class="kpi-value" id="val-lead-response-delay">0 days</div>
+                <div class="progress-container">
+                    <div class="progress-bar-wrapper"><div class="progress-bar-fill" id="bar-lead-delay" style="width: 0%;"></div></div>
+                    <div class="progress-label"><span id="lbl-lead-delay">Current: 0d</span></div>
+                </div>
+                <div class="kpi-subtext">From Admin to Action</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-header">Follow-Ups Frequency</div>
+                <div class="kpi-value" style="text-align: center;" id="val-followups-freq">0</div>
+                <div class="progress-container">
+                    <div class="progress-bar-wrapper"><div class="progress-bar-fill" id="bar-followups-freq" style="width: 0%;"></div></div>
+                    <div class="progress-label"><span id="lbl-followups-freq">Achieved: 0</span></div>
+                </div>
+                <div class="kpi-subtext">Total this month</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-header">New Leads Generated</div>
+                <div class="horizontal-bars">
+                    <div class="h-bar-item">
+                        <div class="h-bar-label-row"><span class="h-bar-label">Direct Visit</span><span class="h-bar-value" id="val-new-dir">0</span></div>
+                        <div class="h-bar-track"><div class="h-bar-fill gradient-purple" id="bar-new-dir" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="h-bar-item">
+                        <div class="h-bar-label-row"><span class="h-bar-label">Referral</span><span class="h-bar-value" id="val-new-ref">0</span></div>
+                        <div class="h-bar-track"><div class="h-bar-fill gradient-purple" id="bar-new-ref" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="h-bar-item">
+                        <div class="h-bar-label-row"><span class="h-bar-label">OEM</span><span class="h-bar-value" id="val-new-oem">0</span></div>
+                        <div class="h-bar-track"><div class="h-bar-fill gradient-purple" id="bar-new-oem" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="h-bar-item">
+                        <div class="h-bar-label-row"><span class="h-bar-label">Dealer</span><span class="h-bar-value" id="val-new-dealer">0</span></div>
+                        <div class="h-bar-track"><div class="h-bar-fill gradient-purple" id="bar-new-dealer" style="width: 0%;"></div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-header">Conversion Rate</div>
+                <div class="donut-chart">
+                    <div id="conversion-chart"></div>
+                    <div class="donut-center">
+                        <div class="donut-percentage" id="val-conversion-rate">0%</div>
+                        <div class="donut-label">Rate</div>
+                    </div>
+                </div>
+                <div class="kpi-subtext" style="text-align: center;">Quotations → Orders</div>
+            </div>
+        </div>
+
+        <!-- Combined KPI Section -->
+        <div class="section-title">Combined KPI - Sales Department</div>
+
+        <div class="combined-kpi-grid top-row">
+            <div class="order-closed-small">
+                <div class="ocs-header">
+                    <div class="ocs-title">ORDER CLOSED</div>
+                    <div style="font-size:14px;color:#9aa3b3;opacity:0.5;" id="ocs-member-count">0 Members</div>
+                </div>
+                <div class="ocs-members-wrapper">
+                    <div class="ocs-members" id="ocs-members-container">
+                        <div style="color:#aaa; font-size:11px; padding:10px;">Loading team closures...</div>
+                    </div>
+                </div>
+                <div class="ocs-footer">Department – Monthly</div>
+            </div>
+
+            <div class="combined-kpi-card">
+                <div class="kpi-header">Admin Efficiency</div>
+                <div class="gauge-value" id="val-admin-efficiency" style="margin-top:24px">0%</div>
+                <div class="gauge-range"><span>Low</span><span>Medium</span><span>High</span></div>
+                <div class="kpi-subtext" style="text-align: center; margin-top: 8px;">Quote creation & response speed</div>
+            </div>
+
+            <div class="combined-kpi-card">
+                <div class="kpi-header">Growth Metrics</div>
+                <div style="display: flex; justify-content: space-around; margin: 15px 0;">
+                    <div style="text-align: center;">
+                        <div style="font-size: 0.8em; color: #a0aec0; margin-bottom: 6px;">YOY</div>
+                        <div style="font-size: 1.3em; font-weight: 700; color: #fff; padding: 30px 0;" id="val-yoy-growth">0%</div>
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-size: 0.8em; color: #a0aec0; margin-bottom: 6px;">QOQ</div>
+                        <div style="font-size: 1.3em; font-weight: 700; color: #fff; padding: 30px 0;" id="val-qoq-growth">0%</div>
+                    </div>
+                </div>
+                <div class="kpi-subtext" style="text-align: center;">Year & quarter comparison</div>
+            </div>
+        </div>
+
+        <div class="combined-kpi-grid bottom-row">
+            <div class="combined-kpi-card">
+                <div class="kpi-header">Sales Effectiveness</div>
+                <div class="donut-chart-sales" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:130px">
+                    <div class="donut-percentage" id="val-sales-eff">0%</div>
+                    <div class="donut-label">Score</div>
+                </div>
+                <div class="kpi-subtext-sales" style="text-align: center;">Conversion % & Follow-up rate</div>
+            </div>
+
+            <div class="combined-kpi-card">
+                <div class="kpi-header">Lead Quality</div>
+                <div class="horizontal-bars">
+                    <div class="h-bar-item">
+                        <div class="h-bar-label-row"><span class="h-bar-label">IndiaMART</span><span class="h-bar-value" id="q-im">0%</span></div>
+                        <div class="h-bar-track"><div class="h-bar-fill gradient-green" id="bar-q-im" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="h-bar-item">
+                        <div class="h-bar-label-row"><span class="h-bar-label">Justdial</span><span class="h-bar-value" id="q-jd">0%</span></div>
+                        <div class="h-bar-track"><div class="h-bar-fill gradient-green" id="bar-q-jd" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="h-bar-item">
+                        <div class="h-bar-label-row"><span class="h-bar-label">Referral</span><span class="h-bar-value" id="q-ref">0%</span></div>
+                        <div class="h-bar-track"><div class="h-bar-fill gradient-green" id="bar-q-ref" style="width: 0%;"></div></div>
+                    </div>
+                    <div class="h-bar-item">
+                        <div class="h-bar-label-row"><span class="h-bar-label">Trade India</span><span class="h-bar-value" id="q-ti">0%</span></div>
+                        <div class="h-bar-track"><div class="h-bar-fill gradient-green" id="bar-q-ti" style="width: 0%;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="combined-kpi-card">
+                <div class="kpi-header">Profit Margin</div>
+                <div class="kpi-value" style="color: #48bb78;" id="val-profit-display">₹ 0</div>
+                <div class="progress-container">
+                    <div class="progress-bar-wrapper"><div class="progress-bar-fill" id="bar-profit" style="width: 0%;"></div></div>
+                    <div class="progress-label">
+                        <span id="lbl-sales-amt">Sales: ₹0</span>
+                        <span id="lbl-cost-amt">Cost: ₹0</span>
+                    </div>
+                </div>
+                <div class="kpi-subtext">Sales vs cost trend (Last 3 Months)</div>
+                <span class="percentage-badge badge-positive" id="badge-profit-trend">↑ 0%</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Zoho Creator Widget SDK & Live Data Connection Script -->
+<!-- v2 SDK: ZOHO.CREATOR.DATA.getRecords, used now that the Custom API is gone -->
+<script src="https://static.zohocdn.com/creator/widgets/version/2.0/widgetsdk-min.js"></script>
+  <!-- ApexCharts -- donut/gauge/line/bar charts, replacing the old hand-built CSS/SVG ones -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.45.2/dist/apexcharts.min.js"></script>
+<!-- Shared runtime: number formatting, drill-down modal, fetch diagnostics -->
+<script src="adroitWidgetKit.js"></script>
+<!-- Dashboard logic: reads the reports directly (replaces Get_KPI_Dashboard_Data) -->
+<script src="salesKPI.js"></script>
+</body>
+</html>

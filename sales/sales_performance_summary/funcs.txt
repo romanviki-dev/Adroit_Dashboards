@@ -1,0 +1,3114 @@
+int sales.followupDonevsPending()
+{
+	count = 0;
+	data = Quotation_Follow_Up[ID != 0];
+	for each  rec in data
+	{
+		if(rec.Follow_up != null)
+		{
+			for each  line in rec.Follow_up
+			{
+				if(line.Follow_up_Execution_Date == zoho.currentdate && line.Status == "Completed")
+				{
+					count = count + 1;
+				}
+			}
+		}
+	}
+	return count;
+}
+
+int sales.missedSchedule()
+{
+	data = Quotation_Follow_Up[Follow_up_Date != null && Follow_up_Date < zoho.currentdate && Status == "Pending"];
+	return data.count();
+}
+
+int sales.FollowupPending3days()
+{
+	cDate = zoho.currentdate.subDay(3);
+	data = Quotation_Follow_Up[Follow_up_Date != null && Follow_up_Date < cDate && Status == "Pending"];
+	return data.count();
+}
+int sales.inactive_customers_daily()
+{
+	return Customer[Status == "Inactive"].count();
+}
+
+
+int sales.paymentoverdue()
+{
+	cDate = zoho.currentdate.subDay(15);
+	return Payment_Tracking[Due_Date != null && Due_Date < cDate && Follow_upStatus != "Paid"].count();
+}
+
+int sales.PreVisitObservsationAlerts()
+{
+	cDate = zoho.currentdate.subDay(3);
+	return Customer_Pre_Site_Visit_Observation[Visit_Date != null && Visit_Date < cDate && Status != "Completed"].count();
+}
+
+map sales.lostOrderAnalysisDaily()
+{
+	tf_cnt = 0;
+	po_cnt = 0;
+	pri_cnt = 0;
+	tra_cnt = 0;
+	snp_cnt = 0;
+	// Fetch only today's records
+	data = Order_lost_Analysis[Date_field == zoho.currentdate];
+	for each  recd in data
+	{
+		typeVal = recd.Type_Of_Lost.Type_Of_Lost;
+		if(typeVal == "Too Far")
+		{
+			tf_cnt = tf_cnt + 1;
+		}
+		else if(typeVal == "Postponed")
+		{
+			po_cnt = po_cnt + 1;
+		}
+		else if(typeVal == "Transport")
+		{
+			tra_cnt = tra_cnt + 1;
+		}
+		else if(typeVal == "Service Not Possible")
+		{
+			snp_cnt = snp_cnt + 1;
+		}
+		else if(typeVal == "Price")
+		{
+			pri_cnt = pri_cnt + 1;
+		}
+	}
+	tot_cnt = tf_cnt + po_cnt + pri_cnt + tra_cnt + snp_cnt;
+	result = Map();
+	if(tot_cnt == 0)
+	{
+		result.put("total",0);
+		result.put("postponed",0);
+		result.put("toofar",0);
+		result.put("service_not_possible",0);
+		result.put("transport",0);
+		result.put("price",0);
+		return result;
+	}
+	// Percentages
+	postponed = round((po_cnt * 100.0) / tot_cnt,2);
+	toofar = round((tf_cnt * 100.0) / tot_cnt,2);
+	service = round((snp_cnt * 100.0) / tot_cnt,2);
+	transport = round((tra_cnt * 100.0) / tot_cnt,2);
+	price = round((pri_cnt * 100.0) / tot_cnt,2);
+	// Convert to degrees (pie chart)
+	deg_postponed = postponed * 3.6;
+	deg_toofar = toofar * 3.6;
+	deg_service = service * 3.6;
+	deg_transport = transport * 3.6;
+	deg_price = price * 3.6;
+	// End angles
+	price_end = deg_price;
+	transport_end = price_end + deg_transport;
+	service_end = transport_end + deg_service;
+	toofar_end = service_end + deg_toofar;
+	// Return map
+	result.put("total",tot_cnt);
+	result.put("postponed",postponed);
+	result.put("toofar",toofar);
+	result.put("service_not_possible",service);
+	result.put("transport",transport);
+	result.put("price",price);
+	result.put("price_end",price_end);
+	result.put("transport_end",transport_end);
+	result.put("service_end",service_end);
+	result.put("toofar_end",toofar_end);
+	return result;
+}
+
+map sales.DayWiseQuoteSent()
+{
+	// Get current week's date range (Monday to Friday)
+	today = zoho.currentdate;
+	dayOfWeek = today.getDayOfWeek();
+	// 1=Sunday, 2=Monday, ..., 6=Friday, 7=Saturday
+	// Calculate days to subtract to get to Monday
+	if(dayOfWeek == 1)
+	{
+		daysToMonday = 6;
+		// Sunday
+	}
+	else
+	{
+		daysToMonday = dayOfWeek - 2;
+		// For other days
+	}
+	// Get week start (Monday) and end (Friday)
+	weekStart = today.subDay(daysToMonday);
+	weekEnd = weekStart.addDay(4);
+	// Friday
+	// Initialize data structure for the week
+	weekData = Map();
+	weekData.put("Mon",0);
+	weekData.put("Tue",0);
+	weekData.put("Wed",0);
+	weekData.put("Thu",0);
+	weekData.put("Fri",0);
+	weekData.put("Tot",0);
+	// Fetch records from your report/table for current week
+	// Replace 'Your_Report_Name' with your actual report name
+	recds = Quotation[Date_field >= weekStart && Date_field <= weekEnd && Status == "Sent"];
+	// Process each record and organize by day
+	for each  rec in recds
+	{
+		recordDate = rec.Date_field;
+		dayOfWeekNum = recordDate.getDayOfWeek();
+		// Map day number to day name
+		dayName = "";
+		if(dayOfWeekNum == 2)
+		{
+			dayName = "Mon";
+		}
+		else if(dayOfWeekNum == 3)
+		{
+			dayName = "Tue";
+		}
+		else if(dayOfWeekNum == 4)
+		{
+			dayName = "Wed";
+		}
+		else if(dayOfWeekNum == 5)
+		{
+			dayName = "Thu";
+		}
+		else if(dayOfWeekNum == 6)
+		{
+			dayName = "Fri";
+		}
+		if(dayName == "Mon")
+		{
+			weekData.put("Mon",weekData.get("Mon") + 1);
+		}
+		else if(dayName == "Tue")
+		{
+			weekData.put("Tue",weekData.get("Tue") + 1);
+		}
+		else if(dayName == "Wed")
+		{
+			weekData.put("Wed",weekData.get("Wed") + 1);
+		}
+		else if(dayName == "Thu")
+		{
+			weekData.put("Thu",weekData.get("Thu") + 1);
+		}
+		else if(dayName == "Fri")
+		{
+			weekData.put("Fri",weekData.get("Fri") + 1);
+		}
+	}
+	weekData.put("Tot",weekData.get("Tot") + (weekData.get("Mon") + weekData.get("Tue") + weekData.get("Wed") + weekData.get("Thu") + weekData.get("Fri")));
+	return weekData;
+}
+
+
+map sales.DayWiseOrder()
+{
+	// Get current week's date range (Monday to Friday)
+	today = zoho.currentdate;
+	dayOfWeek = today.getDayOfWeek();
+	// 1=Sunday, 2=Monday, ..., 6=Friday, 7=Saturday
+	// Calculate days to subtract to get to Monday
+	if(dayOfWeek == 1)
+	{
+		daysToMonday = 6;
+		// Sunday
+	}
+	else
+	{
+		daysToMonday = dayOfWeek - 2;
+		// For other days
+	}
+	// Get week start (Monday) and end (Friday)
+	weekStart = today.subDay(daysToMonday);
+	weekEnd = weekStart.addDay(4);
+	// Friday
+	// Initialize data structure for the week
+	weekData = Map();
+	weekData.put("Mon",0);
+	weekData.put("Tue",0);
+	weekData.put("Wed",0);
+	weekData.put("Thu",0);
+	weekData.put("Fri",0);
+	weekData.put("Tot",0);
+	// Fetch records from your report/table for current week
+	// Replace 'Your_Report_Name' with your actual report name
+	recds = Order_Confirmation[Date_field >= weekStart && Date_field <= weekEnd];
+	// Process each record and organize by day
+	for each  rec in recds
+	{
+		recordDate = rec.Date_field;
+		dayOfWeekNum = recordDate.getDayOfWeek();
+		// Map day number to day name
+		dayName = "";
+		if(dayOfWeekNum == 2)
+		{
+			dayName = "Mon";
+		}
+		else if(dayOfWeekNum == 3)
+		{
+			dayName = "Tue";
+		}
+		else if(dayOfWeekNum == 4)
+		{
+			dayName = "Wed";
+		}
+		else if(dayOfWeekNum == 5)
+		{
+			dayName = "Thu";
+		}
+		else if(dayOfWeekNum == 6)
+		{
+			dayName = "Fri";
+		}
+		if(dayName == "Mon")
+		{
+			weekData.put("Mon",weekData.get("Mon") + 1);
+		}
+		else if(dayName == "Tue")
+		{
+			weekData.put("Tue",weekData.get("Tue") + 1);
+		}
+		else if(dayName == "Wed")
+		{
+			weekData.put("Wed",weekData.get("Wed") + 1);
+		}
+		else if(dayName == "Thu")
+		{
+			weekData.put("Thu",weekData.get("Thu") + 1);
+		}
+		else if(dayName == "Fri")
+		{
+			weekData.put("Fri",weekData.get("Fri") + 1);
+		}
+	}
+	weekData.put("Tot",weekData.get("Tot") + (weekData.get("Mon") + weekData.get("Tue") + weekData.get("Wed") + weekData.get("Thu") + weekData.get("Fri")));
+	return weekData;
+}
+
+
+
+map sales.DayWiseQuoteWOF()
+{
+	// Get current week's date range (Monday to Friday)
+	today = zoho.currentdate;
+	dayOfWeek = today.getDayOfWeek();
+	// 1=Sunday, 2=Monday, ..., 6=Friday, 7=Saturday
+	// Calculate days to subtract to get to Monday
+	if(dayOfWeek == 1)
+	{
+		daysToMonday = 6;
+		// Sunday
+	}
+	else
+	{
+		daysToMonday = dayOfWeek - 2;
+		// For other days
+	}
+	// Get week start (Monday) and end (Friday)
+	weekStart = today.subDay(daysToMonday);
+	weekEnd = weekStart.addDay(4);
+	// Friday
+	// Initialize data structure for the week
+	weekData = Map();
+	weekData.put("Mon",0);
+	weekData.put("Tue",0);
+	weekData.put("Wed",0);
+	weekData.put("Thu",0);
+	weekData.put("Fri",0);
+	weekData.put("Tot",0);
+	// Fetch records from your report/table for current week
+	// Replace 'Your_Report_Name' with your actual report name
+	recds = Quotation[Date_field >= weekStart && Date_field <= weekEnd && Status != "Follow-up"];
+	// Process each record and organize by day
+	for each  rec in recds
+	{
+		recordDate = rec.Date_field;
+		dayOfWeekNum = recordDate.getDayOfWeek();
+		// Map day number to day name
+		dayName = "";
+		if(dayOfWeekNum == 2)
+		{
+			dayName = "Mon";
+		}
+		else if(dayOfWeekNum == 3)
+		{
+			dayName = "Tue";
+		}
+		else if(dayOfWeekNum == 4)
+		{
+			dayName = "Wed";
+		}
+		else if(dayOfWeekNum == 5)
+		{
+			dayName = "Thu";
+		}
+		else if(dayOfWeekNum == 6)
+		{
+			dayName = "Fri";
+		}
+		if(dayName == "Mon")
+		{
+			weekData.put("Mon",weekData.get("Mon") + 1);
+		}
+		else if(dayName == "Tue")
+		{
+			weekData.put("Tue",weekData.get("Tue") + 1);
+		}
+		else if(dayName == "Wed")
+		{
+			weekData.put("Wed",weekData.get("Wed") + 1);
+		}
+		else if(dayName == "Thu")
+		{
+			weekData.put("Thu",weekData.get("Thu") + 1);
+		}
+		else if(dayName == "Fri")
+		{
+			weekData.put("Fri",weekData.get("Fri") + 1);
+		}
+	}
+	weekData.put("Tot",weekData.get("Tot") + (weekData.get("Mon") + weekData.get("Tue") + weekData.get("Wed") + weekData.get("Thu") + weekData.get("Fri")));
+	return weekData;
+}
+
+
+map sales.DayWiseFollowupDone()
+{
+	// Get current week's date range (Monday to Friday)
+	today = zoho.currentdate;
+	dayOfWeek = today.getDayOfWeek();
+	// 1=Sunday, 2=Monday, ..., 6=Friday, 7=Saturday
+	// Calculate days to subtract to get to Monday
+	if(dayOfWeek == 1)
+	{
+		daysToMonday = 6;
+		// Sunday
+	}
+	else
+	{
+		daysToMonday = dayOfWeek - 2;
+		// For other days
+	}
+	// Get week start (Monday) and end (Friday)
+	weekStart = today.subDay(daysToMonday);
+	weekEnd = weekStart.addDay(4);
+	// Friday
+	// Initialize data structure for the week
+	weekData = Map();
+	weekData.put("Mon",0);
+	weekData.put("Tue",0);
+	weekData.put("Wed",0);
+	weekData.put("Thu",0);
+	weekData.put("Fri",0);
+	weekData.put("Tot",0);
+	// Fetch records from your report for current week
+	data = Quotation_Follow_Up[ID != 0];
+	for each  rec in data
+	{
+		for each  line in rec.Follow_up
+		{
+			if(line.Follow_up_Execution_Date == weekStart && line.Status == "Completed")
+			{
+				weekData.put("Mon",weekData.get("Mon") + 1);
+			}
+			else if(line.Follow_up_Execution_Date == weekStart.addDay(1) && line.Status == "Completed")
+			{
+				weekData.put("Tue",weekData.get("Tue") + 1);
+			}
+			else if(line.Follow_up_Execution_Date == weekStart.addDay(2) && line.Status == "Completed")
+			{
+				weekData.put("Wed",weekData.get("Wed") + 1);
+			}
+			else if(line.Follow_up_Execution_Date == weekStart.addDay(3) && line.Status == "Completed")
+			{
+				weekData.put("Thu",weekData.get("Thu") + 1);
+			}
+			else if(line.Follow_up_Execution_Date == weekStart.addDay(4) && line.Status == "Completed")
+			{
+				weekData.put("Fri",weekData.get("Fri") + 1);
+			}
+		}
+	}
+	weekData.put("Tot",weekData.get("Tot") + weekData.get("Mon") + weekData.get("Tue") + weekData.get("Wed") + weekData.get("Thu") + weekData.get("Fri"));
+	return weekData;
+}
+
+
+
+// Weekly section 
+list sales.WeeklyLeads()
+{
+	cDate = zoho.currentdate;
+	pDate = cDate.subWeek(1);
+	cWeek = cDate.getWeekOfYear();
+	cYear = cDate.getYear();
+	pWeek = pDate.getWeekOfYear();
+	pYear = pDate.getYear();
+	cCnt = 0;
+	pCnt = 0;
+	data = Customer_Calling_follow_up[Lead_Date != null];
+	for each  rec in data
+	{
+		week = rec.Lead_Date.getWeekOfYear();
+		year = rec.Lead_Date.getYear();
+		if(week == cWeek && year == cYear)
+		{
+			cCnt = cCnt + 1;
+		}
+		else if(week == pWeek && year == pYear)
+		{
+			pCnt = pCnt + 1;
+		}
+	}
+	result = List();
+	result.add(cCnt);
+	// index 0 → current week pending PV
+	result.add(pCnt);
+	// index 1 → previous week pending PV
+	if(cCnt == pCnt)
+	{
+		result.add("increase");
+		// index 2 → increase / decrease
+		result.add(0);
+		// index 3 → percentage difference
+	}
+	else
+	{
+		// Prevent division by zero
+		base = if(pCnt == 0,1,pCnt);
+		cPercent = (cCnt * 100.0) / base;
+		pPercent = 100;
+		diff = abs(cPercent - pPercent).round(0);
+		trend = if(cPercent >= pPercent,"increase","decrease");
+		result.add(trend);
+		// index 2 → increase / decrease
+		result.add(diff);
+		// index 3 → percentage difference
+	}
+	return result;
+}
+
+list sales.WeeklyQuoteSent()
+{
+	cDate = zoho.currentdate;
+	pDate = cDate.subWeek(1);
+	cWeek = cDate.getWeekOfYear();
+	cYear = cDate.getYear();
+	pWeek = pDate.getWeekOfYear();
+	pYear = pDate.getYear();
+	cCnt = 0;
+	pCnt = 0;
+	data = Quotation[Date_field != null && Status == "Sent"];
+	for each  rec in data
+	{
+		wk = rec.Date_field.getWeekOfYear();
+		yr = rec.Date_field.getYear();
+		if(wk == cWeek && yr == cYear)
+		{
+			cCnt = cCnt + 1;
+		}
+		else if(wk == pWeek && yr == pYear)
+		{
+			pCnt = pCnt + 1;
+		}
+	}
+	result = List();
+	result.add(cCnt);
+	// index 0 → current week pending PV
+	result.add(pCnt);
+	// index 1 → previous week pending PV
+	if(cCnt == pCnt)
+	{
+		result.add("increase");
+		// index 2 → increase / decrease
+		result.add(0);
+		// index 3 → percentage difference
+	}
+	else
+	{
+		// Prevent division by zero
+		base = if(pCnt == 0,1,pCnt);
+		cPercent = (cCnt * 100.0) / base;
+		pPercent = 100;
+		diff = abs(cPercent - pPercent).round(0);
+		trend = if(cPercent >= pPercent,"increase","decrease");
+		result.add(trend);
+		// index 2 → increase / decrease
+		result.add(diff);
+		// index 3 → percentage difference
+	}
+	return result;
+}
+
+list sales.WeeklyOrders()
+{
+	cDate = zoho.currentdate;
+	pDate = cDate.subWeek(1);
+	cWeek = cDate.getWeekOfYear();
+	cYear = cDate.getYear();
+	pWeek = pDate.getWeekOfYear();
+	pYear = pDate.getYear();
+	cCnt = 0;
+	pCnt = 0;
+	data = Order_Confirmation[Date_field != null];
+	for each  rec in data
+	{
+		wk = rec.Date_field.getWeekOfYear();
+		yr = rec.Date_field.getYear();
+		if(wk == cWeek && yr == cYear)
+		{
+			cCnt = cCnt + 1;
+		}
+		else if(wk == pWeek && yr == pYear)
+		{
+			pCnt = pCnt + 1;
+		}
+	}
+	result = List();
+	result.add(cCnt);
+	// index 0 → current week pending PV
+	result.add(pCnt);
+	// index 1 → previous week pending PV
+	if(cCnt == pCnt)
+	{
+		result.add("increase");
+		// index 2 → increase / decrease
+		result.add(0);
+		// index 3 → percentage difference
+	}
+	else
+	{
+		// Prevent division by zero
+		base = if(pCnt == 0,1,pCnt);
+		cPercent = (cCnt * 100.0) / base;
+		pPercent = 100;
+		diff = abs(cPercent - pPercent).round(0);
+		trend = if(cPercent >= pPercent,"increase","decrease");
+		result.add(trend);
+		// index 2 → increase / decrease
+		result.add(diff);
+		// index 3 → percentage difference
+	}
+	return result;
+}
+
+
+list sales.WeeklyFollowupMissed()
+{
+	cDate = zoho.currentdate;
+	pDate = cDate.subWeek(1);
+	cWeek = cDate.getWeekOfYear();
+	cYear = cDate.getYear();
+	pWeek = pDate.getWeekOfYear();
+	pYear = pDate.getYear();
+	cCnt = 0;
+	pCnt = 0;
+	// Only fetch records from roughly the last 3 weeks instead of the whole table
+	rangeStart = cDate.subDay(21);
+	data = Quotation_Follow_Up[Date_field >= rangeStart && Date_field <= cDate && Status == "Lost"];
+	for each  rec in data
+	{
+		wk = rec.Date_field.getWeekOfYear();
+		yr = rec.Date_field.getYear();
+		if(wk == cWeek && yr == cYear)
+		{
+			cCnt = cCnt + 1;
+		}
+		else if(wk == pWeek && yr == pYear)
+		{
+			pCnt = pCnt + 1;
+		}
+	}
+	result = List();
+	result.add(cCnt);
+	result.add(pCnt);
+	if(cCnt == pCnt)
+	{
+		result.add("increase");
+		result.add(0);
+	}
+	else
+	{
+		base = if(pCnt == 0,1,pCnt);
+		cPercent = (cCnt * 100.0) / base;
+		pPercent = 100;
+		diff = abs(cCnt - pCnt);
+		trend = if(cPercent >= pPercent,"increase","decrease");
+		result.add(trend);
+		result.add(diff);
+	}
+	return result;
+	// list sales.WeeklyFollowupMissed()
+	// {
+	// 	cDate = zoho.currentdate;
+	// 	pDate = cDate.subWeek(1);
+	// 	cWeek = cDate.getWeekOfYear();
+	// 	cYear = cDate.getYear();
+	// 	pWeek = pDate.getWeekOfYear();
+	// 	pYear = pDate.getYear();
+	// 	cCnt = 0;
+	// 	pCnt = 0;
+	// 	data = Quotation_Follow_Up[Date_field != null && Status == "Lost"];
+	// 	for each  rec in data
+	// 	{
+	// 		wk = rec.Date_field.getWeekOfYear();
+	// 		yr = rec.Date_field.getYear();
+	// 		if(wk == cWeek && yr == cYear)
+	// 		{
+	// 			cCnt = cCnt + 1;
+	// 		}
+	// 		else if(wk == pWeek && yr == pYear)
+	// 		{
+	// 			pCnt = pCnt + 1;
+	// 		}
+	// 	}
+	// 	result = List();
+	// 	result.add(cCnt);
+	// 	// index 0 → current week pending PV
+	// 	result.add(pCnt);
+	// 	// index 1 → previous week pending PV
+	// 	if(cCnt == pCnt)
+	// 	{
+	// 		result.add("increase");
+	// 		// index 2 → increase / decrease
+	// 		result.add(0);
+	// 		// index 3 → percentage difference
+	// 	}
+	// 	else
+	// 	{
+	// 		// Prevent division by zero
+	// 		base = if(pCnt == 0,1,pCnt);
+	// 		cPercent = (cCnt * 100.0) / base;
+	// 		pPercent = 100;
+	// 		diff = abs(cCnt - pCnt);
+	// 		trend = if(cPercent >= pPercent,"increase","decrease");
+	// 		result.add(trend);
+	// 		// index 2 → increase / decrease
+	// 		result.add(diff);
+	// 		// index 3 → percentage difference
+	// 	}
+	// 	return result;
+	// }
+}
+
+
+list sales.WeeklyPaymentReceived()
+{
+	cDate = zoho.currentdate;
+	pDate = cDate.subWeek(1);
+	cWeek = cDate.getWeekOfYear();
+	cYear = cDate.getYear();
+	pWeek = pDate.getWeekOfYear();
+	pYear = pDate.getYear();
+	cPay = 0.0;
+	pPay = 0.0;
+	data = Payment_Made[Payment_Date != null && Payable_Amount != null];
+	for each  rec in data
+	{
+		wk = rec.Payment_Date.getWeekOfYear();
+		yr = rec.Payment_Date.getYear();
+		amt = rec.Payable_Amount;
+		if(wk == cWeek && yr == cYear)
+		{
+			cPay = cPay + amt;
+		}
+		else if(wk == pWeek && yr == pYear)
+		{
+			pPay = pPay + amt;
+		}
+	}
+	result = List();
+	result.add(cPay);
+	// index 0 → current week payment amount
+	result.add(pPay);
+	// index 1 → previous week payment amount
+	if(cPay == pPay)
+	{
+		result.add("increase");
+		// index 2 → increase / decrease
+		result.add(0);
+		// index 3 → percentage difference
+	}
+	else
+	{
+		// Prevent division by zero
+		base = if(pPay == 0,1,pPay);
+		cPercent = (cPay * 100.0) / base;
+		pPercent = 100;
+		diff = abs(cPercent - pPercent).round(0);
+		trend = if(cPercent >= pPercent,"increase","decrease");
+		result.add(trend);
+		// index 2 → increase / decrease
+		result.add(diff);
+		// index 3 → percentage difference
+	}
+	return result;
+}
+
+list sales.WeeklyPVPending()
+{
+	cDate = zoho.currentdate;
+	pDate = cDate.subWeek(1);
+	cWeek = cDate.getWeekOfYear();
+	cYear = cDate.getYear();
+	pWeek = pDate.getWeekOfYear();
+	pYear = pDate.getYear();
+	cCnt = 0;
+	pCnt = 0;
+	data = Customer_Pre_Site_Visit_Observation[Visit_Date != null && Status == "Requested"];
+	for each  rec in data
+	{
+		wk = rec.Visit_Date.getWeekOfYear();
+		yr = rec.Visit_Date.getYear();
+		if(wk == cWeek && yr == cYear)
+		{
+			cCnt = cCnt + 1;
+		}
+		else if(wk == pWeek && yr == pYear)
+		{
+			pCnt = pCnt + 1;
+		}
+	}
+	result = List();
+	result.add(cCnt);
+	// index 0 → current week pending PV
+	result.add(pCnt);
+	// index 1 → previous week pending PV
+	if(cCnt == pCnt)
+	{
+		result.add("increase");
+		// index 2 → increase / decrease
+		result.add(0);
+		// index 3 → percentage difference
+	}
+	else
+	{
+		// Prevent division by zero
+		base = if(pCnt == 0,1,pCnt);
+		cPercent = (cCnt * 100.0) / base;
+		pPercent = 100;
+		diff = abs(cCnt - pCnt);
+		trend = if(cPercent >= pPercent,"increase","decrease");
+		result.add(trend);
+		// index 2 → increase / decrease
+		result.add(diff);
+		// index 3 → percentage difference
+	}
+	return result;
+}
+
+
+list sales.WeeklyLeadSource()
+{
+	today = zoho.currentdate;
+	dayOfWeek = today.getDayOfWeek();
+	// 1=Sun
+	// Calculate Monday of current week 
+	daysToMonday = if(dayOfWeek == 1,6,dayOfWeek - 2);
+	weekStart = today.subDay(daysToMonday);
+	weekEnd = weekStart.addDay(6);
+	// Initialize source map
+	sourceMap = Map();
+	sourceMap.put("IndiaMART",0);
+	sourceMap.put("Justdial",0);
+	sourceMap.put("Cold Calls",0);
+	sourceMap.put("Existing Customer",0);
+	sourceMap.put("Referral",0);
+	sourceMap.put("Dealers/OEMS",0);
+	// Fetch only current week's data
+	recs = Customer_Calling_follow_up[Lead_Date >= weekStart && Lead_Date <= weekEnd];
+	for each  rec in recs
+	{
+		src = ifnull(rec.Lead_Source,"").trim();
+		if(src == "Dealers" || src == "OEMS")
+		{
+			src = "Dealers/OEMS";
+		}
+		if(sourceMap.containKey(src))
+		{
+			sourceMap.put(src,sourceMap.get(src) + 1);
+		}
+	}
+	// Calculate total
+	total = 0;
+	for each  k in sourceMap.keys()
+	{
+		total = total + sourceMap.get(k);
+	}
+	// Return zero list if no data
+	result = list();
+	if(total == 0)
+	{
+		result.add(0);
+		result.add(0);
+		result.add(0);
+		result.add(0);
+		result.add(0);
+		result.add(0);
+		return result;
+	}
+	// Percentage list (fixed order)
+	result.add(((sourceMap.get("IndiaMART") * 100.0) / total).round(1));
+	result.add(((sourceMap.get("Justdial") * 100.0) / total).round(1));
+	result.add(((sourceMap.get("Cold Calls") * 100.0) / total).round(1));
+	result.add(((sourceMap.get("Existing Customer") * 100.0) / total).round(1));
+	result.add(((sourceMap.get("Referral") * 100.0) / total).round(1));
+	result.add(((sourceMap.get("Dealers/OEMS") * 100.0) / total).round(1));
+	return result;
+}
+
+int sales.WeeklyLeadCnt()
+{
+	today = zoho.currentdate;
+	dayOfWeek = today.getDayOfWeek();
+	daysToMonday = if(dayOfWeek == 1,6,dayOfWeek - 2);
+	weekStart = today.subDay(daysToMonday);
+	weekEnd = weekStart.addDay(6);
+	return Customer_Calling_follow_up[Lead_Date != null && Lead_Date >= weekStart && Lead_Date <= weekEnd].count();
+}
+
+int sales.WeeklySalesQuoteSent()
+{
+	today = zoho.currentdate;
+	dayOfWeek = today.getDayOfWeek();
+	daysToMonday = if(dayOfWeek == 1,6,dayOfWeek - 2);
+	weekStart = today.subDay(daysToMonday);
+	weekEnd = weekStart.addDay(6);
+	return Quotation[Date_field != null && Date_field >= weekStart && Date_field <= weekEnd && Status == "Sent"].count();
+}
+
+int sales.WeeklyFollowup()
+{
+	today = zoho.currentdate;
+	dayOfWeek = today.getDayOfWeek();
+	daysToMonday = if(dayOfWeek == 1,6,dayOfWeek - 2);
+	weekStart = today.subDay(daysToMonday);
+	weekEnd = weekStart.addDay(6);
+	return Quotation_Follow_Up[Date_field != null && Date_field >= weekStart && Date_field <= weekEnd && Status == "Confirmed"].count();
+}
+
+
+int sales.WeeklyOrderConfirmed()
+{
+	today = zoho.currentdate;
+	dayOfWeek = today.getDayOfWeek();
+	daysToMonday = if(dayOfWeek == 1,6,dayOfWeek - 2);
+	weekStart = today.subDay(daysToMonday);
+	weekEnd = weekStart.addDay(6);
+	order_conf = Order_Confirmation[Date_field >= weekStart && Date_field <= weekEnd].count();
+	return order_conf;
+}
+
+int sales.WeeklySalesPaymentReceived()
+{
+	today = zoho.currentdate;
+	dayOfWeek = today.getDayOfWeek();
+	daysToMonday = if(dayOfWeek == 1,6,dayOfWeek - 2);
+	weekStart = today.subDay(daysToMonday);
+	weekEnd = weekStart.addDay(6);
+	pay_coll = Payment_Tracking[Payment_Date != null && Payment_Date >= weekStart && Payment_Date <= weekEnd && Follow_upStatus == "Paid"];
+	return pay_coll.count();
+}
+int sales.leadsAwaitingContact()
+{
+	return Customer_Calling_follow_up[Status == "Open" || Status == "In Progress"].count();
+}
+float sales.averageDelay()
+{
+	get_lead = Customer_Calling_follow_up[Status == "Quote Created"];
+	totalDelay = 0;
+	validCount = 0;
+	for each  rec in get_lead
+	{
+		// Safety check
+		if(rec.Lead_Date != null)
+		{
+			get_quote = Quotation[Customer_Calling_follow_up == rec.ID];
+			for each  qt in get_quote
+			{
+				// Use Created_Time or Quote_Date
+				if(qt.Date_field != null)
+				{
+					delay = qt.Date_field.daysBetween(rec.Lead_Date);
+					// Allow one delay date(data issues)
+					if(delay >= 2)
+					{
+						totalDelay = totalDelay + delay - 1;
+						validCount = validCount + 1;
+					}
+				}
+			}
+		}
+	}
+	// Avoid divide-by-zero
+	if(validCount == 0)
+	{
+		return 0;
+	}
+	avgDelay = totalDelay / validCount;
+	return avgDelay.round(2);
+}
+int sales.weeklyNewDealersAddedThisMonth()
+{
+	curr_date = zoho.currentdate;
+	month_start = curr_date.toStartOfMonth();
+	dealers_count = Dealers[ID != null && Date_field >= month_start && Date_field <= curr_date].count();
+	return dealers_count;
+}
+
+map sales.WeeklyPreSiteVisitStatus()
+{
+	cWeek = zoho.currentdate.getWeekOfYear();
+	cYear = zoho.currentdate.getYear();
+	request_cnt = 0;
+	completed_cnt = 0;
+	for each  rec_pv in Customer_Pre_Site_Visit_Observation[ID != 0]
+	{
+		if(rec_pv.Visit_Date != null)
+		{
+			wdate = rec_pv.Visit_Date.getWeekOfYear();
+			wYear = rec_pv.Visit_Date.getYear();
+			if(cWeek == wdate && cYear == wYear)
+			{
+				if(rec_pv.Status == "Requested")
+				{
+					request_cnt = request_cnt + 1;
+				}
+				else if(rec_pv.Status == "Completed")
+				{
+					completed_cnt = completed_cnt + 1;
+				}
+			}
+		}
+	}
+	total_cnt = request_cnt + completed_cnt;
+	req_per = 0;
+	com_per = 0;
+	if(total_cnt != 0)
+	{
+		req_per = (request_cnt * 100) / total_cnt;
+		com_per = (completed_cnt * 100) / total_cnt;
+	}
+	result = Map();
+	result.put("Requested_Count",request_cnt);
+	result.put("Completed_Count",completed_cnt);
+	result.put("Requested_Percentage",req_per.round(1));
+	result.put("Completed_Percentage",com_per.round(1));
+	return result;
+}
+
+
+int sales.WeeklyCustomerFeedback()
+{
+	cWeek = zoho.currentdate.getWeekOfYear();
+	cYear = zoho.currentdate.getYear();
+	// Filter Installation_Calls_Handling by current week
+	feedback_comp = 0;
+	feedback_total = 0;
+	for each  rec in Installation_Calls_Handling[ID != null]
+	{
+		if(rec.Date_field != null)
+		{
+			wdate = rec.Date_field.getWeekOfYear();
+			wYear = rec.Date_field.getYear();
+			if(cWeek == wdate && cYear == wYear)
+			{
+				feedback_total = feedback_total + 1;
+				if(rec.Feedback_Status == "Completed")
+				{
+					feedback_comp = feedback_comp + 1;
+				}
+			}
+		}
+	}
+	// Calculate percentage of visits that got feedback
+	feedback_per = 0;
+	if(feedback_total > 0)
+	{
+		feedback_per = (feedback_comp.toDecimal() / feedback_total.toDecimal() * 100).round(0);
+		// Hard clamp
+		if(feedback_per > 100)
+		{
+			feedback_per = 100;
+		}
+		if(feedback_per < 0)
+		{
+			feedback_per = 0;
+		}
+	}
+	return feedback_per;
+}
+
+
+int sales.monthlyquote()
+{
+	dat = Quotation[ID != 0];
+	num = 0;
+	month = zoho.currentdate.getMonth();
+	for each  rec in dat
+	{
+		if(rec.Date_field.getMonth() == month)
+		{
+			num = num + 1;
+		}
+	}
+	return num;
+}
+
+int sales.orderconfirmedmonthly()
+{
+	dat = Order_Confirmation[ID != 0];
+	cou = 0;
+	month = zoho.currentdate.getMonth();
+	for each  rec in dat
+	{
+		if(rec.Date_field != null)
+		{
+			if(rec.Date_field.getMonth() == month)
+			{
+				cou = cou + 1;
+			}
+		}
+	}
+	return cou;
+}
+
+
+int sales.MonthlyFollowUp()
+{
+	cMon = zoho.currentdate.getMonth();
+	cYear = zoho.currentdate.getYear();
+	fu_cnt = 0;
+	for each  rec_qfu in Quotation_Follow_Up[ID != 0]
+	{
+		if(rec_qfu.Date_field != null)
+		{
+			wqfMon = rec_qfu.Date_field.getMonth();
+			wqfYear = rec_qfu.Date_field.getYear();
+			if(cMon == wqfMon && cYear == wqfYear && rec_qfu.Status == "Confirmed")
+			{
+				fu_cnt = fu_cnt + 1;
+			}
+		}
+	}
+	return fu_cnt;
+}
+
+int sales.MonthlyOrderConfirmed()
+{
+	cMon = zoho.currentdate.getMonth();
+	cYear = zoho.currentdate.getYear();
+	oc_cnt = 0;
+	for each  rec_oc in Order_Confirmation[ID != 0]
+	{
+		if(rec_oc.Date_field != null)
+		{
+			woMon = rec_oc.Date_field.getMonth();
+			woYear = rec_oc.Date_field.getYear();
+			if(cMon == woMon && cYear == woYear)
+			{
+				oc_cnt = oc_cnt + 1;
+			}
+		}
+	}
+	return oc_cnt;
+}
+
+int sales.MonthlyPaymentReceived()
+{
+	cMon = zoho.currentdate.getMonth();
+	cYear = zoho.currentdate.getYear();
+	pt_cnt = 0;
+	for each  rec_pt in Payment_Tracking[ID != 0]
+	{
+		if(rec_pt.Payment_Date != null)
+		{
+			wpMon = rec_pt.Payment_Date.getMonth();
+			wpYear = rec_pt.Payment_Date.getYear();
+			if(cMon == wpMon && cYear == wpYear && rec_pt.Follow_upStatus == "Paid")
+			{
+				pt_cnt = pt_cnt + 1;
+			}
+		}
+	}
+	return pt_cnt;
+}
+
+
+map sales.getMonthlyRevenueProfitExpense()
+{
+	// Revenue section
+	curr_date = zoho.currentdate;
+	order_confirm_list = List();
+	month_start = curr_date.toStartOfMonth();
+	order_confirmations = Order_Confirmation[Date_field >= month_start && Date_field <= curr_date];
+	for each  rec in order_confirmations
+	{
+		if(rec.Quotation_No != null)
+		{
+			order_confirm_list.add(rec.Quotation_No);
+		}
+	}
+	unq_order_conf_list = order_confirm_list.distinct();
+	rev_from_order_confirmations = 0;
+	for each  quotID in unq_order_conf_list
+	{
+		quotation_coll = Quotation[ID == quotID];
+		rev_from_order_confirmations = rev_from_order_confirmations + ifnull(quotation_coll.Grand_Total,0);
+	}
+	// revenue from stand by unit 
+	rev_from_standby = Standby_Unit_Tracker2[Outward_Date >= month_start && Outward_Date <= curr_date].sum(Cost);
+	overall_revenue = rev_from_order_confirmations + rev_from_standby;
+	// Expense section
+	service_exec_exp = Service_Executive[Date_Logged >= month_start && Date_Logged <= curr_date].sum(Total_Cost);
+	service_report_coll = Service_Report[Call_Attended_Date >= month_start && Call_Attended_Date <= curr_date];
+	service_report_exp = 0;
+	for each  srv_rep in service_report_coll
+	{
+		for each  spare_rec in srv_rep.Spare_Replaced
+		{
+			service_report_exp = service_report_exp + spare_rec.Total_Amount;
+		}
+	}
+	service_engineer_exp = Expense_of_Engineer[Date_field1234567890 >= month_start && Date_field1234567890 <= month_start].sum(Overall_Direct);
+	overall_expense = service_exec_exp + service_report_exp + service_engineer_exp;
+	// Profit this month 
+	overall_profit_this_month = overall_revenue - overall_expense;
+	// ========== FORMAT VALUES TO LAKH/CRORE ==========
+	// Format Revenue
+	revenue_display = "";
+	if(overall_revenue >= 10000000)
+	{
+		revenue_display = "₹" + (overall_revenue / 10000000).round(2) + "Cr";
+	}
+	else if(overall_revenue >= 100000)
+	{
+		revenue_display = "₹" + (overall_revenue / 100000).round(2) + "L";
+	}
+	else if(overall_revenue >= 1000)
+	{
+		revenue_display = "₹" + (overall_revenue / 1000).round(2) + "K";
+	}
+	else if(overall_revenue == 0)
+	{
+		revenue_display = "₹0.0";
+	}
+	else
+	{
+		revenue_display = "₹" + overall_revenue.round(2);
+	}
+	// Format Expense
+	expense_display = "";
+	if(overall_expense >= 10000000)
+	{
+		expense_display = "₹" + (overall_expense / 10000000).round(2) + "Cr";
+	}
+	else if(overall_expense >= 100000)
+	{
+		expense_display = "₹" + (overall_expense / 100000).round(2) + "L";
+	}
+	else if(overall_expense >= 1000)
+	{
+		expense_display = "₹" + (overall_expense / 1000).round(2) + "K";
+	}
+	else if(overall_expense == 0)
+	{
+		expense_display = "₹0.0";
+	}
+	else
+	{
+		expense_display = "₹" + overall_expense.round(2);
+	}
+	// Format Profit (handle negative values)
+	profit_display = "";
+	if(overall_profit_this_month < 0)
+	{
+		abs_profit = overall_profit_this_month * -1;
+		if(abs_profit >= 10000000)
+		{
+			profit_display = "₹-" + (abs_profit / 10000000).round(2) + "Cr";
+		}
+		else if(abs_profit >= 100000)
+		{
+			profit_display = "₹-" + (abs_profit / 100000).round(2) + "L";
+		}
+		else if(abs_profit >= 1000)
+		{
+			profit_display = "₹-" + (abs_profit / 1000).round(2) + "K";
+		}
+		else
+		{
+			profit_display = "₹-" + abs_profit.round(2);
+		}
+	}
+	else if(overall_profit_this_month == 0)
+	{
+		profit_display = "₹0.0";
+	}
+	else
+	{
+		if(overall_profit_this_month >= 10000000)
+		{
+			profit_display = "₹" + (overall_profit_this_month / 10000000).round(2) + "Cr";
+		}
+		else if(overall_profit_this_month >= 100000)
+		{
+			profit_display = "₹" + (overall_profit_this_month / 100000).round(2) + "L";
+		}
+		else if(overall_profit_this_month >= 1000)
+		{
+			profit_display = "₹" + (overall_profit_this_month / 1000).round(2) + "K";
+		}
+		else
+		{
+			profit_display = "₹" + overall_profit_this_month.round(2);
+		}
+	}
+	// Return map with both raw values and formatted display
+	res_map = Map();
+	res_map.put("overall_revenue",overall_revenue);
+	res_map.put("overall_expense",overall_expense);
+	res_map.put("overall_profit",overall_profit_this_month);
+	res_map.put("revenue_display",revenue_display);
+	res_map.put("expense_display",expense_display);
+	res_map.put("profit_display",profit_display);
+	return res_map;
+}
+
+
+map sales.getLostOrderAndAvgOrderValue()
+{
+	curr_date = zoho.currentdate;
+	month_start = curr_date.toStartOfMonth();
+	// Get lost orders
+	lost_order_col = Order_lost_Analysis[Customer_Name != null && Date_field >= month_start && Date_field <= curr_date];
+	lost_order_count = 0;
+	lost_order_value = 0;
+	for each  rec in lost_order_col
+	{
+		lost_order_count = lost_order_count + 1;
+		lost_order_value = lost_order_value + ifnull(rec.Quotation.Grand_Total,0);
+	}
+	// Get average order value from all quotations this month
+	avg_order_value = Quotation[Date_field >= month_start && Date_field <= curr_date].avg(Grand_Total);
+	if(avg_order_value == null)
+	{
+		avg_order_value = 0;
+	}
+	// ========== FORMAT LOST ORDER VALUE ==========
+	lost_order_value_display = "";
+	if(lost_order_value >= 10000000)
+	{
+		// 1 Crore = 10,000,000
+		lost_order_value_display = "₹" + (lost_order_value / 10000000).round(2) + "Cr";
+	}
+	else if(lost_order_value >= 100000)
+	{
+		// 1 Lakh = 100,000
+		lost_order_value_display = "₹" + (lost_order_value / 100000).round(2) + "L";
+	}
+	else if(lost_order_value >= 1000)
+	{
+		// 1 Thousand = 1,000
+		lost_order_value_display = "₹" + (lost_order_value / 1000).round(2) + "K";
+	}
+	else if(lost_order_value == 0)
+	{
+		lost_order_value_display = "₹0.0";
+	}
+	else
+	{
+		// Less than 1000, show exact amount
+		lost_order_value_display = "₹" + lost_order_value.round(2);
+	}
+	// ========== FORMAT AVERAGE ORDER VALUE ==========
+	avg_order_value_display = "";
+	if(avg_order_value >= 10000000)
+	{
+		// 1 Crore = 10,000,000
+		avg_order_value_display = "₹" + (avg_order_value / 10000000).round(2) + "Cr";
+	}
+	else if(avg_order_value >= 100000)
+	{
+		// 1 Lakh = 100,000
+		avg_order_value_display = "₹" + (avg_order_value / 100000).round(2) + "L";
+	}
+	else if(avg_order_value >= 1000)
+	{
+		// 1 Thousand = 1,000
+		avg_order_value_display = "₹" + (avg_order_value / 1000).round(2) + "K";
+	}
+	else if(avg_order_value == 0)
+	{
+		avg_order_value_display = "₹0.0";
+	}
+	else
+	{
+		// Less than 1000, show exact amount
+		avg_order_value_display = "₹" + avg_order_value.round(2);
+	}
+	// ========== RETURN RESULTS ==========
+	res_map = Map();
+	// Raw numeric values
+	res_map.put("lost_orders_count",lost_order_count);
+	res_map.put("lost_orders_value",lost_order_value);
+	res_map.put("avg_order_value",avg_order_value);
+	// Formatted display strings
+	res_map.put("lost_orders_value_display",lost_order_value_display);
+	res_map.put("avg_order_value_display",avg_order_value_display);
+	return res_map;
+}
+
+map sales.getSalesVsCostVsProfit()
+{
+	curr_date = zoho.currentdate;
+	current_year = curr_date.getYear();
+	current_month = curr_date.getMonth();
+	result_map = Map();
+	max_value = 0;
+	// Build price lookup map ONCE (outside the month loop for better performance)
+	price_map = Map();
+	all_purchase_orders = Purchase_Order[ID != null];
+	for each  po in all_purchase_orders
+	{
+		if(po.Item_Details != null)
+		{
+			for each  item in po.Item_Details
+			{
+				if(item.Product_Code != null && item.Price != null)
+				{
+					product_code = item.Product_Code;
+					price = item.Price;
+					// Store price (using latest/highest - adjust logic as needed)
+					existing_price = price_map.get(product_code);
+					if(existing_price == null || price > existing_price)
+					{
+						price_map.put(product_code,price);
+					}
+				}
+			}
+		}
+	}
+	// Loop through months from January to current month only
+	for each  month_num in {1,2,3,4,5,6,7,8,9,10,11,12}
+	{
+		if(month_num > current_month)
+		{
+			break;
+		}
+		// Create start date for the month
+		if(month_num < 10)
+		{
+			month_start_str = current_year.toString() + "-0" + month_num.toString() + "-01";
+		}
+		else
+		{
+			month_start_str = current_year.toString() + "-" + month_num.toString() + "-01";
+		}
+		month_start = month_start_str.toDate();
+		// Calculate last day of month
+		if(month_num == 12)
+		{
+			next_month_start = (current_year + 1).toString() + "-01-01";
+		}
+		else if(month_num < 9)
+		{
+			next_month_start = current_year.toString() + "-0" + (month_num + 1).toString() + "-01";
+		}
+		else
+		{
+			next_month_start = current_year.toString() + "-" + (month_num + 1).toString() + "-01";
+		}
+		month_end = next_month_start.toDate().subDay(1);
+		// ========== SALES CALCULATION ==========
+		order_confirm_list = List();
+		order_confirmations = Order_Confirmation[Date_field >= month_start && Date_field <= month_end];
+		for each  rec in order_confirmations
+		{
+			if(rec.Quotation_No != null)
+			{
+				order_confirm_list.add(rec.Quotation_No);
+			}
+		}
+		unq_order_conf_list = order_confirm_list.distinct();
+		sales_from_order_confirmations = 0;
+		for each  quotID in unq_order_conf_list
+		{
+			quotation_coll = Quotation[ID == quotID];
+			if(quotation_coll != null)
+			{
+				grand_total = quotation_coll.Grand_Total;
+				if(grand_total != null)
+				{
+					sales_from_order_confirmations = sales_from_order_confirmations + grand_total;
+				}
+			}
+		}
+		// Sales from standby unit
+		sales_from_standby = 0;
+		standby_records = Standby_Unit_Tracker2[Outward_Date >= month_start && Outward_Date <= month_end];
+		for each  standby_rec in standby_records
+		{
+			if(standby_rec.Cost != null)
+			{
+				sales_from_standby = sales_from_standby + standby_rec.Cost;
+			}
+		}
+		month_sales = sales_from_order_confirmations + sales_from_standby;
+		// ========== COST CALCULATION (BOM) ==========
+		bom_records = BOM[Date_field >= month_start && Date_field <= month_end];
+		bom_cost = 0;
+		for each  bom_rec in bom_records
+		{
+			if(bom_rec.Item_Details != null)
+			{
+				for each  bom_item in bom_rec.Item_Details
+				{
+					if(bom_item.Product_Code != null && bom_item.Quantity != null)
+					{
+						product_code = bom_item.Product_Code;
+						quantity = bom_item.Quantity;
+						// Fast lookup from pre-built map
+						price = price_map.get(product_code);
+						if(price != null)
+						{
+							bom_cost = bom_cost + quantity * price;
+						}
+					}
+				}
+			}
+		}
+		month_cost = bom_cost;
+		// ========== PROFIT CALCULATION ==========
+		month_profit = month_sales - month_cost;
+		// Track max value
+		if(month_sales > max_value)
+		{
+			max_value = month_sales;
+		}
+		if(month_cost > max_value)
+		{
+			max_value = month_cost;
+		}
+		if(month_profit > max_value)
+		{
+			max_value = month_profit;
+		}
+		// Create month key
+		if(month_num == 1)
+		{
+			month_key = "jan";
+		}
+		else if(month_num == 2)
+		{
+			month_key = "feb";
+		}
+		else if(month_num == 3)
+		{
+			month_key = "mar";
+		}
+		else if(month_num == 4)
+		{
+			month_key = "apr";
+		}
+		else if(month_num == 5)
+		{
+			month_key = "may";
+		}
+		else if(month_num == 6)
+		{
+			month_key = "jun";
+		}
+		else if(month_num == 7)
+		{
+			month_key = "jul";
+		}
+		else if(month_num == 8)
+		{
+			month_key = "aug";
+		}
+		else if(month_num == 9)
+		{
+			month_key = "sep";
+		}
+		else if(month_num == 10)
+		{
+			month_key = "oct";
+		}
+		else if(month_num == 11)
+		{
+			month_key = "nov";
+		}
+		else
+		{
+			month_key = "dec";
+		}
+		// Store raw values
+		result_map.put(month_key + "_sales_raw",month_sales);
+		result_map.put(month_key + "_cost_raw",month_cost);
+		result_map.put(month_key + "_profit_raw",month_profit);
+	}
+	// Avoid division by zero
+	if(max_value == 0)
+	{
+		max_value = 1;
+	}
+	// Determine best unit
+	unit_label = "";
+	divisor = 1;
+	if(max_value >= 10000000)
+	{
+		unit_label = "Cr";
+		divisor = 10000000;
+	}
+	else if(max_value >= 100000)
+	{
+		unit_label = "L";
+		divisor = 100000;
+	}
+	else if(max_value >= 1000)
+	{
+		unit_label = "K";
+		divisor = 1000;
+	}
+	else
+	{
+		unit_label = "";
+		divisor = 1;
+	}
+	// Format values and calculate heights
+	final_data = Map();
+	month_list = {"jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"};
+	for each  month_key in month_list
+	{
+		sales_raw = result_map.get(month_key + "_sales_raw");
+		if(sales_raw != null)
+		{
+			cost_raw = result_map.get(month_key + "_cost_raw");
+			profit_raw = result_map.get(month_key + "_profit_raw");
+			if(cost_raw == null)
+			{
+				cost_raw = 0;
+			}
+			if(profit_raw == null)
+			{
+				profit_raw = 0;
+			}
+			sales_height = (sales_raw / max_value * 80).round(0);
+			cost_height = (cost_raw / max_value * 80).round(0);
+			profit_height = (profit_raw / max_value * 80).round(0);
+			if(divisor == 1)
+			{
+				sales_formatted = sales_raw.round(0);
+				cost_formatted = cost_raw.round(0);
+				profit_formatted = profit_raw.round(0);
+			}
+			else
+			{
+				sales_formatted = (sales_raw / divisor).round(1);
+				cost_formatted = (cost_raw / divisor).round(1);
+				profit_formatted = (profit_raw / divisor).round(1);
+			}
+			final_data.put(month_key + "_sales",sales_formatted);
+			final_data.put(month_key + "_sales_height",sales_height);
+			final_data.put(month_key + "_cost",cost_formatted);
+			final_data.put(month_key + "_cost_height",cost_height);
+			final_data.put(month_key + "_profit",profit_formatted);
+			final_data.put(month_key + "_profit_height",profit_height);
+		}
+	}
+	final_data.put("current_year",current_year);
+	final_data.put("current_month",current_month);
+	final_data.put("unit_label",unit_label);
+	return final_data;
+	// map sales.getSalesVsCostVsProfit()
+	// {
+	// 	curr_date = zoho.currentdate;
+	// 	current_year = curr_date.getYear();
+	// 	current_month = curr_date.getMonth();  // Get current month (1-12)
+	// 	result_map = Map();
+	// 	max_value = 0;
+	// 	// Loop through months from January to current month only
+	// 	for each month_num in {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}
+	// 	{
+	// 		// Skip months that haven't occurred yet
+	// 		if(month_num > current_month)
+	// 		{
+	// 			break;
+	// 		}
+	// 		// Create start date for the month
+	// 		if(month_num < 10)
+	// 		{
+	// 			month_start_str = current_year.toString() + "-0" + month_num.toString() + "-01";
+	// 		}
+	// 		else
+	// 		{
+	// 			month_start_str = current_year.toString() + "-" + month_num.toString() + "-01";
+	// 		}
+	// 		month_start = month_start_str.toDate();
+	// 		// Calculate last day of month
+	// 		if(month_num == 12)
+	// 		{
+	// 			next_month_start = (current_year + 1).toString() + "-01-01";
+	// 		}
+	// 		else if(month_num < 9)
+	// 		{
+	// 			next_month_start = current_year.toString() + "-0" + (month_num + 1).toString() + "-01";
+	// 		}
+	// 		else
+	// 		{
+	// 			next_month_start = current_year.toString() + "-" + (month_num + 1).toString() + "-01";
+	// 		}
+	// 		month_end = next_month_start.toDate().subDay(1);
+	// 		// ========== SALES CALCULATION ==========
+	// 		// Get order confirmations for this month
+	// 		order_confirm_list = List();
+	// 		order_confirmations = Order_Confirmation[Date_field >= month_start && Date_field <= month_end];
+	// 		for each rec in order_confirmations
+	// 		{
+	// 			if(rec.Quotation_No != null)
+	// 			{
+	// 				order_confirm_list.add(rec.Quotation_No);
+	// 			}
+	// 		}
+	// 		unq_order_conf_list = order_confirm_list.distinct();
+	// 		sales_from_order_confirmations = 0;
+	// 		for each quotID in unq_order_conf_list
+	// 		{
+	// 			quotation_coll = Quotation[ID == quotID];
+	// 			if(quotation_coll != null)
+	// 			{
+	// 				grand_total = quotation_coll.Grand_Total;
+	// 				if(grand_total != null)
+	// 				{
+	// 					sales_from_order_confirmations = sales_from_order_confirmations + grand_total;
+	// 				}
+	// 			}
+	// 		}
+	// 		// Sales from standby unit
+	// 		sales_from_standby = 0;
+	// 		standby_records = Standby_Unit_Tracker2[Outward_Date >= month_start && Outward_Date <= month_end];
+	// 		for each standby_rec in standby_records
+	// 		{
+	// 			if(standby_rec.Cost != null)
+	// 			{
+	// 				sales_from_standby = sales_from_standby + standby_rec.Cost;
+	// 			}
+	// 		}
+	// 		// Total sales for this month
+	// 		month_sales = sales_from_order_confirmations + sales_from_standby;
+	// 		// ========== COST CALCULATION ==========
+	// 		// Service Executive expenses
+	// 		service_exec_cost = 0;
+	// // 		service_exec_records = Service_Executive[Date_Logged >= month_start && Date_Logged <= month_end];
+	// // 		for each exec_rec in service_exec_records
+	// // 		{
+	// // 			if(exec_rec.Total_Cost != null)
+	// // 			{
+	// // 				service_exec_cost = service_exec_cost + exec_rec.Total_Cost;
+	// // 			}
+	// // 		}
+	// 		// Service Report costs (spare parts replaced)
+	// 		service_report_cost = 0;
+	// // 		service_report_coll = Service_Report[Call_Attended_Date >= month_start && Call_Attended_Date <= month_end];
+	// // 		for each srv_rep in service_report_coll
+	// // 		{
+	// // 			if(srv_rep.Spare_Replaced != null)
+	// // 			{
+	// // 				for each spare_rec in srv_rep.Spare_Replaced
+	// // 				{
+	// // 					if(spare_rec.Total_Amount != null)
+	// // 					{
+	// // 						service_report_cost = service_report_cost + spare_rec.Total_Amount;
+	// // 					}
+	// // 				}
+	// // 			}
+	// // 		}
+	// 		// Service Engineer expenses
+	// 		service_engineer_cost = 0;
+	// // 		engineer_records = Expense_of_Engineer[Date_field1234567890 >= month_start && Date_field1234567890 <= month_end];
+	// // 		for each eng_rec in engineer_records
+	// // 		{
+	// // 			if(eng_rec.Overall_Expenses != null)
+	// // 			{
+	// // 				service_engineer_cost = service_engineer_cost + eng_rec.Overall_Expenses;
+	// // 			}
+	// // 		}
+	// 		// BOM Cost
+	// 		bom_coll = BOM[Date_field >= month_start && Date_field <= month_end];
+	// 		bom_cost = 0;
+	// 		for each new_rec in bom_coll.Item_Details{
+	// 			purchase_order_coll = Purchase_Order[ID != null];
+	// 			for each prod in purchase_order_coll.Item_Details{
+	// 				curr_prod_price = 0;
+	// 				if (prod.Product_Code == new_rec.Product_Code){
+	// 					bom_cost += new_rec.Quantity * prod.Price;
+	// 					break;
+	// 				}
+	// 			}
+	// 		}
+	// 		// Total cost for this month
+	// // 		month_cost = service_exec_cost + service_report_cost + service_engineer_cost;
+	// 		month_cost = bom_cost;
+	// 		// ========== PROFIT CALCULATION ==========
+	// 		month_profit = month_sales - month_cost;
+	// 		// Track max value across sales, cost, and profit
+	// 		if(month_sales > max_value)
+	// 		{
+	// 			max_value = month_sales;
+	// 		}
+	// 		if(month_cost > max_value)
+	// 		{
+	// 			max_value = month_cost;
+	// 		}
+	// 		if(month_profit > max_value)
+	// 		{
+	// 			max_value = month_profit;
+	// 		}
+	// 		// Create month key
+	// 		if(month_num == 1)
+	// 		{
+	// 			month_key = "jan";
+	// 		}
+	// 		else if(month_num == 2)
+	// 		{
+	// 			month_key = "feb";
+	// 		}
+	// 		else if(month_num == 3)
+	// 		{
+	// 			month_key = "mar";
+	// 		}
+	// 		else if(month_num == 4)
+	// 		{
+	// 			month_key = "apr";
+	// 		}
+	// 		else if(month_num == 5)
+	// 		{
+	// 			month_key = "may";
+	// 		}
+	// 		else if(month_num == 6)
+	// 		{
+	// 			month_key = "jun";
+	// 		}
+	// 		else if(month_num == 7)
+	// 		{
+	// 			month_key = "jul";
+	// 		}
+	// 		else if(month_num == 8)
+	// 		{
+	// 			month_key = "aug";
+	// 		}
+	// 		else if(month_num == 9)
+	// 		{
+	// 			month_key = "sep";
+	// 		}
+	// 		else if(month_num == 10)
+	// 		{
+	// 			month_key = "oct";
+	// 		}
+	// 		else if(month_num == 11)
+	// 		{
+	// 			month_key = "nov";
+	// 		}
+	// 		else
+	// 		{
+	// 			month_key = "dec";
+	// 		}
+	// 		// Store raw values
+	// 		result_map.put(month_key + "_sales_raw", month_sales);
+	// 		result_map.put(month_key + "_cost_raw", month_cost);
+	// 		result_map.put(month_key + "_profit_raw", month_profit);
+	// 	}
+	// 	// Avoid division by zero
+	// 	if(max_value == 0)
+	// 	{
+	// 		max_value = 1;
+	// 	}
+	// 	// Determine best unit based on max value
+	// 	unit_label = "";
+	// 	divisor = 1;
+	// 	if(max_value >= 10000000)
+	// 	{
+	// 		// Crores
+	// 		unit_label = "Cr";
+	// 		divisor = 10000000;
+	// 	}
+	// 	else if(max_value >= 100000)
+	// 	{
+	// 		// Lakhs
+	// 		unit_label = "L";
+	// 		divisor = 100000;
+	// 	}
+	// 	else if(max_value >= 1000)
+	// 	{
+	// 		// Thousands
+	// 		unit_label = "K";
+	// 		divisor = 1000;
+	// 	}
+	// 	else
+	// 	{
+	// 		// Less than thousand
+	// 		unit_label = "";
+	// 		divisor = 1;
+	// 	}
+	// 	// Format values and calculate heights - only for months that exist
+	// 	final_data = Map();
+	// 	month_list = {"jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"};
+	// 	for each month_key in month_list
+	// 	{
+	// 		// Check if this month has data
+	// 		sales_raw = result_map.get(month_key + "_sales_raw");
+	// 		// Only process months that have data
+	// 		if(sales_raw != null)
+	// 		{
+	// 			cost_raw = result_map.get(month_key + "_cost_raw");
+	// 			profit_raw = result_map.get(month_key + "_profit_raw");
+	// 			if(cost_raw == null)
+	// 			{
+	// 				cost_raw = 0;
+	// 			}
+	// 			if(profit_raw == null)
+	// 			{
+	// 				profit_raw = 0;
+	// 			}
+	// 			// Calculate heights (scale to 80% max)
+	// 			sales_height = ((sales_raw / max_value) * 80).round(0);
+	// 			cost_height = ((cost_raw / max_value) * 80).round(0);
+	// 			profit_height = ((profit_raw / max_value) * 80).round(0);
+	// 			// Format values
+	// 			if(divisor == 1)
+	// 			{
+	// 				sales_formatted = sales_raw.round(0);
+	// 				cost_formatted = cost_raw.round(0);
+	// 				profit_formatted = profit_raw.round(0);
+	// 			}
+	// 			else
+	// 			{
+	// 				sales_formatted = (sales_raw / divisor).round(1);
+	// 				cost_formatted = (cost_raw / divisor).round(1);
+	// 				profit_formatted = (profit_raw / divisor).round(1);
+	// 			}
+	// 			// Store formatted values and heights
+	// 			final_data.put(month_key + "_sales", sales_formatted);
+	// 			final_data.put(month_key + "_sales_height", sales_height);
+	// 			final_data.put(month_key + "_cost", cost_formatted);
+	// 			final_data.put(month_key + "_cost_height", cost_height);
+	// 			final_data.put(month_key + "_profit", profit_formatted);
+	// 			final_data.put(month_key + "_profit_height", profit_height);
+	// 		}
+	// 	}
+	// 	// Add metadata
+	// 	final_data.put("current_year", current_year);
+	// 	final_data.put("current_month", current_month);
+	// 	final_data.put("unit_label", unit_label);
+	// 	return final_data;
+	// }
+}
+
+
+int sales.monthWiseQuotation(int mon)
+{
+	tot_qcnt = 0;
+	for each  rec in Quotation[ID != 0]
+	{
+		wMon = rec.Date_field.getMonth();
+		wYear = rec.Date_field.getYear();
+		if(mon == wMon && zoho.currentdate.getYear() == wYear)
+		{
+			tot_qcnt = tot_qcnt + 1;
+		}
+	}
+	return tot_qcnt;
+}
+
+
+int sales.monthWiseOrders(int mon)
+{
+	tot_ocnt = 0;
+	for each  rec in Order_Confirmation[ID != 0]
+	{
+		if(rec.Date_field != null)
+		{
+			wMon = rec.Date_field.getMonth();
+			wYear = rec.Date_field.getYear();
+			if(mon == wMon && zoho.currentdate.getYear() == wYear)
+			{
+				tot_ocnt = tot_ocnt + 1;
+			}
+		}
+	}
+	return tot_ocnt;
+}
+
+map sales.getPreviousYearsMonthlyRevenue()
+{
+	curr_date = zoho.currentdate;
+	current_year = curr_date.getYear();
+	// Calculate previous year and year before that
+	previous_year = current_year - 1;
+	previous_previous_year = current_year - 2;
+	result_map = Map();
+	max_value = 0;
+	// Define the years to fetch data for
+	years_to_fetch = {previous_previous_year,previous_year};
+	for each  year in years_to_fetch
+	{
+		year_data = Map();
+		// Loop through each month (1-12)
+		for each  month_num in {1,2,3,4,5,6,7,8,9,10,11,12}
+		{
+			// Create start date for the month
+			if(month_num < 10)
+			{
+				month_start_str = year.toString() + "-0" + month_num.toString() + "-01";
+			}
+			else
+			{
+				month_start_str = year.toString() + "-" + month_num.toString() + "-01";
+			}
+			month_start = month_start_str.toDate();
+			// Calculate last day of month
+			if(month_num == 12)
+			{
+				next_month_start = (year + 1).toString() + "-01-01";
+			}
+			else if(month_num < 9)
+			{
+				next_month_start = year.toString() + "-0" + (month_num + 1).toString() + "-01";
+			}
+			else
+			{
+				next_month_start = year.toString() + "-" + (month_num + 1).toString() + "-01";
+			}
+			month_end = next_month_start.toDate().subDay(1);
+			// Get order confirmations for this month
+			order_confirm_list = List();
+			order_confirmations = Order_Confirmation[Date_field >= month_start && Date_field <= month_end];
+			for each  rec in order_confirmations
+			{
+				if(rec.Quotation_No != null)
+				{
+					order_confirm_list.add(rec.Quotation_No);
+				}
+			}
+			unq_order_conf_list = order_confirm_list.distinct();
+			rev_from_order_confirmations = 0;
+			for each  quotID in unq_order_conf_list
+			{
+				quotation_coll = Quotation[ID == quotID];
+				if(quotation_coll != null)
+				{
+					grand_total = quotation_coll.Grand_Total;
+					if(grand_total != null)
+					{
+						rev_from_order_confirmations = rev_from_order_confirmations + grand_total;
+					}
+				}
+			}
+			// Revenue from standby unit
+			rev_from_standby = 0;
+			standby_records = Standby_Unit_Tracker2[Outward_Date >= month_start && Outward_Date <= month_end];
+			for each  standby_rec in standby_records
+			{
+				if(standby_rec.Cost != null)
+				{
+					rev_from_standby = rev_from_standby + standby_rec.Cost;
+				}
+			}
+			// Total revenue for this month (keep original value)
+			month_revenue = rev_from_order_confirmations + rev_from_standby;
+			// Track max value (use original value for proper scaling)
+			if(month_revenue > max_value)
+			{
+				max_value = month_revenue;
+			}
+			// Create month key (jan, feb, mar, etc.)
+			if(month_num == 1)
+			{
+				month_key = "jan";
+			}
+			else if(month_num == 2)
+			{
+				month_key = "feb";
+			}
+			else if(month_num == 3)
+			{
+				month_key = "mar";
+			}
+			else if(month_num == 4)
+			{
+				month_key = "apr";
+			}
+			else if(month_num == 5)
+			{
+				month_key = "may";
+			}
+			else if(month_num == 6)
+			{
+				month_key = "jun";
+			}
+			else if(month_num == 7)
+			{
+				month_key = "jul";
+			}
+			else if(month_num == 8)
+			{
+				month_key = "aug";
+			}
+			else if(month_num == 9)
+			{
+				month_key = "sep";
+			}
+			else if(month_num == 10)
+			{
+				month_key = "oct";
+			}
+			else if(month_num == 11)
+			{
+				month_key = "nov";
+			}
+			else
+			{
+				month_key = "dec";
+			}
+			// Store the original revenue value
+			year_data.put(month_key + "_revenue_raw",month_revenue);
+		}
+		result_map.put(year.toString(),year_data);
+	}
+	// Avoid division by zero
+	if(max_value == 0)
+	{
+		max_value = 1;
+	}
+	// Determine best unit based on max value
+	unit_label = "";
+	divisor = 1;
+	if(max_value >= 10000000)
+	{
+		// Crores (10 million and above)
+		unit_label = "Cr";
+		divisor = 10000000;
+	}
+	else if(max_value >= 100000)
+	{
+		// Lakhs (100 thousand and above)
+		unit_label = "L";
+		divisor = 100000;
+	}
+	else if(max_value >= 1000)
+	{
+		// Thousands
+		unit_label = "K";
+		divisor = 1000;
+	}
+	else
+	{
+		// Less than thousand - show as is
+		unit_label = "";
+		divisor = 1;
+	}
+	// Add height percentages and formatted revenue to the result
+	for each  year_key in result_map.keys()
+	{
+		year_data = result_map.get(year_key);
+		updated_year_data = Map();
+		// Process each month
+		month_list = {"jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"};
+		for each  month_key in month_list
+		{
+			revenue_raw = year_data.get(month_key + "_revenue_raw");
+			if(revenue_raw == null)
+			{
+				revenue_raw = 0;
+			}
+			// Calculate height percentage (scale to 80% max height)
+			height_percent = (revenue_raw / max_value * 80).round(0);
+			// Format revenue based on divisor
+			if(divisor == 1)
+			{
+				revenue_formatted = revenue_raw.round(0);
+			}
+			else
+			{
+				revenue_value = (revenue_raw / divisor).round(1);
+				revenue_formatted = revenue_value;
+			}
+			// Store formatted revenue, height, and unit
+			updated_year_data.put(month_key + "_revenue",revenue_formatted);
+			updated_year_data.put(month_key + "_height",height_percent);
+		}
+		// Update the result map with the complete year data
+		result_map.put(year_key,updated_year_data);
+	}
+	// Add metadata about which years we're showing
+	result_map.put("previous_year",previous_year);
+	result_map.put("previous_previous_year",previous_previous_year);
+	result_map.put("unit_label",unit_label);
+	return result_map;
+}
+
+map sales.Yearoveryeardata()
+{
+	// 	orders = Order_Confirmation[ID != 0];
+	// 	q1_total = 0.0;
+	// 	q2_total = 0.0;
+	// 	q3_total = 0.0;
+	// 	q4_total = 0.0;
+	// 	for each  order in orders
+	// 	{
+	// 		if(order.Date_field != null)
+	// 		{
+	// 			month = order.Date_field.getMonth();
+	// 			amount = ifnull(order.Quote_Amount,0.0);
+	// 			if(month >= 1 && month <= 3)
+	// 			{
+	// 				q1_total = q1_total + amount;
+	// 			}
+	// 			else if(month >= 4 && month <= 6)
+	// 			{
+	// 				q2_total = q2_total + amount;
+	// 			}
+	// 			else if(month >= 7 && month <= 9)
+	// 			{
+	// 				q3_total = q3_total + amount;
+	// 			}
+	// 			else if(month >= 10 && month <= 12)
+	// 			{
+	// 				q4_total = q4_total + amount;
+	// 			}
+	// 		}
+	// 	}
+	// 	result = Map();
+	// 	result.put("Q1",q1_total);
+	// 	result.put("Q2",q2_total);
+	// 	result.put("Q3",q3_total);
+	// 	result.put("Q4",q4_total);
+	// 	info result;
+	// 	return result;
+	// Get current date and year
+	curr_date = zoho.currentdate;
+	curr_year = curr_date.getYear();
+	prev_year = curr_year - 1;
+	quarterly_data = Map();
+	for each  quarter in {1,2,3,4}
+	{
+		// Current year quarter dates
+		if(quarter == 1)
+		{
+			curr_q_start = curr_year + "-01-01";
+			curr_q_end = curr_year + "-03-31";
+			prev_q_start = prev_year + "-01-01";
+			prev_q_end = prev_year + "-03-31";
+		}
+		else if(quarter == 2)
+		{
+			curr_q_start = curr_year + "-04-01";
+			curr_q_end = curr_year + "-06-30";
+			prev_q_start = prev_year + "-04-01";
+			prev_q_end = prev_year + "-06-30";
+		}
+		else if(quarter == 3)
+		{
+			curr_q_start = curr_year + "-07-01";
+			curr_q_end = curr_year + "-09-30";
+			prev_q_start = prev_year + "-07-01";
+			prev_q_end = prev_year + "-09-30";
+		}
+		else if(quarter == 4)
+		{
+			curr_q_start = curr_year + "-10-01";
+			curr_q_end = curr_year + "-12-31";
+			prev_q_start = prev_year + "-10-01";
+			prev_q_end = prev_year + "-12-31";
+		}
+		curr_q_start_date = curr_q_start.toDate();
+		curr_q_end_date = curr_q_end.toDate();
+		prev_q_start_date = prev_q_start.toDate();
+		prev_q_end_date = prev_q_end.toDate();
+		curr_quarter_revenue = Order_Confirmation[Date_field >= curr_q_start_date && Date_field <= curr_q_end_date && Final_Amount != null].sum(Final_Amount);
+		prev_quarter_revenue = Order_Confirmation[Date_field >= prev_q_start_date && Date_field <= prev_q_end_date && Final_Amount != null].sum(Final_Amount);
+		if(curr_quarter_revenue == null)
+		{
+			curr_quarter_revenue = 0;
+		}
+		if(prev_quarter_revenue == null)
+		{
+			prev_quarter_revenue = 0;
+		}
+		if(prev_quarter_revenue > 0)
+		{
+			growth_percentage = (curr_quarter_revenue - prev_quarter_revenue) / prev_quarter_revenue * 100;
+			growth_percentage = growth_percentage.round(1);
+		}
+		else if(curr_quarter_revenue > 0)
+		{
+			growth_percentage = 100;
+		}
+		else
+		{
+			growth_percentage = 0;
+		}
+		quarterly_data.put("q" + quarter + "_growth",growth_percentage);
+		quarterly_data.put("q" + quarter + "_revenue",curr_quarter_revenue);
+		quarterly_data.put("q" + quarter + "_prev_revenue",prev_quarter_revenue);
+	}
+	// Find maximum absolute growth for height calculation (handles both positive and negative)
+	max_abs_growth = 0;
+	for each  quarter in {1,2,3,4}
+	{
+		growth = quarterly_data.get("q" + quarter + "_growth");
+		abs_growth = growth.abs();
+		if(abs_growth > max_abs_growth)
+		{
+			max_abs_growth = abs_growth;
+		}
+	}
+	// Calculate heights (scale to 90% max)
+	for each  quarter in {1,2,3,4}
+	{
+		growth = quarterly_data.get("q" + quarter + "_growth");
+		abs_growth = growth.abs();
+		if(max_abs_growth > 0)
+		{
+			height = abs_growth / max_abs_growth * 90;
+			height = height.round(0);
+		}
+		else
+		{
+			height = 10;
+		}
+		// Ensure minimum height of 10% for visibility
+		if(abs_growth > 0 && height < 10)
+		{
+			height = 10;
+		}
+		quarterly_data.put("q" + quarter + "_growth_height",height);
+	}
+	// Find top performing quarter (highest growth)
+	top_quarter = 1;
+	top_growth = quarterly_data.get("q1_growth");
+	top_revenue = quarterly_data.get("q1_revenue");
+	for each  quarter in {2,3,4}
+	{
+		growth = quarterly_data.get("q" + quarter + "_growth");
+		if(growth > top_growth)
+		{
+			top_growth = growth;
+			top_quarter = quarter;
+			top_revenue = quarterly_data.get("q" + quarter + "_revenue");
+		}
+	}
+	quarterly_data.put("top_quarter",top_quarter);
+	quarterly_data.put("top_growth",top_growth);
+	quarterly_data.put("top_revenue",top_revenue);
+	quarterly_data.put("curr_year",curr_year);
+	// Add formatted display values to the map
+	top_quarter_label = "Q" + top_quarter + " " + curr_year;
+	top_quarter_revenue_lakhs = (top_revenue / 100000).round(1);
+	top_quarter_revenue_display = "₹" + top_quarter_revenue_lakhs + "L";
+	quarterly_data.put("top_quarter_label",top_quarter_label);
+	quarterly_data.put("top_quarter_growth",top_growth);
+	quarterly_data.put("top_quarter_revenue_display",top_quarter_revenue_display);
+	return quarterly_data;
+}
+
+
+map sales.getMonthlyCustomerRatings()
+{
+	feedback_records = Service_Feedback1[ID != 0];
+	current_date = zoho.currentdate;
+	current_year = current_date.getYear();
+	monthNames = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+	result = Map();
+	total_ratings = 0.0;
+	total_count = 0;
+	for each  m in {1,2,3,4,5,6,7,8,9,10,11,12}
+	{
+		month_total = 0.0;
+		month_count = 0;
+		for each  feedback in feedback_records
+		{
+			feedback_date = feedback.Call_attended_date;
+			if(feedback_date != null)
+			{
+				feedback_month = feedback_date.getMonth();
+				feedback_year = feedback_date.getYear();
+				if(feedback_month == m && feedback_year == current_year)
+				{
+					rating = feedback.Rating.toNumber();
+					// Make sure this is the correct field name
+					if(rating != null && rating > 0 && rating <= 5)
+					{
+						// Validate rating range
+						month_total = month_total + rating;
+						// Remove .tolong()
+						month_count = month_count + 1;
+					}
+				}
+			}
+		}
+		// Calculate average for this month
+		month_avg = 0.0;
+		if(month_count > 0)
+		{
+			month_avg = month_total / month_count;
+			total_ratings = total_ratings + month_total;
+			total_count = total_count + month_count;
+		}
+		month_name = monthNames.get(m - 1);
+		month_data = Map();
+		month_data.put("average",round(month_avg,2));
+		month_data.put("count",month_count);
+		result.put(month_name,month_data);
+	}
+	// Calculate overall average
+	overall_avg = 0.0;
+	if(total_count > 0)
+	{
+		overall_avg = total_ratings / total_count;
+	}
+	result.put("overall_average",round(overall_avg,2));
+	result.put("overall_count",total_count);
+	info result;
+	return result;
+}
+
+
+map sales.getBenchmarksAndTargets()
+{
+	benchmark_id = 302392000001374003;
+	benchmark_rec = Benchmark[ID == benchmark_id];
+	curr_date = zoho.currentdate;
+	month_start = curr_date.toStartOfMonth();
+	current_year = curr_date.getYear();
+	current_month = curr_date.getMonth();
+	result_map = Map();
+	// ========== FETCH BENCHMARK TARGETS ==========
+	sales_value_target = ifnull(benchmark_rec.Total_sales_value_committed_for_this_period,0);
+	growth_target = ifnull(benchmark_rec.Expected_growth_percentage_compared_to_last_period,0);
+	order_value_target = ifnull(benchmark_rec.Number_of_customer_orders_planned_to_be_closed_in_this_period,0);
+	hot_enq_target = ifnull(benchmark_rec.Number_of_hot_enquiries_expected_to_be_generated_in_this_period,0);
+	dealer_target = ifnull(benchmark_rec.Number_of_new_dealers_or_channel_partners_planned,0);
+	lost_orders_target = ifnull(benchmark_rec.Maximum_acceptable_number_of_lost_orders_for_this_period,0);
+	followup_delay_target = ifnull(benchmark_rec.Maximum_acceptable_follow_up_delay_for_quotations_in_days,0);
+	// ========== 1. SALES VALUE (this month) ==========
+	sales_value_actual = Order_Confirmation[Date_field >= month_start && Date_field <= curr_date && Final_Amount != null].sum(Final_Amount);
+	sales_variance = sales_value_actual - sales_value_target;
+	sales_value_status = "red";
+	if(sales_value_actual >= sales_value_target)
+	{
+		sales_value_status = "green";
+	}
+	else if(sales_value_actual >= sales_value_target * 0.8)
+	{
+		sales_value_status = "orange";
+	}
+	// ========== 2. YEARLY GROWTH % ==========
+	current_year_start = zoho.currentdate.toDate("01-01-" + current_year);
+	current_year_revenue = Order_Confirmation[Date_field >= current_year_start && Date_field <= curr_date && Final_Amount != null].sum(Final_Amount);
+	last_year = current_year - 1;
+	last_year_start = zoho.currentdate.toDate("01-01-" + last_year);
+	last_year_end = zoho.currentdate.toDate("31-12-" + last_year);
+	last_year_revenue = Order_Confirmation[Date_field >= last_year_start && Date_field <= last_year_end && Final_Amount != null].sum(Final_Amount);
+	yearly_growth = 0;
+	yearly_growth_display = "0%";
+	if(last_year_revenue > 0)
+	{
+		yearly_growth = ((current_year_revenue - last_year_revenue) / last_year_revenue * 100).round(1);
+		if(yearly_growth >= 0)
+		{
+			yearly_growth_display = "+" + yearly_growth + "%";
+		}
+		else
+		{
+			yearly_growth_display = yearly_growth + "%";
+		}
+	}
+	else if(current_year_revenue > 0)
+	{
+		yearly_growth = 100;
+		yearly_growth_display = "N/A (First Year)";
+	}
+	else
+	{
+		yearly_growth = 0;
+		yearly_growth_display = "0%";
+	}
+	growth_variance = (yearly_growth - growth_target).round(1);
+	growth_variance_display = if(growth_variance >= 0,"+" + growth_variance + "%",growth_variance + "%");
+	yearly_growth_status = "red";
+	if(yearly_growth_display == "N/A (First Year)")
+	{
+		yearly_growth_status = "orange";
+	}
+	else if(yearly_growth >= growth_target)
+	{
+		yearly_growth_status = "green";
+	}
+	else if(yearly_growth >= growth_target * 0.8)
+	{
+		yearly_growth_status = "orange";
+	}
+	// ========== 3. ORDERS CONFIRMED (this month) ==========
+	order_value_actual = Order_Confirmation[Date_field >= month_start && Date_field <= curr_date].count();
+	order_variance = order_value_actual - order_value_target;
+	order_status = "red";
+	if(order_value_actual >= order_value_target)
+	{
+		order_status = "green";
+	}
+	else if(order_value_actual >= order_value_target * 0.8)
+	{
+		order_status = "orange";
+	}
+	// ========== 4. HOT ENQUIRIES (this month) ==========
+	hot_enq_actual = Customer_Calling_follow_up[Lead_Source == "Hot Enquiry" && Lead_Date >= month_start && Lead_Date <= curr_date].count();
+	hot_enq_variance = hot_enq_actual - hot_enq_target;
+	hot_enq_status = "red";
+	if(hot_enq_actual >= hot_enq_target)
+	{
+		hot_enq_status = "green";
+	}
+	else if(hot_enq_actual >= hot_enq_target * 0.8)
+	{
+		hot_enq_status = "orange";
+	}
+	// ========== 5. DEALER APPOINTMENTS (this month) ==========
+	dealer_actual = Dealers[Date_field >= month_start && Date_field <= curr_date].count();
+	dealer_variance = dealer_actual - dealer_target;
+	dealer_status = "red";
+	if(dealer_actual >= dealer_target)
+	{
+		dealer_status = "green";
+	}
+	else if(dealer_actual >= dealer_target * 0.5)
+	{
+		dealer_status = "orange";
+	}
+	// ========== 6. LOST ORDERS REDUCTION (this quarter vs last quarter) ==========
+	quarter_start_month = 1;
+	if(current_month >= 1 && current_month <= 3)
+	{
+		quarter_start_month = 1;
+	}
+	else if(current_month >= 4 && current_month <= 6)
+	{
+		quarter_start_month = 4;
+	}
+	else if(current_month >= 7 && current_month <= 9)
+	{
+		quarter_start_month = 7;
+	}
+	else
+	{
+		quarter_start_month = 10;
+	}
+	current_quarter_start = zoho.currentdate.toDate("01-" + quarter_start_month + "-" + current_year);
+	current_quarter_lost = Order_lost_Analysis[Date_field >= current_quarter_start && Date_field <= curr_date].count();
+	last_quarter_start = current_quarter_start.subMonth(3);
+	last_quarter_end = current_quarter_start.subDay(1);
+	last_quarter_lost = Order_lost_Analysis[Date_field >= last_quarter_start && Date_field <= last_quarter_end].count();
+	lost_orders_reduction = 0;
+	lost_orders_display = "0%";
+	if(last_quarter_lost > 0)
+	{
+		lost_orders_reduction = ((last_quarter_lost - current_quarter_lost) / last_quarter_lost * 100).round(0);
+		lost_orders_display = lost_orders_reduction + "%";
+	}
+	else if(current_quarter_lost == 0 && last_quarter_lost == 0)
+	{
+		lost_orders_reduction = 100;
+		lost_orders_display = "N/A (No Lost Orders)";
+	}
+	// Variance: how much better than target (positive = fewer lost orders = good)
+	lost_variance = lost_orders_reduction - lost_orders_target;
+	lost_orders_status = "red";
+	if(lost_orders_reduction >= lost_orders_target)
+	{
+		lost_orders_status = "green";
+	}
+	else if(lost_orders_reduction >= lost_orders_target * 0.8)
+	{
+		lost_orders_status = "orange";
+	}
+	// ========== 7. FOLLOW-UP DELAY (average days, all quotations) ==========
+	total_delay_days = 0;
+	delay_count = 0;
+	all_quotations = Quotation[ID != null && Date_field != null];
+	for each  rec in all_quotations
+	{
+		followups = Quotation_Follow_Up[Customer_Company == rec.Customer_Company && Date_field != null];
+		if(followups != null && followups.Date_field != null)
+		{
+			delay_days = daysBetween(rec.Date_field,followups.Date_field);
+			if(delay_days >= 0)
+			{
+				total_delay_days = total_delay_days + delay_days;
+				delay_count = delay_count + 1;
+			}
+		}
+	}
+	followup_delay_actual = if(delay_count > 0,(total_delay_days * 1.0 / delay_count).round(1),0);
+	// Lower delay is better, so variance: target - actual (positive = within target)
+	followup_delay_variance = followup_delay_target - followup_delay_actual;
+	followup_delay_status = "red";
+	if(followup_delay_actual <= followup_delay_target)
+	{
+		followup_delay_status = "green";
+	}
+	else if(followup_delay_actual <= followup_delay_target * 1.2)
+	{
+		followup_delay_status = "orange";
+	}
+	// ========== REFERRALS & REVIEWS (kept for other uses) ==========
+	referrals_count = Customer_Calling_follow_up[Lead_Source == "Customer reference leads" && Lead_Date >= month_start && Lead_Date <= curr_date].count();
+	referrals_target = 2;
+	referrals_status = "red";
+	if(referrals_count >= referrals_target)
+	{
+		referrals_status = "green";
+	}
+	else if(referrals_count >= referrals_target * 0.5)
+	{
+		referrals_status = "orange";
+	}
+	customer_reviews = Service_Feedback1[Call_attended_date >= month_start && Call_attended_date <= curr_date].count();
+	reviews_target = 2;
+	reviews_status = "red";
+	if(customer_reviews >= reviews_target)
+	{
+		reviews_status = "green";
+	}
+	else if(customer_reviews >= reviews_target * 0.5)
+	{
+		reviews_status = "orange";
+	}
+	// ========== STORE ALL RESULTS ==========
+	// Targets
+	result_map.put("sales_value_target",sales_value_target);
+	result_map.put("growth_target",growth_target);
+	result_map.put("order_value_target",order_value_target);
+	result_map.put("hot_enq_target",hot_enq_target);
+	result_map.put("dealer_target",dealer_target);
+	result_map.put("lost_orders_target",lost_orders_target);
+	result_map.put("followup_delay_target",followup_delay_target);
+	// Actuals
+	result_map.put("sales_value",sales_value_actual);
+	result_map.put("yearly_growth",yearly_growth);
+	result_map.put("yearly_growth_display",yearly_growth_display);
+	result_map.put("order_value_actual",order_value_actual);
+	result_map.put("hot_enq_actual",hot_enq_actual);
+	result_map.put("hot_enq_count",hot_enq_actual);
+	result_map.put("dealer_appointments",dealer_actual);
+	result_map.put("lost_orders_reduction",lost_orders_reduction);
+	result_map.put("lost_orders_display",lost_orders_display);
+	result_map.put("followup_delay_actual",followup_delay_actual);
+	// Variances
+	result_map.put("sales_variance",sales_variance);
+	result_map.put("growth_variance",growth_variance);
+	result_map.put("growth_variance_display",growth_variance_display);
+	result_map.put("order_variance",order_variance);
+	result_map.put("hot_enq_variance",hot_enq_variance);
+	result_map.put("dealer_variance",dealer_variance);
+	result_map.put("lost_variance",lost_variance);
+	result_map.put("followup_delay_variance",followup_delay_variance);
+	// Statuses
+	result_map.put("sales_value_status",sales_value_status);
+	result_map.put("yearly_growth_status",yearly_growth_status);
+	result_map.put("order_status",order_status);
+	result_map.put("hot_enq_status",hot_enq_status);
+	result_map.put("dealer_status",dealer_status);
+	result_map.put("lost_orders_status",lost_orders_status);
+	result_map.put("followup_delay_status",followup_delay_status);
+	// Kept for compatibility
+	result_map.put("commitment",growth_target);
+	result_map.put("actual",yearly_growth);
+	result_map.put("order_value",order_value_target);
+	result_map.put("referrals_count",referrals_count);
+	result_map.put("referrals_status",referrals_status);
+	result_map.put("customer_reviews",customer_reviews);
+	result_map.put("reviews_status",reviews_status);
+	return result_map;
+	// map sales.getBenchmarksAndTargets()
+	// {
+	// 	benchmark_id = 302392000001374003;
+	// 	benchmark_rec = Benchmark[ID == benchmark_id];
+	// 	curr_date = zoho.currentdate;
+	// 	month_start = curr_date.toStartOfMonth();
+	// 	result_map = Map();
+	// 	hot_enq_count = Customer_Calling_follow_up[Lead_Source == "Hot Enquiry"].count();
+	// 	get_data = Order_Confirmation[ID != 0];
+	// 	sales_value = 0;
+	// 	for each  rec in get_data
+	// 	{
+	// 		sales_value = sales_value + ifnull(rec.Product_Price,0);
+	// 	}
+	// 	// 	info sales_value;
+	// 	// Fetch data
+	// 	get_yearly_growth_data = Yearly_Resolution[ID != 0];
+	// 	get_actual_data = Order_Confirmation[ID != 0];
+	// 	// Data holders
+	// 	commitment_map = Map();
+	// 	actual_map = Map();
+	// 	month_list = List();
+	// 	// Totals
+	// 	total_commitment = 0;
+	// 	total_actual = 0;
+	// 	month_wise_text = "";
+	// 	// --------------------
+	// 	// Commitment side
+	// 	// --------------------
+	// 	for each  yr in get_yearly_growth_data
+	// 	{
+	// 		month_name = yr.Date_field.toString("MMM");
+	// 		commitment = ifnull(yr.Overall_growth_percentage_planned_for_this_year,0);
+	// 		// Store unique month
+	// 		if(!month_list.contains(month_name))
+	// 		{
+	// 			month_list.add(month_name);
+	// 		}
+	// 		// Add commitment
+	// 		existing_commitment = commitment_map.get(month_name);
+	// 		if(existing_commitment != null)
+	// 		{
+	// 			commitment_map.put(month_name,existing_commitment + commitment);
+	// 		}
+	// 		else
+	// 		{
+	// 			commitment_map.put(month_name,commitment);
+	// 		}
+	// 	}
+	// 	// --------------------
+	// 	// Actual side
+	// 	// --------------------
+	// 	for each  oc in get_actual_data
+	// 	{
+	// 		month_name = oc.Date_field.toString("MMM");
+	// 		actual = ifnull(oc.Product_Price,0);
+	// 		// Store unique month
+	// 		if(!month_list.contains(month_name))
+	// 		{
+	// 			month_list.add(month_name);
+	// 		}
+	// 		// Add actual
+	// 		existing_actual = actual_map.get(month_name);
+	// 		if(existing_actual != null)
+	// 		{
+	// 			actual_map.put(month_name,existing_actual + actual);
+	// 		}
+	// 		else
+	// 		{
+	// 			actual_map.put(month_name,actual);
+	// 		}
+	// 	}
+	// 	// --------------------
+	// 	// Final calculation
+	// 	// --------------------
+	// 	for each  month_name in month_list
+	// 	{
+	// 		commitment = ifnull(commitment_map.get(month_name),0);
+	// 		actual = ifnull(actual_map.get(month_name),0);
+	// 		variance = actual - commitment;
+	// 		total_commitment = total_commitment + commitment;
+	// 		total_actual = total_actual + actual;
+	// 		// Example: (Dec-32% -8%)
+	// 		month_wise_text = month_wise_text + "(" + month_name + "-" + actual + "% " + variance + "%) ";
+	// 	}
+	// 	// Overall variance
+	// 	overall_variance = total_actual - total_commitment;
+	// 	// Output
+	// 	info "Commitment : " + total_commitment + "%";
+	// 	info "Actual : " + total_actual + "%";
+	// 	info "Variance : " + overall_variance + "%";
+	// 	info month_wise_text;
+	// 	// 	Order
+	// 	get_order_data = Benchmark[ID != 0];
+	// 	for each  recorder in get_order_data
+	// 	{
+	// 		order_value = ifnull(recorder.Number_of_customer_orders_planned_to_be_closed_in_this_period,0);
+	// 	}
+	// 	// 	info order_value;
+	// 	// ========== 1. YEARLY GROWTH (CORRECTED) ==========
+	// 	// Compare FULL YEAR revenue: 2025 vs 2026
+	// 	current_year = curr_date.getYear();
+	// 	// Current year: Year-to-Date (Jan 1, 2026 to today)
+	// 	current_year_start = zoho.currentdate.toDate("01-01-" + current_year);
+	// 	info current_year_start;
+	// 	current_year_revenue = Order_Confirmation[Date_field >= current_year_start && Date_field <= curr_date && Final_Amount != null].sum(Final_Amount);
+	// 	// Last year: FULL YEAR (Jan 1, 2025 - Dec 31, 2025)
+	// 	last_year = current_year - 1;
+	// 	last_year_start = zoho.currentdate.toDate("01-01-" + last_year);
+	// 	last_year_end = zoho.currentdate.toDate("31-12-" + last_year);
+	// 	last_year_revenue = Order_Confirmation[Date_field >= last_year_start && Date_field <= last_year_end && Final_Amount != null].sum(Final_Amount);
+	// 	info current_year_revenue;
+	// 	info last_year_revenue;
+	// 	get_yearly_growth_data = Yearly_Resolution[ID != 0];
+	// 	yearly_growth = 0;
+	// 	for each  rec1 in get_yearly_growth_data
+	// 	{
+	// 		yearly_growth = yearly_growth + ifnull(rec1.Overall_growth_percentage_planned_for_this_year,0);
+	// 	}
+	// 	// 	info yearly_growth;
+	// 	// 	yearly_growth = 0;
+	// 	yearly_growth_display = "+0%";
+	// 	if(last_year_revenue > 0)
+	// 	{
+	// 		// Compare YTD 2026 with FULL YEAR 2025
+	// 		yearly_growth = ((current_year_revenue - last_year_revenue) / last_year_revenue * 100).round(0);
+	// 		if(yearly_growth >= 0)
+	// 		{
+	// 			yearly_growth_display = "+" + yearly_growth + "%";
+	// 		}
+	// 		else
+	// 		{
+	// 			yearly_growth_display = yearly_growth + "%";
+	// 		}
+	// 	}
+	// 	else if(current_year_revenue > 0)
+	// 	{
+	// 		// First year of business
+	// 		yearly_growth = 100;
+	// 		yearly_growth_display = "N/A (First Year) 0";
+	// 	}
+	// 	else
+	// 	{
+	// 		// No revenue yet
+	// 		yearly_growth = 0;
+	// 		yearly_growth_display = "0";
+	// 	}
+	// 	// ========== 2. DEALER APPOINTMENTS ==========
+	// 	dealer_appointments = Dealers[Date_field >= month_start && Date_field <= curr_date].count();
+	// 	// ========== 3. LOST ORDERS REDUCTION ==========
+	// 	quarter_start_month = 1;
+	// 	current_month = curr_date.getMonth();
+	// 	if(current_month >= 1 && current_month <= 3)
+	// 	{
+	// 		quarter_start_month = 1;
+	// 	}
+	// 	else if(current_month >= 4 && current_month <= 6)
+	// 	{
+	// 		quarter_start_month = 4;
+	// 	}
+	// 	else if(current_month >= 7 && current_month <= 9)
+	// 	{
+	// 		quarter_start_month = 7;
+	// 	}
+	// 	else
+	// 	{
+	// 		quarter_start_month = 10;
+	// 	}
+	// 	current_quarter_start = zoho.currentdate.toDate("01-" + quarter_start_month + "-" + current_year);
+	// 	current_quarter_lost = Order_lost_Analysis[Date_field >= current_quarter_start && Date_field <= curr_date].count();
+	// 	last_quarter_start = current_quarter_start.subMonth(3);
+	// 	last_quarter_end = current_quarter_start.subDay(1);
+	// 	last_quarter_lost = Order_lost_Analysis[Date_field >= last_quarter_start && Date_field <= last_quarter_end].count();
+	// 	lost_orders_reduction = 0;
+	// 	lost_orders_display = "0%";
+	// 	if(last_quarter_lost > 0)
+	// 	{
+	// 		lost_orders_reduction = ((last_quarter_lost - current_quarter_lost) / last_quarter_lost * 100).round(0);
+	// 		lost_orders_display = lost_orders_reduction + "%";
+	// 	}
+	// 	else if(current_quarter_lost == 0 && last_quarter_lost == 0)
+	// 	{
+	// 		lost_orders_reduction = 100;
+	// 		lost_orders_display = "N/A (No Lost Orders)";
+	// 	}
+	// 	// ========== 4. REFERRALS FROM CUSTOMERS ==========
+	// 	referrals_count = Customer_Calling_follow_up[Lead_Source == "Customer reference leads" && Lead_Date >= month_start && Lead_Date <= curr_date].count();
+	// 	// ========== 5. CUSTOMER REVIEWS ==========
+	// 	customer_reviews = Service_Feedback1[Call_attended_date >= month_start && Call_attended_date <= curr_date].count();
+	// 	// ========== CALCULATE PROGRESS INDICATORS ==========
+	// 	yearly_growth_target = get_yearly_growth_data.Overall_growth_percentage_planned_for_this_year;
+	// 	yearly_growth_status = "red";
+	// 	if(yearly_growth_display == "N/A (First Year)" || yearly_growth_display == "N/A (No Data)")
+	// 	{
+	// 		yearly_growth_status = "orange";
+	// 	}
+	// 	else if(yearly_growth >= yearly_growth_target)
+	// 	{
+	// 		yearly_growth_status = "green";
+	// 	}
+	// 	else if(yearly_growth >= yearly_growth_target * 0.8)
+	// 	{
+	// 		yearly_growth_status = "orange";
+	// 	}
+	// 	dealer_target = 2;
+	// 	dealer_status = "red";
+	// 	if(dealer_appointments >= dealer_target)
+	// 	{
+	// 		dealer_status = "green";
+	// 	}
+	// 	else if(dealer_appointments >= dealer_target * 0.5)
+	// 	{
+	// 		dealer_status = "orange";
+	// 	}
+	// 	lost_orders_target = benchmark_rec.Maximum_acceptable_number_of_lost_orders_for_this_period;
+	// 	lost_orders_status = "red";
+	// 	if(lost_orders_reduction >= lost_orders_target)
+	// 	{
+	// 		lost_orders_status = "green";
+	// 	}
+	// 	else if(lost_orders_reduction >= lost_orders_target * 0.8)
+	// 	{
+	// 		lost_orders_status = "orange";
+	// 	}
+	// 	referrals_target = 2;
+	// 	referrals_status = "red";
+	// 	if(referrals_count >= referrals_target)
+	// 	{
+	// 		referrals_status = "green";
+	// 	}
+	// 	else if(referrals_count >= referrals_target * 0.5)
+	// 	{
+	// 		referrals_status = "orange";
+	// 	}
+	// 	reviews_target = 2;
+	// 	reviews_status = "red";
+	// 	if(customer_reviews >= reviews_target)
+	// 	{
+	// 		reviews_status = "green";
+	// 	}
+	// 	else if(customer_reviews >= reviews_target * 0.5)
+	// 	{
+	// 		reviews_status = "orange";
+	// 	}
+	// 	// Get Benchmarks
+	// 	sales_value_target = ifnull(benchmark_rec.Total_sales_value_committed_for_this_period,0);
+	// 	growth_target = ifnull(benchmark_rec.Expected_growth_percentage_compared_to_last_period,0);
+	// // 	order_value_target = ifnull(benchmark_rec.Number_of_customer_orders_planned_to_be_closed_in_this_period,0);
+	// 	hot_enq_target = ifnull(benchmark_rec.Number_of_hot_enquiries_expected_to_be_generated_in_this_period,0);
+	// 	dealer_appointments_target = ifnull(benchmark_rec.Number_of_new_dealers_or_channel_partners_planned, 0);
+	// 	lost_orders_target = ifnull(benchmark_rec.Maximum_acceptable_number_of_lost_orders_for_this_period, 0);
+	// 	followup_delay_target = ifnull(benchmark_rec.Maximum_acceptable_follow_up_delay_for_quotations_in_days,0);
+	// 	// 	dealer_appointments_target = ifnull(benchmar_rec.number)
+	// 	// calculate variance
+	// // 	sales_variance = sales_value - sales_value_target;
+	// // 	growth_variance = yearly_growth - growth_target;
+	// // 	order_variance = order_value_actual - order_value_target;
+	// // 	hot_enq_variance = hot_enq_actual - hot_enq_target;
+	// 	// ========== STORE RESULTS ==========
+	// 	result_map.put("sales_value_target",sales_value_target);
+	// // 	result_map.put("order_value_actual", order_value_target); // actual order count
+	// result_map.put("hot_enq_target", hot_enq_target);
+	// 	//
+	// 	result_map.put("yearly_growth",yearly_growth);
+	// 	result_map.put("yearly_growth_display",yearly_growth_display);
+	// 	result_map.put("yearly_growth_status",yearly_growth_status);
+	// 	result_map.put("dealer_appointments",dealer_appointments);
+	// 	result_map.put("dealer_status",dealer_status);
+	// 	result_map.put("lost_orders_reduction",lost_orders_reduction);
+	// 	result_map.put("lost_orders_display",lost_orders_display);
+	// 	result_map.put("lost_orders_status",lost_orders_status);
+	// 	result_map.put("referrals_count",referrals_count);
+	// 	result_map.put("referrals_status",referrals_status);
+	// 	result_map.put("customer_reviews",customer_reviews);
+	// 	result_map.put("reviews_status",reviews_status);
+	// 	result_map.put("sales_value",sales_value);
+	// // 	result_map.put("commitment",commitment);
+	// // 	result_map.put("actual",actual);
+	// 	result_map.put("commitment", total_commitment);
+	// result_map.put("actual", total_actual);
+	// 	result_map.put("order_value",order_value);
+	// 	result_map.put("hot_enq_count",hot_enq_count);
+	// 	return result_map;
+	// }
+}
+
+
+
+map sales.getLastFourQuarters()
+{
+	orders = Order_Confirmation[ID != 0];
+	current_date = zoho.currentdate;
+	current_year = current_date.getYear();
+	current_month = current_date.getMonth();
+	// Determine current quarter (1–4)
+	current_quarter = ((current_month - 1) / 3).toLong() + 1;
+	result = Map();
+	// Loop last 4 quarters
+	quarters = {0,1,2,3};
+	for each  i in quarters
+	{
+		quarter_num = current_quarter - i;
+		year_num = current_year;
+		// Adjust year if quarter goes below 1
+		if(quarter_num <= 0)
+		{
+			quarter_num = quarter_num + 4;
+			year_num = year_num - 1;
+		}
+		// Quarter start month
+		if(quarter_num == 1)
+		{
+			start_month = 1;
+		}
+		else if(quarter_num == 2)
+		{
+			start_month = 4;
+		}
+		else if(quarter_num == 3)
+		{
+			start_month = 7;
+		}
+		else
+		{
+			start_month = 10;
+		}
+		// Create quarter date range
+		date_string = year_num + "-" + start_month + "-01";
+		q_start = date_string.toDate();
+		q_end = q_start.addMonth(3).addDay(-1);
+		total_sales = 0.0;
+		// Sum sales inside that quarter
+		for each  order in orders
+		{
+			if(order.Date_field != null && order.Date_field >= q_start && order.Date_field <= q_end)
+			{
+				total_sales = total_sales + ifnull(order.Quote_Amount,0.0);
+			}
+		}
+		label = "Q" + quarter_num + " " + year_num;
+		result.put(label,total_sales);
+	}
+	// 	info result.["Q4 2025"];
+	info result.get("Q4 2025");
+	return result;
+}
+
+map sales.getOrderLostReasonsByQuarter()
+{
+	// Get all order lost records
+	lost_orders = Order_lost_Analysis[ID != 0];
+	current_date = zoho.currentdate;
+	current_year = current_date.getYear();
+	current_month = current_date.getMonth();
+	// Determine current quarter
+	current_quarter = ((current_month - 1) / 3).toLong() + 1;
+	info current_quarter;
+	result = Map();
+	// Loop through last 4 quarters
+	quarters = {0,1,2,3};
+	for each  i in quarters
+	{
+		quarter_num = current_quarter - i;
+		year_num = current_year;
+		// Adjust year if quarter goes below 1
+		if(quarter_num <= 0)
+		{
+			quarter_num = quarter_num + 4;
+			year_num = year_num - 1;
+		}
+		// Calculate quarter start month
+		if(quarter_num == 1)
+		{
+			start_month = 1;
+		}
+		else if(quarter_num == 2)
+		{
+			start_month = 4;
+		}
+		else if(quarter_num == 3)
+		{
+			start_month = 7;
+		}
+		else
+		{
+			start_month = 10;
+		}
+		// Create quarter date range
+		date_string = year_num + "-" + start_month + "-01";
+		q_start = date_string.toDate();
+		q_end = q_start.addMonth(3).addDay(-1);
+		// Initialize counters for each reason
+		price_issues = 0;
+		quality_concerns = 0;
+		delivery_time = 0;
+		other_reasons = 0;
+		total_count = 0;
+		// Count lost orders by reason in this quarter
+		for each  order in lost_orders
+		{
+			// Check if order date is within quarter (use your date field name)
+			order_date = order.Date_field;
+			// Change to your actual date field
+			if(order_date != null && order_date >= q_start && order_date <= q_end)
+			{
+				total_count = total_count + 1;
+				// Count by Type_Of_Lost field (adjust field name as needed)
+				lost_type = order.Type_Of_Lost.Type_Of_Lost;
+				if(lost_type == "Price")
+				{
+					price_issues = price_issues + 1;
+				}
+				else if(lost_type == "Service Not Possible")
+				{
+					quality_concerns = quality_concerns + 1;
+				}
+				else if(lost_type == "Transport")
+				{
+					delivery_time = delivery_time + 1;
+				}
+				else
+				{
+					other_reasons = other_reasons + 1;
+				}
+			}
+		}
+		// Calculate percentages
+		price_pct = 0;
+		quality_pct = 0;
+		delivery_pct = 0;
+		other_pct = 0;
+		if(total_count > 0)
+		{
+			price_pct = ((price_issues * 100.0) / total_count).round(0);
+			quality_pct = ((quality_concerns * 100.0) / total_count).round(0);
+			delivery_pct = ((delivery_time * 100.0) / total_count).round(0);
+			other_pct = ((other_reasons * 100.0) / total_count).round(0);
+		}
+		// 		info other_pct;
+		// Store data for this quarter
+		quarter_label = "Q" + quarter_num + " " + year_num;
+		quarter_data = Map();
+		quarter_data.put("price_issues",price_pct);
+		quarter_data.put("quality_concerns",quality_pct);
+		quarter_data.put("delivery_time",delivery_pct);
+		quarter_data.put("other_reasons",other_pct);
+		quarter_data.put("total_count",total_count);
+		result.put(quarter_label,quarter_data);
+	}
+	return result;
+}
+
+
+
+
+
+list sales.getCompetitorAnalysisData()
+{
+	comp_coll = Competitor_Analysis_Form[ID != null];
+	overall_list = List();
+	for each  val in comp_coll
+	{
+		// Use Map instead of Collection
+		curr_map = Map();
+		curr_map.put("competitor_name",ifnull(val.Competitor,"—"));
+		curr_map.put("market_position",ifnull(val.Market_Position,"—"));
+		curr_map.put("pricing",ifnull(val.Pricing,"—"));
+		curr_map.put("key_strengths",ifnull(val.Key_Strengths,"—"));
+		curr_map.put("our_advantage",ifnull(val.Our_Advantage,"—"));
+		curr_map.put("updated_date",ifnull(val.Updated_Date.toString("MMM dd, yyyy"),"—"));
+		overall_list.add(curr_map);
+	}
+	return overall_list;
+}

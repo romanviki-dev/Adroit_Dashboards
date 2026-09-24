@@ -1,0 +1,368 @@
+=== workOrder -> Detailed_Work_Order_SERVO_Stabilizer (Detailed_Work_Order_SERVO_Stabilizer) ===
+116 record(s) sampled, 105 field(s):
+Input_Power_Cable_Patta_Quantity, ORC_To, Work_Order_No, Get_Data_s, Current_Quantity, Fuse_Dimmer_Quantity, Tank_dimension_L_XBXH, Relay_Quantity, Frame_Quantity, Input_Power_Cable_Patta_Rating, ID, Transformer_Capacity, Make_of_Fuse_Link, Status, Frame_Model_Code, Dimmer_Purchased_From_Make, Product_Name, OWN_OUT, Motor_Purchased_From_Make, Contactor_Quantity, Test_Report_Count, Stock_Status, Dimmer_Rating_Code, Taxation, Remarks1, Application, Make_of_Fuse_dimmer, BBT_Weight, Powder_Coating_Stock_Availability, IGBT_Quantity, Type_of_Packing, Bypass_Switch_Stock_Availability, Transformer_Turns_Primary_Secondary, Frames_Stock_Availability, Output_Power_Cable_Patta_Quantity, Contactor_Rating_Code, Purchased_From, Required_Delivery_Date, Bypass_Switch_Rating_Code, MCB_MCCB_Make, Relay_Rating_Code, Date_field, Powder_Coating_Purchased_From_Make, Make_Of_CT_Coil, Skip_Workflow, Transformer_Oil_Stock_Availability, Bypass_Switch_Quantity, Power_Wires_Copper_Patta_Stock_Availability, SRS_Status, Fuse_link_for_dimmer_Rating_Code, Customer_Name, Make_of_Contactor, Frames_Purchased_From_Make, Input_Range, IGBT_Rating_Code, Fuse_link_for_dimmer_Stock_Availability, MCB_MCCB_Rating_Code, Transformer_Core_Type, Transformer_SWG_Wires_Primary_Secondary, Incoming_Fuse_Link_Stock_Availability, Work_Order_Type, Dimmer_Power_Cable_Patta_Quantity, Remarks, SRS_Reference, Submitted_Date, Dimmer_Quantity, Patta, Production_Item_Category, Dimmer_Stock_Availability, Contactor_Stock_Availability, Product_Details, Dimmer_Tapping, CT_Coil_Rating_Code, Man_Hours, Dimmer_Power_Cable_Patta_Rating, Dimmer_Terminal, Is_Work_Order_Completed, Fuse_Link_Quantity, Make_of_Relay, ORC_Amount, Reference_Name, IGBT_Purchased_From, Frame_design_Normal_Special_in_case_of_special_give_the_details, Additional_requirement_if_any, CT_Coil_Quantity, Work_Order_Status, Motor_Rating_Code, Powder_Coating_Color_Code, Copper_AL, Oil_Quantity, Motor_Quantity, MCB_MCCB_Quantity, Capacity_Type, Transformer_Voltage_Primary_Secondary, Output_Range, CT_Coil_Stock_Availability, Quantity, Final_Amount, Oil_Make, Quantity1, Incoming_Fuse_Link, Motor_Stock_Availability, Product_Price, Make_of_Bypass_switch, Output_power_Cable_Patta_Rating
+
+Sample record:
+{
+  "Input_Power_Cable_Patta_Quantity": "",
+  "ORC_To": "NIL",
+  "Work_Order_No": "WO-0300",
+  "Get_Data_s": "false",
+  "Current_Quantity": "",
+  "Fuse_Dimmer_Quantity": "",
+  "Tank_dimension_L_XBXH": "",
+  "Relay_Quantity": "",
+  "Frame_Quantity": "",
+  "Input_Power_Cable_Patta_Rating": "",
+  "ID": "302392000002917085",
+  "Transformer_Capacity": "",
+  "Make_of_Fuse_Link": {},
+  "Status": "Pending",
+  "Frame_Model_Code": {},
+  "Dimmer_Purchased_From_Make": {},
+  "Product_Name": {
+    "Model": "SAN 102",
+    "ID": "302392000000246007",
+    "zc_display_value": "SAN 102"
+  },
+  "OWN_OUT": "",
+  "Motor_Purchased_From_Make": {},
+  "Contactor_Quantity": "",
+  "Test_Report_Count": "0.00",
+  "Stock_Status": "",
+  "Dimmer_Rating_Code": {},
+  "Taxation": {
+    "Tax": "18%",
+    "ID": "302392000000597031",
+    "zc_display_value": "18%"
+  },
+  "Remarks1": "NIL",
+  "Application": "DEALER",
+  "Make_of_Fuse_dimmer": {},
+  "BBT_Weight": "",
+  "Powder_Coating_Stock_Availability": "false",
+  "IGBT_Quantity": "",
+  "Type_of_Packing": {},
+  "Bypass_Switch_Stock_Availability": "false",
+  "Transformer_Turns_Primary_Secondary": "",
+  "Frames_Stock_Availability": "false",
+  "Output_Power_Cable_Patta_Quantity": "",
+  "Contactor_Rating_Code": {},
+  "Purchased_From": "",
+  "Required_Delivery_Date": "25-09-2026",
+  "Bypass_Switch_Rating_Code": {},
+  "MCB_MCCB_Make": {},
+  "Relay_Rating_Code": {},
+  "Date_field": "23-09-2026",
+  "Powder_Coating_Purchased_From_Make": "",
+  "Make_Of_CT_Coil": {},
+  "Skip_Workflow": "false",
+  "Transformer_Oil_Stock_Availability": "false",
+  "Bypass_Switch_Quantity": "",
+  "Power_Wires_Copper_Patta_Stock_Availability": "false",
+  "SRS_Status": "",
+  "Fuse_link_for_dimmer_Rating_Code": {},
+  "Customer_Name": {
+    "Customer_Name.suffix": "",
+    "Customer_Name.first_name": "M/s. ESKAY INDUSTRIES AND ELECTRONICS",
+    "ID": "302392000000177985",
+    "Customer_Name.last_name": "",
+    "zc_display_value": "   M/s. ESKAY INDUSTRIES AND ELECTRONICS    ",
+    "Customer_Name.prefix": ""
+  },
+  "Make_of_Contactor": {},
+  "Frames_Purchased_From_Make": {},
+  "Input_Range": {
+    "ID": "302392000000615123",
+    "Range": "170-270V",
+    "zc_display_value": "170-270V"
+  },
+  "IGBT_Rating_Code": {},
+  "Fuse_link_for_dimmer_Stock_Availability": "false",
+  "MCB_MCCB_Rating_Code": {},
+  "Transformer_Core_Type": "",
+  "Transformer_SWG_Wires_Primary_Secondary": "",
+  "Incoming_Fuse_Link_Stock_Availability": "false",
+  "Work_Order_Type": "SRS Work Order",
+  "Dimmer_Power_Cable_Patta_Quantity": "",
+  "Remarks": "",
+  "SRS_Reference": "410",
+  "Submitted_Date": "",
+  "Dimmer_Quantity": "",
+  "Patta": "",
+  "Production_Item_Category": {
+    "ID": "302392000000135023",
+    "zc_display_value": "SERVO STABILIZER",
+    "Name": "SERVO STABILIZER"
+  },
+  "Dimmer_Stock_Availability": "false",
+  "Contactor_Stock_Availability": "false",
+  "Product_Details": [],
+  "Dimmer_Tapping": "",
+  "CT_Coil_Rating_Code": {},
+  "Man_Hours": "",
+  "Dimmer_Power_Cable_Patta_Rating": "",
+  "Dimmer_Terminal": "",
+  "Is_Work_Order_Completed": "false",
+  "Fuse_Link_Quantity": "",
+  "Make_of_Relay": {},
+  "ORC_Amount": "",
+  "Reference_Name": "DIRECT WTSP / MANOHARI",
+  "IGBT_Purchased_From": {},
+  "Frame_design_Normal_Special_in_case_of_special_give_the_details": "",
+  "Additional_requirement_if_any": "",
+  "CT_Coil_Quantity": "",
+  "Work_Order_Status": "",
+  "Motor_Rating_Code": {},
+  "Powder_Coating_Color_Code": "",
+  "Copper_AL": "",
+  "Oil_Quantity": "",
+  "Motor_Quantity": "",
+  "MCB_MCCB_Quantity": "",
+  "Capacity_Type": {
+    "Capacity_Name": "2KVA 1PH A/C",
+    "ID": "302392000002542070",
+    "zc_display_value": "2KVA 1PH A/C"
+  },
+  "Transformer_Voltage_Primary_Secondary": "",
+  "Output_Range": {
+    "Output_Range": "230V",
+    "ID": "302392000000463092",
+    "zc_display_value": "230V"
+  },
+  "CT_Coil_Stock_Availability": "false",
+  "Quantity": "",
+  "Final_Amount": "12980.00",
+  "Oil_Make": "",
+  "Quantity1": "1.00",
+  "Incoming_Fuse_Link": {},
+  "Motor_Stock_Availability": "false",
+  "Product_Price": "11000.00",
+  "Make_of_Bypass_switch": {},
+  "Output_power_Cable_Patta_Rating": ""
+}
+
+=== orderConfirmation -> All_Order_Confirmations (All_Order_Confirmations) ===
+183 record(s) sampled, 78 field(s):
+Reviewed_Accepted_On, Delivery_Address, Type_field1, Actual_Installation_Date, Customer_Name, Input_Range, ORC_To, Work_Order_No, Quotation_Date, PMV_Start_Date, Production_Status, Referrer_Name, PO_Date, Remarks, Work_Order_Type, Capacity, Installed_By, Trading_Product, DC_Voltage, ID, City_Delivery, Packing_Charges_Taxation, Discount_Amount, Status, Quotation_No, Warranty, PMV_End_Date, Contact_No, Product_Details, PO_No, Order_Confirmation_ID, Product_Details1, Serial_No, Commited_Delivery_Date, Follow_Up_By, Customer_Type, Item_Category, Vendor_Serial_No, Taxation, Application, Edit_Request_Status, Quote_Amount, Feedback_Status, Commited, Category, Discount, ORC_Amount, HSN_Code, Contact_Person, DC_No_Date, GSTIN_No, Actual_Delivery_Date, Product_Details2, Payment_Details, Type_Of_Product, Payment_Status, Inv_No, Order_Taken_By1, Customer_Type_Order_Taken_By, Oil_Qty, Notes, Inst_Report, Dispatch_Through, Output_Range, Warranty_Visits_Per_Year, Quantity, Product_Received, Final_Amount, Part_Code_No, Date_field, SRS_NO1, Packing_Charges_Others, Product_Price, Inst_Date, Regulation, Notify_Store, Product_Type, PCB_Board_Type
+
+Sample record:
+{
+  "Reviewed_Accepted_On": "23-09-2026",
+  "Delivery_Address": {
+    "Address.district_city": "Pune",
+    "Address.state_province": "",
+    "Address.address_line_2": "NDA Pashan Link Road Bavdhan ",
+    "ID": "302392000002591031",
+    "zc_display_value": " Perennial House Plot No.70 Sagar Soc.  NDA Pashan Link Road Bavdhan  Pune  ",
+    "Address.address_line_1": "Perennial House Plot No.70 Sagar Soc. "
+  },
+  "Type_field1": {
+    "Type_field": "AIR COOLED",
+    "ID": "302392000000615154",
+    "zc_display_value": "AIR COOLED"
+  },
+  "Actual_Installation_Date": "",
+  "Customer_Name": {
+    "Customer_Name.suffix": "",
+    "Customer_Name.first_name": "M/s. PERENNIAL TECHNOLOGIES PVT LTD",
+    "ID": "302392000002591028",
+    "Customer_Name.last_name": "",
+    "zc_display_value": "   M/s. PERENNIAL TECHNOLOGIES PVT LTD    ",
+    "Customer_Name.prefix": ""
+  },
+  "Input_Range": {
+    "ID": "302392000002926041",
+    "Range": "415V",
+    "zc_display_value": "415V"
+  },
+  "ORC_To": "NIL",
+  "Work_Order_No": "",
+  "Quotation_Date": "19-08-2026",
+  "PMV_Start_Date": "",
+  "Production_Status": "Order Drafted",
+  "Referrer_Name": {
+    "Add_Referrer": "DIRECT",
+    "ID": "302392000000286097",
+    "zc_display_value": "DIRECT"
+  },
+  "PO_Date": "05-09-2026",
+  "Remarks": "(i) Note: Between Phases and 127 Between Phase and Neutral / (ii) STEP-DOWN IT WITH ENCLOSURE",
+  "Work_Order_Type": "Trading Work Order",
+  "Capacity": {
+    "Capacity_Name": "125KVA 3PH A/C Tx",
+    "ID": "302392000002926039",
+    "zc_display_value": "125KVA 3PH A/C Tx"
+  },
+  "Installed_By": "",
+  "Trading_Product": {
+    "Trading_Product": "ISOLATION TRANSFORMER",
+    "ID": "302392000002225130",
+    "zc_display_value": "ISOLATION TRANSFORMER"
+  },
+  "DC_Voltage": "NIL",
+  "ID": "302392000002926048",
+  "City_Delivery": "PUNE",
+  "Packing_Charges_Taxation": {
+    "Tax": "18%",
+    "ID": "302392000000597031",
+    "zc_display_value": "18%"
+  },
+  "Discount_Amount": "",
+  "Status": "Draft",
+  "Quotation_No": {
+    "Quote": "SO-323",
+    "ID": "302392000002591041",
+    "zc_display_value": "SO-323"
+  },
+  "Warranty": {
+    "Warranty": "12 Months",
+    "ID": "302392000000061091",
+    "zc_display_value": "12 Months"
+  },
+  "PMV_End_Date": "",
+  "Contact_No": "+919764400161",
+  "Product_Details": {
+    "Model": "125 KVA  ISOLATION TRANSFORMER - EC",
+    "ID": "302392000002582008",
+    "zc_display_value": "125 KVA  ISOLATION TRANSFORMER - EC"
+  },
+  "PO_No": "PTPL-FY-26-27-CAРEX-SEP-11",
+  "Order_Confirmation_ID": "183",
+  "Product_Details1": [],
+  "Serial_No": "",
+  "Commited_Delivery_Date": "05-10-2026",
+  "Follow_Up_By": "SALES",
+  "Customer_Type": "New",
+  "Item_Category": {
+    "ID": "302392000000862067",
+    "zc_display_value": "ISOLATION TRANSFORMER",
+    "Name": "ISOLATION TRANSFORMER"
+  },
+  "Vendor_Serial_No": "",
+  "Taxation": {
+    "Tax": "18%",
+    "ID": "302392000000597031",
+    "zc_display_value": "18%"
+  },
+  "Application": "IT SECTOR",
+  "Edit_Request_Status": "Draft",
+  "Quote_Amount": "183844.41",
+  "Feedback_Status": "Draft",
+  "Commited": "",
+  "Category": {
+    "Category": "ISOLATION TRANSFORMER",
+    "ID": "302392000000647081",
+    "zc_display_value": "ISOLATION TRANSFORMER"
+  },
+  "Discount": "",
+  "ORC_Amount": "",
+  "HSN_Code": "850440",
+  "Contact_Person": {
+    "prefix": "",
+    "last_name": "",
+    "suffix": "",
+    "first_name": "Mr. SHUBHAM",
+    "zc_display_value": "Mr. SHUBHAM"
+  },
+  "DC_No_Date": "",
+  "GSTIN_No": "27AADCP6596J1ZS",
+  "Actual_Delivery_Date": "",
+  "Product_Details2": [],
+  "Payment_Details": "",
+  "Type_Of_Product": {
+    "Type_Of_Product": "AIR COOLED",
+    "ID": "302392000000399003",
+    "zc_display_value": "AIR COOLED"
+  },
+  "Payment_Status": {
+    "Payment_Terms": "50 % Advance Received & Balance 50 % Before Dispatch",
+    "ID": "302392000000747082",
+    "zc_display_value": "50 % Advance Received & Balance 50 % Before Dispatch"
+  },
+  "Inv_No": "",
+  "Order_Taken_By1": {
+    "Employee_Name.suffix": "",
+    "Employee_Name.first_name": "MANOHARI",
+    "Employee_Name.last_name": "K",
+    "ID": "302392000000494016",
+    "Employee_Name.prefix": "",
+    "zc_display_value": "   MANOHARI K  "
+  },
+  "Customer_Type_Order_Taken_By": "",
+  "Oil_Qty": "",
+  "Notes": "",
+  "Inst_Report": "",
+  "Dispatch_Through": "VEHICLE ARRANGED BY OUR SCOPE & TO PAY BASIS",
+  "Output_Range": {
+    "Output_Range": "220V",
+    "ID": "302392000000542102",
+    "zc_display_value": "220V"
+  },
+  "Warranty_Visits_Per_Year": "",
+  "Quantity": "1.00",
+  "Product_Received": "false",
+  "Final_Amount": "183844.41",
+  "Part_Code_No": "TRANSFORMER",
+  "Date_field": "24-09-2026",
+  "SRS_NO1": "414",
+  "Packing_Charges_Others": "5800.00",
+  "Product_Price": "150000.35",
+  "Inst_Date": "",
+  "Regulation": "NIL",
+  "Notify_Store": "false",
+  "Product_Type": "Main Product",
+  "PCB_Board_Type": ""
+}
+
+=== rework -> All_Reworks (All_Reworks) ===
+ERROR: code 9220: No records exist in this report.
+
+=== rejection -> All_Rejection_Modules (All_Rejection_Modules) ===
+10 record(s) sampled, 9 field(s):
+Type_field, Date_field, Rejected_Quantity, Rating, Approximate_Cost, Rejected_Serial_Quantity, Product, ID, Reason
+
+Sample record:
+{
+  "Type_field": "Quantity Based",
+  "Date_field": "04-07-2026",
+  "Rejected_Quantity": "1.00",
+  "Rating": "10A",
+  "Approximate_Cost": "",
+  "Rejected_Serial_Quantity": "",
+  "Product": "AUTO/MANUAL, INCREASE/ DECREASE SWITCH",
+  "ID": "302392000002152102",
+  "Reason": ""
+}
+
+=== preventiveMaintenance -> All_Preventive_Maintenances (All_Preventive_Maintenances) ===
+ERROR: code 9220: No records exist in this report.
+
+=== product -> All_Product (All_Product) ===
+1000 record(s) sampled, 17 field(s):
+Product_Image, Modified_Time, Minimum_Stock_Level, Cloned_From.Is_Red_Tag_Material, Product_Name, Is_Red_Tag_Material, Red_Tagged_Date, Product_Units, Available_Stock, Product_Code, Product_Status, Price, Group_Name, ID, Product_Type, SPEC, Last_Order_Date
+
+Sample record:
+{
+  "Product_Image": "",
+  "Modified_Time": "17-06-2026 11:22:41",
+  "Minimum_Stock_Level": "0",
+  "Cloned_From.Is_Red_Tag_Material": "",
+  "Product_Name": "Auto Transformer 40KVA 3:3",
+  "Is_Red_Tag_Material": "false",
+  "Red_Tagged_Date": "",
+  "Product_Units": {},
+  "Available_Stock": "0.00",
+  "Product_Code": "AT 40KVA 3:3",
+  "Product_Status": "Active",
+  "Price": "0.00",
+  "Group_Name": {},
+  "ID": "302392000001277007",
+  "Product_Type": {
+    "ID": "302392000000603459",
+    "Product_Type": "Finished Goods",
+    "zc_display_value": "Finished Goods"
+  },
+  "SPEC": "",
+  "Last_Order_Date": ""
+}

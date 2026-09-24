@@ -1,0 +1,4988 @@
+<%{
+	// Monthly Revenue
+	// Step 1: Call the function to get revenue data
+	// Competitor Analysis
+	competitor_data = thisapp.sales.getCompetitorAnalysisData();
+	revenue_data = thisapp.sales.getPreviousYearsMonthlyRevenue();
+	// Step 2: Extract the year information and unit label
+	previous_year = revenue_data.get("previous_year");
+	previous_previous_year = revenue_data.get("previous_previous_year");
+	unit_label = revenue_data.get("unit_label");
+	// Will be "K", "L", "Cr", or ""
+	// Step 3: Get the data for each year
+	current_year_data = revenue_data.get(previous_year.toString());
+	prev_year_data = revenue_data.get(previous_previous_year.toString());
+	// Step 4: Extract variables for all 12 months
+	// Revenue values are now automatically formatted (e.g., 22.5 for ₹22.5L)
+	// JANUARY
+	jan_current_year_revenue = current_year_data.get("jan_revenue");
+	jan_current_year_height = current_year_data.get("jan_height");
+	jan_prev_year_revenue = prev_year_data.get("jan_revenue");
+	jan_prev_year_height = prev_year_data.get("jan_height");
+	// FEBRUARY
+	feb_current_year_revenue = current_year_data.get("feb_revenue");
+	feb_current_year_height = current_year_data.get("feb_height");
+	feb_prev_year_revenue = prev_year_data.get("feb_revenue");
+	feb_prev_year_height = prev_year_data.get("feb_height");
+	// MARCH
+	mar_current_year_revenue = current_year_data.get("mar_revenue");
+	mar_current_year_height = current_year_data.get("mar_height");
+	mar_prev_year_revenue = prev_year_data.get("mar_revenue");
+	mar_prev_year_height = prev_year_data.get("mar_height");
+	// APRIL
+	apr_current_year_revenue = current_year_data.get("apr_revenue");
+	apr_current_year_height = current_year_data.get("apr_height");
+	apr_prev_year_revenue = prev_year_data.get("apr_revenue");
+	apr_prev_year_height = prev_year_data.get("apr_height");
+	// MAY
+	may_current_year_revenue = current_year_data.get("may_revenue");
+	may_current_year_height = current_year_data.get("may_height");
+	may_prev_year_revenue = prev_year_data.get("may_revenue");
+	may_prev_year_height = prev_year_data.get("may_height");
+	// JUNE
+	jun_current_year_revenue = current_year_data.get("jun_revenue");
+	jun_current_year_height = current_year_data.get("jun_height");
+	jun_prev_year_revenue = prev_year_data.get("jun_revenue");
+	jun_prev_year_height = prev_year_data.get("jun_height");
+	// JULY
+	jul_current_year_revenue = current_year_data.get("jul_revenue");
+	jul_current_year_height = current_year_data.get("jul_height");
+	jul_prev_year_revenue = prev_year_data.get("jul_revenue");
+	jul_prev_year_height = prev_year_data.get("jul_height");
+	// AUGUST
+	aug_current_year_revenue = current_year_data.get("aug_revenue");
+	aug_current_year_height = current_year_data.get("aug_height");
+	aug_prev_year_revenue = prev_year_data.get("aug_revenue");
+	aug_prev_year_height = prev_year_data.get("aug_height");
+	// SEPTEMBER
+	sep_current_year_revenue = current_year_data.get("sep_revenue");
+	sep_current_year_height = current_year_data.get("sep_height");
+	sep_prev_year_revenue = prev_year_data.get("sep_revenue");
+	sep_prev_year_height = prev_year_data.get("sep_height");
+	// OCTOBER
+	oct_current_year_revenue = current_year_data.get("oct_revenue");
+	oct_current_year_height = current_year_data.get("oct_height");
+	oct_prev_year_revenue = prev_year_data.get("oct_revenue");
+	oct_prev_year_height = prev_year_data.get("oct_height");
+	// NOVEMBER
+	nov_current_year_revenue = current_year_data.get("nov_revenue");
+	nov_current_year_height = current_year_data.get("nov_height");
+	nov_prev_year_revenue = prev_year_data.get("nov_revenue");
+	nov_prev_year_height = prev_year_data.get("nov_height");
+	// DECEMBER
+	dec_current_year_revenue = current_year_data.get("dec_revenue");
+	dec_current_year_height = current_year_data.get("dec_height");
+	dec_prev_year_revenue = prev_year_data.get("dec_revenue");
+	dec_prev_year_height = prev_year_data.get("dec_height");
+	// Summary Tiles Data 
+	total_quotations = 145;
+	orders_confirmed = thisapp.sales.orderconfirmedmonthly();
+	conversion_rate = 61.4;
+	// 	revenue = thisapp.sales.revenue_monthly();
+	// 	profit = 23.8;
+	// 	expenses = 11.9;
+	overall_func = thisapp.sales.getMonthlyRevenueProfitExpense();
+	revenue = overall_func.get("revenue_display");
+	profit = overall_func.get("profit_display");
+	expenses = overall_func.get("expense_display");
+	lost_data = thisapp.sales.getLostOrderAndAvgOrderValue();
+	lost_orders_value = lost_data.get("lost_orders_value_display");
+	lost_orders_count = lost_data.get("lost_orders_count");
+	avg_order_value = lost_data.get("avg_order_value_display");
+	// ============================================================================
+	// USAGE EXAMPLE FOR LOOP-BASED HTML
+	// ============================================================================
+	// These are the variables you need to extract before rendering the HTML
+	// ============================================================================
+	// Step 1: Call the function
+	data = thisapp.sales.getSalesVsCostVsProfit();
+	// Step 2: Extract metadata
+	current_year = data.get("current_year");
+	current_month = data.get("current_month");
+	unit_label = data.get("unit_label");
+	// Step 3: Extract all month variables
+	// You still need to extract these variables because the HTML loop references them
+	// JANUARY
+	jan_sales = data.get("jan_sales");
+	jan_sales_height = data.get("jan_sales_height");
+	jan_cost = data.get("jan_cost");
+	jan_cost_height = data.get("jan_cost_height");
+	jan_profit = data.get("jan_profit");
+	jan_profit_height = data.get("jan_profit_height");
+	// FEBRUARY
+	feb_sales = data.get("feb_sales");
+	feb_sales_height = data.get("feb_sales_height");
+	feb_cost = data.get("feb_cost");
+	feb_cost_height = data.get("feb_cost_height");
+	feb_profit = data.get("feb_profit");
+	feb_profit_height = data.get("feb_profit_height");
+	// MARCH
+	mar_sales = data.get("mar_sales");
+	mar_sales_height = data.get("mar_sales_height");
+	mar_cost = data.get("mar_cost");
+	mar_cost_height = data.get("mar_cost_height");
+	mar_profit = data.get("mar_profit");
+	mar_profit_height = data.get("mar_profit_height");
+	// APRIL
+	apr_sales = data.get("apr_sales");
+	apr_sales_height = data.get("apr_sales_height");
+	apr_cost = data.get("apr_cost");
+	apr_cost_height = data.get("apr_cost_height");
+	apr_profit = data.get("apr_profit");
+	apr_profit_height = data.get("apr_profit_height");
+	// MAY
+	may_sales = data.get("may_sales");
+	may_sales_height = data.get("may_sales_height");
+	may_cost = data.get("may_cost");
+	may_cost_height = data.get("may_cost_height");
+	may_profit = data.get("may_profit");
+	may_profit_height = data.get("may_profit_height");
+	// JUNE
+	jun_sales = data.get("jun_sales");
+	jun_sales_height = data.get("jun_sales_height");
+	jun_cost = data.get("jun_cost");
+	jun_cost_height = data.get("jun_cost_height");
+	jun_profit = data.get("jun_profit");
+	jun_profit_height = data.get("jun_profit_height");
+	// JULY
+	jul_sales = data.get("jul_sales");
+	jul_sales_height = data.get("jul_sales_height");
+	jul_cost = data.get("jul_cost");
+	jul_cost_height = data.get("jul_cost_height");
+	jul_profit = data.get("jul_profit");
+	jul_profit_height = data.get("jul_profit_height");
+	// AUGUST
+	aug_sales = data.get("aug_sales");
+	aug_sales_height = data.get("aug_sales_height");
+	aug_cost = data.get("aug_cost");
+	aug_cost_height = data.get("aug_cost_height");
+	aug_profit = data.get("aug_profit");
+	aug_profit_height = data.get("aug_profit_height");
+	// SEPTEMBER
+	sep_sales = data.get("sep_sales");
+	sep_sales_height = data.get("sep_sales_height");
+	sep_cost = data.get("sep_cost");
+	sep_cost_height = data.get("sep_cost_height");
+	sep_profit = data.get("sep_profit");
+	sep_profit_height = data.get("sep_profit_height");
+	// OCTOBER
+	oct_sales = data.get("oct_sales");
+	oct_sales_height = data.get("oct_sales_height");
+	oct_cost = data.get("oct_cost");
+	oct_cost_height = data.get("oct_cost_height");
+	oct_profit = data.get("oct_profit");
+	oct_profit_height = data.get("oct_profit_height");
+	// NOVEMBER
+	nov_sales = data.get("nov_sales");
+	nov_sales_height = data.get("nov_sales_height");
+	nov_cost = data.get("nov_cost");
+	nov_cost_height = data.get("nov_cost_height");
+	nov_profit = data.get("nov_profit");
+	nov_profit_height = data.get("nov_profit_height");
+	// DECEMBER
+	dec_sales = data.get("dec_sales");
+	dec_sales_height = data.get("dec_sales_height");
+	dec_cost = data.get("dec_cost");
+	dec_cost_height = data.get("dec_cost_height");
+	dec_profit = data.get("dec_profit");
+	dec_profit_height = data.get("dec_profit_height");
+	// Quarterly Sales Data
+	// 	q3_2016_sales = 79;
+	// 	q3_2016_width = 91;
+	// 	q4_2016_sales = 110.7;
+	// 	q4_2016_width = 100;
+	// 	q1_2017_sales = 82.8;
+	// 	q1_2017_width = 74.8;
+	// 	q2_2017_sales = 74.8;
+	// 	q2_2017_width = 67.6;
+	// Quotations vs Orders - Monthly g
+	jan_quotations = thisapp.sales.monthWiseQuotation(1);
+	jan_orders = thisapp.sales.monthWiseOrders(1);
+	feb_quotations = thisapp.sales.monthWiseQuotation(2);
+	feb_orders = thisapp.sales.monthWiseOrders(2);
+	mar_quotations = thisapp.sales.monthWiseQuotation(3);
+	mar_orders = thisapp.sales.monthWiseOrders(3);
+	apr_quotations = thisapp.sales.monthWiseQuotation(4);
+	apr_orders = thisapp.sales.monthWiseOrders(4);
+	may_quotations = thisapp.sales.monthWiseQuotation(5);
+	may_orders = thisapp.sales.monthWiseOrders(5);
+	jun_quotations = thisapp.sales.monthWiseQuotation(6);
+	jun_orders = thisapp.sales.monthWiseOrders(6);
+	jul_quotations = thisapp.sales.monthWiseQuotation(7);
+	jul_orders = thisapp.sales.monthWiseOrders(7);
+	aug_quotations = thisapp.sales.monthWiseQuotation(8);
+	aug_orders = thisapp.sales.monthWiseOrders(8);
+	sep_quotations = thisapp.sales.monthWiseQuotation(9);
+	sep_orders = thisapp.sales.monthWiseOrders(9);
+	oct_quotations = thisapp.sales.monthWiseQuotation(10);
+	oct_orders = thisapp.sales.monthWiseOrders(10);
+	nov_quotations = thisapp.sales.monthWiseQuotation(11);
+	nov_orders = thisapp.sales.monthWiseOrders(11);
+	dec_quotations = thisapp.sales.monthWiseQuotation(12);
+	dec_orders = thisapp.sales.monthWiseOrders(12);
+	month_values = list();
+	month_values.add(jan_quotations);
+	month_values.add(feb_quotations);
+	month_values.add(mar_quotations);
+	month_values.add(apr_quotations);
+	month_values.add(may_quotations);
+	month_values.add(jun_quotations);
+	month_values.add(jul_quotations);
+	month_values.add(aug_quotations);
+	month_values.add(sep_quotations);
+	month_values.add(oct_quotations);
+	month_values.add(nov_quotations);
+	month_values.add(dec_quotations);
+	month_values.add(jan_orders);
+	month_values.add(feb_orders);
+	month_values.add(mar_orders);
+	month_values.add(apr_orders);
+	month_values.add(may_orders);
+	month_values.add(jun_orders);
+	month_values.add(jul_orders);
+	month_values.add(aug_orders);
+	month_values.add(sep_orders);
+	month_values.add(oct_orders);
+	month_values.add(nov_orders);
+	month_values.add(dec_orders);
+	max_val = 0;
+	for each  i in month_values
+	{
+		if(i > max_val)
+		{
+			max_val = i;
+		}
+	}
+	jan_quot_height = 0;
+	feb_quot_height = 0;
+	mar_quot_height = 0;
+	apr_quot_height = 0;
+	may_quot_height = 0;
+	jun_quot_height = 0;
+	jul_quot_height = 0;
+	aug_quot_height = 0;
+	sep_quot_height = 0;
+	oct_quot_height = 0;
+	nov_quot_height = 0;
+	dec_quot_height = 0;
+	jan_ord_height = 0;
+	feb_ord_height = 0;
+	mar_ord_height = 0;
+	apr_ord_height = 0;
+	may_ord_height = 0;
+	jun_ord_height = 0;
+	jul_ord_height = 0;
+	aug_ord_height = 0;
+	sep_ord_height = 0;
+	oct_ord_height = 0;
+	nov_ord_height = 0;
+	dec_ord_height = 0;
+	if(max_val != 0)
+	{
+		if(jan_quotations != 0)
+		{
+			jan_quot_height = jan_quotations / max_val * 100;
+		}
+		if(feb_quotations != 0)
+		{
+			feb_quot_height = feb_quotations / max_val * 100;
+		}
+		if(mar_quotations != 0)
+		{
+			mar_quot_height = mar_quotations / max_val * 100;
+		}
+		if(apr_quotations != 0)
+		{
+			apr_quot_height = apr_quotations / max_val * 100;
+		}
+		if(may_quotations != 0)
+		{
+			may_quot_height = may_quotations / max_val * 100;
+		}
+		if(jun_quotations != 0)
+		{
+			jun_quot_height = jun_quotations / max_val * 100;
+		}
+		if(jul_quotations != 0)
+		{
+			jul_quot_height = jul_quotations / max_val * 100;
+		}
+		if(aug_quotations != 0)
+		{
+			aug_quot_height = aug_quotations / max_val * 100;
+		}
+		if(sep_quotations != 0)
+		{
+			sep_quot_height = sep_quotations / max_val * 100;
+		}
+		if(oct_quotations != 0)
+		{
+			oct_quot_height = oct_quotations / max_val * 100;
+		}
+		if(nov_quotations != 0)
+		{
+			nov_quot_height = nov_quotations / max_val * 100;
+		}
+		if(dec_quotations != 0)
+		{
+			dec_quot_height = dec_quotations / max_val * 100;
+		}
+		if(jan_orders != 0)
+		{
+			jan_ord_height = jan_orders / max_val * 100;
+		}
+		if(feb_orders != 0)
+		{
+			feb_ord_height = feb_orders / max_val * 100;
+		}
+		if(mar_orders != 0)
+		{
+			mar_ord_height = mar_orders / max_val * 100;
+		}
+		if(apr_orders != 0)
+		{
+			apr_ord_height = apr_orders / max_val * 100;
+		}
+		if(may_orders != 0)
+		{
+			may_ord_height = may_orders / max_val * 100;
+		}
+		if(jun_orders != 0)
+		{
+			jun_ord_height = jun_orders / max_val * 100;
+		}
+		if(jul_orders != 0)
+		{
+			jul_ord_height = jul_orders / max_val * 100;
+		}
+		if(aug_orders != 0)
+		{
+			aug_ord_height = aug_orders / max_val * 100;
+		}
+		if(sep_orders != 0)
+		{
+			sep_ord_height = sep_orders / max_val * 100;
+		}
+		if(oct_orders != 0)
+		{
+			oct_ord_height = oct_orders / max_val * 100;
+		}
+		if(nov_orders != 0)
+		{
+			nov_ord_height = nov_orders / max_val * 100;
+		}
+		if(dec_orders != 0)
+		{
+			dec_ord_height = dec_orders / max_val * 100;
+		}
+	}
+	cur_month_num = zoho.currentdate.getMonth();
+	// 	cur_month_num = 5;
+	// Limit bar visibility based on current month
+	jan_display = cur_month_num >= 1;
+	feb_display = cur_month_num >= 2;
+	mar_display = cur_month_num >= 3;
+	apr_display = cur_month_num >= 4;
+	may_display = cur_month_num >= 5;
+	jun_display = cur_month_num >= 6;
+	jul_display = cur_month_num >= 7;
+	aug_display = cur_month_num >= 8;
+	sept_display = cur_month_num >= 9;
+	oct_display = cur_month_num >= 10;
+	nov_display = cur_month_num >= 11;
+	dec_display = cur_month_num >= 12;
+	// Order Lost Reasons by Quarter (percentages) 
+	// Get order lost data
+	lostData = thisapp.sales.getOrderLostReasonsByQuarter();
+	// Convert to list and get quarters
+	quarter_labels_lost = List();
+	for each  quarter in lostData.keys()
+	{
+		quarter_labels_lost.add(quarter);
+	}
+	// Get data for each quarter (in reverse order - oldest to newest)
+	if(quarter_labels_lost.size() >= 4)
+	{
+		// Quarter 1 (oldest) - last in list
+		q1_lost_label = quarter_labels_lost.get(3);
+		q1_lost_data = lostData.get(q1_lost_label);
+		q1_price = q1_lost_data.get("price_issues");
+		q1_quality = q1_lost_data.get("quality_concerns");
+		q1_delivery = q1_lost_data.get("delivery_time");
+		q1_other = q1_lost_data.get("other_reasons");
+		// Quarter 2
+		q2_lost_label = quarter_labels_lost.get(2);
+		q2_lost_data = lostData.get(q2_lost_label);
+		q2_price = q2_lost_data.get("price_issues");
+		q2_quality = q2_lost_data.get("quality_concerns");
+		q2_delivery = q2_lost_data.get("delivery_time");
+		q2_other = q2_lost_data.get("other_reasons");
+		// Quarter 3
+		q3_lost_label = quarter_labels_lost.get(1);
+		q3_lost_data = lostData.get(q3_lost_label);
+		q3_price = q3_lost_data.get("price_issues");
+		q3_quality = q3_lost_data.get("quality_concerns");
+		q3_delivery = q3_lost_data.get("delivery_time");
+		q3_other = q3_lost_data.get("other_reasons");
+		// Quarter 4 (newest) - first in list
+		q4_lost_label = quarter_labels_lost.get(0);
+		q4_lost_data = lostData.get(q4_lost_label);
+		q4_price = q4_lost_data.get("price_issues");
+		q4_quality = q4_lost_data.get("quality_concerns");
+		q4_delivery = q4_lost_data.get("delivery_time");
+		q4_other = q4_lost_data.get("other_reasons");
+	}
+	// Monthly Revenue Trend (Current vs Previous Year) 
+	jan_2017_revenue = 22;
+	jan_2016_revenue = 19;
+	jan_2017_height = 44;
+	jan_2016_height = 38;
+	feb_2017_revenue = 28;
+	feb_2016_revenue = 24;
+	feb_2017_height = 56;
+	feb_2016_height = 48;
+	mar_2017_revenue = 31;
+	mar_2016_revenue = 26;
+	mar_2017_height = 62;
+	mar_2016_height = 52;
+	apr_2017_revenue = 24;
+	apr_2016_revenue = 21;
+	apr_2017_height = 48;
+	apr_2016_height = 42;
+	may_2017_revenue = 33;
+	may_2016_revenue = 28;
+	may_2017_height = 66;
+	may_2016_height = 56;
+	jun_2017_revenue = 38;
+	jun_2016_revenue = 30;
+	jun_2017_height = 76;
+	jun_2016_height = 60;
+	jul_2017_revenue = 42;
+	jul_2016_revenue = 32;
+	jul_2017_height = 84;
+	jul_2016_height = 64;
+	aug_2017_revenue = 40;
+	aug_2016_revenue = 31;
+	aug_2017_height = 80;
+	aug_2016_height = 62;
+	sep_2017_revenue = 39;
+	sep_2016_revenue = 30;
+	sep_2017_height = 78;
+	sep_2016_height = 60;
+	oct_2017_revenue = 43;
+	oct_2016_revenue = 33;
+	// 	oct_2017_height = 86;
+	// 	oct_2016_height = 66;
+	// 	nov_2017_revenue = 41;
+	// 	nov_2016_revenue = 32;
+	// 	nov_2017_height = 82;
+	// 	nov_2016_height = 64;
+	// 	dec_2017_revenue = 45;
+	// 	dec_2016_revenue = 35;
+	// 	dec_2017_height = 90;
+	// 	dec_2016_height = 70;
+	// YoY Growth Data 
+	// Call the function to get quarterly data
+	yoy_dat = thisapp.sales.Yearoveryeardata();
+	// Extract all variables from the returned map
+	q1_growth = yoy_dat.get("q1_growth");
+	q1_growth_height = yoy_dat.get("q1_growth_height");
+	q1_revenue = yoy_dat.get("q1_revenue");
+	q1_prev_revenue = yoy_dat.get("q1_prev_revenue");
+	q2_growth = yoy_dat.get("q2_growth");
+	q2_growth_height = yoy_dat.get("q2_growth_height");
+	q2_revenue = yoy_dat.get("q2_revenue");
+	q2_prev_revenue = yoy_dat.get("q2_prev_revenue");
+	q3_growth = yoy_dat.get("q3_growth");
+	q3_growth_height = yoy_dat.get("q3_growth_height");
+	q3_revenue = yoy_dat.get("q3_revenue");
+	q3_prev_revenue = yoy_dat.get("q3_prev_revenue");
+	q4_growth = yoy_dat.get("q4_growth");
+	q4_growth_height = yoy_dat.get("q4_growth_height");
+	q4_revenue = yoy_dat.get("q4_revenue");
+	q4_prev_revenue = yoy_dat.get("q4_prev_revenue");
+	// Extract top performer data
+	top_quarter = yoy_dat.get("top_quarter");
+	top_growth = yoy_dat.get("top_growth");
+	top_revenue = yoy_dat.get("top_revenue");
+	curr_year = yoy_dat.get("curr_year");
+	// Create formatted display variables
+	top_quarter_label = "Q" + top_quarter + " " + curr_year;
+	top_quarter_growth = top_growth;
+	top_quarter_revenue_lakhs = (top_revenue / 100000).round(1);
+	top_quarter_revenue_display = "₹" + top_quarter_revenue_lakhs + "L";
+	// Now all these variables are available to use in your HTML template:
+	// q1_growth, q1_growth_height, q2_growth, q2_growth_height, etc.
+	// top_quarter_label, top_quarter_growth, top_quarter_revenue_display
+	// Customer Satisfaction Ratings (monthly) 
+	jan_rating_height = 95;
+	feb_rating_height = 88;
+	mar_rating_height = 92;
+	apr_rating_height = 90;
+	may_rating_height = 94;
+	jun_rating_height = 96;
+	avg_rating = 4.7;
+	// Get customer feedback data
+	feedbackData = thisapp.sales.getMonthlyCustomerRatings();
+	// Get overall average
+	overall_rating = feedbackData.get("overall_average");
+	overall_rating_display = overall_rating.round(1);
+	// Calculate stars (out of 5)
+	full_stars = overall_rating.floor();
+	has_half_star = overall_rating - full_stars >= 0.5;
+	// ----------Customer Feedback Section
+	customer_feedback_dat = Customer_Feedback[ID != null];
+	// Get monthly data
+	jan_data = feedbackData.get("Jan");
+	jan_avg = jan_data.get("average");
+	jan_count = jan_data.get("count");
+	feb_data = feedbackData.get("Feb");
+	feb_avg = feb_data.get("average");
+	feb_count = feb_data.get("count");
+	mar_data = feedbackData.get("Mar");
+	mar_avg = mar_data.get("average");
+	mar_count = mar_data.get("count");
+	apr_data = feedbackData.get("Apr");
+	apr_avg = apr_data.get("average");
+	apr_count = apr_data.get("count");
+	may_data = feedbackData.get("May");
+	may_avg = may_data.get("average");
+	may_count = may_data.get("count");
+	jun_data = feedbackData.get("Jun");
+	jun_avg = jun_data.get("average");
+	jun_count = jun_data.get("count");
+	jul_data = feedbackData.get("Jul");
+	jul_avg = jul_data.get("average");
+	jul_count = jul_data.get("count");
+	aug_data = feedbackData.get("Aug");
+	aug_avg = aug_data.get("average");
+	aug_count = aug_data.get("count");
+	sep_data = feedbackData.get("Sep");
+	sep_avg = sep_data.get("average");
+	sep_count = sep_data.get("count");
+	oct_data = feedbackData.get("Oct");
+	oct_avg = oct_data.get("average");
+	oct_count = oct_data.get("count");
+	nov_data = feedbackData.get("Nov");
+	nov_avg = nov_data.get("average");
+	nov_count = nov_data.get("count");
+	dec_data = feedbackData.get("Dec");
+	dec_avg = dec_data.get("average");
+	dec_count = dec_data.get("count");
+	// Find max rating for bar height calculation (assume max is 5)
+	// 	max_rating = 5.0;
+	max_rating = 10.0;
+	// Calculate bar heights as percentage (for visual display)
+	jan_height = jan_avg / max_rating * 100;
+	feb_height = feb_avg / max_rating * 100;
+	mar_height = mar_avg / max_rating * 100;
+	apr_height = apr_avg / max_rating * 100;
+	may_height = may_avg / max_rating * 100;
+	jun_height = jun_avg / max_rating * 100;
+	jul_height = jul_avg / max_rating * 100;
+	aug_height = aug_avg / max_rating * 100;
+	sep_height = sep_avg / max_rating * 100;
+	oct_height = oct_avg / max_rating * 100;
+	nov_height = nov_avg / max_rating * 100;
+	dec_height = dec_avg / max_rating * 100;
+	// ========== CALL BENCHMARKS FUNCTION ==========
+	benchmark_data = thisapp.sales.getBenchmarksAndTargets();
+	// ========== SALES VALUE ==========
+	sales_value_target = benchmark_data.get("sales_value_target");
+	sales_value_actual = benchmark_data.get("sales_value");
+	sales_value_display = benchmark_data.get("sales_value_display");
+	sales_value_status_color = benchmark_data.get("sales_value_status");
+	// Calculate progress percentage
+	if(sales_value_target > 0)
+	{
+		sales_value_progress = (sales_value_actual * 100 / sales_value_target).round(0);
+		if(sales_value_progress > 100)
+		{
+			sales_value_progress = 100;
+		}
+	}
+	else
+	{
+		sales_value_progress = 0;
+	}
+	// Set status symbol and color
+	if(sales_value_status_color == "green")
+	{
+		sales_value_status = "✓";
+		sales_value_color = "green";
+	}
+	else if(sales_value_status_color == "orange")
+	{
+		sales_value_status = "⚠";
+		sales_value_color = "yellow";
+	}
+	else
+	{
+		sales_value_status = "✗";
+		sales_value_color = "red";
+	}
+	// ========== YEARLY GROWTH ==========
+	commitment = benchmark_data.get("commitment");
+	actual = benchmark_data.get("actual");
+	yearly_growth_display = benchmark_data.get("yearly_growth_display");
+	yearly_growth_status_color = benchmark_data.get("yearly_growth_status");
+	// Calculate progress percentage
+	if(commitment > 0)
+	{
+		yearly_growth_progress = (actual * 100 / commitment).round(0);
+		if(yearly_growth_progress > 100)
+		{
+			yearly_growth_progress = 100;
+		}
+	}
+	else
+	{
+		yearly_growth_progress = 0;
+	}
+	// Set status symbol and color
+	if(yearly_growth_status_color == "green")
+	{
+		yearly_growth_status = "✓";
+		yearly_growth_color = "green";
+	}
+	else if(yearly_growth_status_color == "orange")
+	{
+		yearly_growth_status = "⚠";
+		yearly_growth_color = "yellow";
+	}
+	else
+	{
+		yearly_growth_status = "✗";
+		yearly_growth_color = "red";
+	}
+	// ========== Order ==========
+	order_value_cmt = benchmark_data.get("order_value");
+	// 	actual = benchmark_data.get("actual");
+	// 	order_display = benchmark_data.get("order_display");
+	yearly_growth_status_color = benchmark_data.get("yearly_growth_status");
+	// Calculate progress percentage
+	// 	if(commitment > 0)
+	// 	{
+	// 		yearly_growth_progress = (actual * 100 / order_value_cmt).round(0);
+	// 		if(yearly_growth_progress > 100)
+	// 		{
+	// 			yearly_growth_progress = 100;
+	// 		}
+	// 	}
+	// 	else
+	// 	{
+	// 		yearly_growth_progress = 0;
+	// 	}
+	// Set status symbol and color
+	if(yearly_growth_status_color == "green")
+	{
+		yearly_growth_status = "✓";
+		yearly_growth_color = "green";
+	}
+	else if(yearly_growth_status_color == "orange")
+	{
+		yearly_growth_status = "⚠";
+		yearly_growth_color = "yellow";
+	}
+	else
+	{
+		yearly_growth_status = "✗";
+		yearly_growth_color = "red";
+	}
+	// ========== Hot Enquiries ==========
+	hot_enq_count = benchmark_data.get("hot_enq_count");
+	// 	actual = benchmark_data.get("actual");
+	// 	order_display = benchmark_data.get("order_display");
+	yearly_growth_status_color = benchmark_data.get("yearly_growth_status");
+	// Calculate progress percentage
+	// 	if(commitment > 0)
+	// 	{
+	// 		yearly_growth_progress = (actual * 100 / order_value_cmt).round(0);
+	// 		if(yearly_growth_progress > 100)
+	// 		{
+	// 			yearly_growth_progress = 100;
+	// 		}
+	// 	}
+	// 	else
+	// 	{
+	// 		yearly_growth_progress = 0;
+	// 	}
+	// Set status symbol and color
+	if(yearly_growth_status_color == "green")
+	{
+		yearly_growth_status = "✓";
+		yearly_growth_color = "green";
+	}
+	else if(yearly_growth_status_color == "orange")
+	{
+		yearly_growth_status = "⚠";
+		yearly_growth_color = "yellow";
+	}
+	else
+	{
+		yearly_growth_status = "✗";
+		yearly_growth_color = "red";
+	}
+	// ========== DEALER APPOINTMENTS ==========
+	dealer_target = 2;
+	dealer_actual = benchmark_data.get("dealer_appointments");
+	dealer_status_color = benchmark_data.get("dealer_status");
+	// Calculate progress percentage
+	if(dealer_target > 0)
+	{
+		dealer_progress = (dealer_actual * 100 / dealer_target).round(0);
+		if(dealer_progress > 100)
+		{
+			dealer_progress = 100;
+		}
+	}
+	else
+	{
+		dealer_progress = 0;
+	}
+	// Set status symbol and color
+	if(dealer_status_color == "green")
+	{
+		dealer_status = "✓";
+		dealer_color = "green";
+	}
+	else if(dealer_status_color == "orange")
+	{
+		dealer_status = "⚠";
+		dealer_color = "yellow";
+	}
+	else
+	{
+		dealer_status = "✗";
+		dealer_color = "red";
+	}
+	// ========== LOST ORDERS REDUCTION ==========
+	lost_orders_target = 10;
+	lost_orders_actual = benchmark_data.get("lost_orders_reduction");
+	lost_orders_display = benchmark_data.get("lost_orders_display");
+	lost_orders_status_color = benchmark_data.get("lost_orders_status");
+	// Calculate progress percentage
+	if(lost_orders_target > 0)
+	{
+		lost_orders_progress = (lost_orders_actual * 100 / lost_orders_target).round(0);
+		if(lost_orders_progress > 100)
+		{
+			lost_orders_progress = 100;
+		}
+	}
+	else
+	{
+		lost_orders_progress = 0;
+	}
+	// Set status symbol and color
+	if(lost_orders_status_color == "green")
+	{
+		lost_orders_status = "✓";
+		lost_orders_color = "green";
+	}
+	else if(lost_orders_status_color == "orange")
+	{
+		lost_orders_status = "⚠";
+		lost_orders_color = "yellow";
+	}
+	else
+	{
+		lost_orders_status = "✗";
+		lost_orders_color = "red";
+	}
+	// ========== REFERRALS FROM CUSTOMERS ==========
+	referrals_target = 2;
+	referrals_actual = benchmark_data.get("referrals_count");
+	referrals_status_color = benchmark_data.get("referrals_status");
+	// Calculate progress percentage
+	if(referrals_target > 0)
+	{
+		referrals_progress = (referrals_actual * 100 / referrals_target).round(0);
+		if(referrals_progress > 100)
+		{
+			referrals_progress = 100;
+		}
+	}
+	else
+	{
+		referrals_progress = 0;
+	}
+	// Set status symbol and color
+	if(referrals_status_color == "green")
+	{
+		referrals_status = "✓";
+		referrals_color = "green";
+	}
+	else if(referrals_status_color == "orange")
+	{
+		referrals_status = "⚠";
+		referrals_color = "yellow";
+	}
+	else
+	{
+		referrals_status = "✗";
+		referrals_color = "red";
+	}
+	// ========== CUSTOMER REVIEWS ==========
+	reviews_target = 2;
+	reviews_actual = benchmark_data.get("customer_reviews");
+	reviews_status_color = benchmark_data.get("reviews_status");
+	// Calculate progress percentage
+	if(reviews_target > 0)
+	{
+		reviews_progress = (reviews_actual * 100 / reviews_target).round(0);
+		if(reviews_progress > 100)
+		{
+			reviews_progress = 100;
+		}
+	}
+	else
+	{
+		reviews_progress = 0;
+	}
+	// Set status symbol and color
+	if(reviews_status_color == "green")
+	{
+		reviews_status = "✓";
+		reviews_color = "green";
+	}
+	else if(reviews_status_color == "orange")
+	{
+		reviews_status = "⚠";
+		reviews_color = "yellow";
+	}
+	else
+	{
+		reviews_status = "✗";
+		reviews_color = "red";
+	}
+	// content 4 vars ---------------------- >>>>>>>>>>>>>>>>>
+	curr_date = zoho.currentdate;
+	quotations_created = Quotation[Date_field == curr_date].count();
+	leads_indiamart = Customer_Calling_follow_up[Lead_Source == "India mart"].count();
+	// 	avg_quote_delay =  ------------------>>>>>>>
+	// Calculate average quote delay (time between first follow-up and quotation)
+	total_quote_days = 0;
+	quote_count = 0;
+	all_quotations = Quotation[ID != null && Date_field != null];
+	for each  quote in all_quotations
+	{
+		// Find follow-ups for this customer
+		followups = Quotation_Follow_Up[Customer_Company == quote.Customer_Company && Date_field != null];
+		if(followups != null && followups.Date_field != null)
+		{
+			// Calculate days between follow-up and quotation
+			delay_days = daysBetween(followups.Date_field,quote.Date_field);
+			if(delay_days >= 0)
+			{
+				total_quote_days = total_quote_days + delay_days;
+				quote_count = quote_count + 1;
+			}
+		}
+	}
+	avg_quote_delay = if(quote_count > 0,(total_quote_days * 1.0 / quote_count).round(1),0);
+	// Leads by source 
+	leads_justdial = Customer_Calling_follow_up[Lead_Source == "Just Dial"].count();
+	leads_referral = Customer_Calling_follow_up[Lead_Source == "Customer reference leads"].count();
+	leads_direct = Customer_Calling_follow_up[Lead_Source == "Direct Visit"].count();
+	// Calculate percentages for bar heights (based on highest value) 
+	leads_max = leads_indiamart + leads_direct + leads_justdial + leads_referral;
+	if(leads_justdial == 0 || leads_justdial == null)
+	{
+		leads_justdial_height = 0;
+	}
+	else
+	{
+		leads_justdial_height = (leads_justdial * 100.0 / leads_max).round(0);
+	}
+	if(leads_indiamart == 0 || leads_indiamart == null)
+	{
+		leads_indiamart_height = 0;
+	}
+	else
+	{
+		leads_indiamart_height = (leads_indiamart * 100.0 / leads_max).round(0);
+	}
+	if(leads_referral == 0)
+	{
+		leads_referral_height = 0;
+	}
+	else
+	{
+		leads_referral_height = (leads_referral * 100.0 / leads_max).round(0);
+	}
+	if(leads_direct == 0 || leads_direct == null)
+	{
+		leads_direct_height = 0;
+	}
+	else
+	{
+		leads_direct_height = (leads_direct * 100.0 / leads_max).round(0);
+	}
+	// Follow-up data
+	followups_done = Customer_Calling_follow_up[Status == "Closed"].count();
+	followups_pending = Customer_Calling_follow_up[Status == "In Progress"].count();
+	followup_total = followups_done + followups_pending;
+	followup_percentage = if(followup_total == 0,0,((followups_done * 100.0) / followup_total).round(0));
+	// SVG circle calculation: circumference=2 * π * r=2 * 3.14159 * 60=377 
+	followup_donut_offset = (377 - 377 * followup_percentage / 100.0).round(0);
+	// Other KPIs
+	missed_calls = 7;
+	// 	quote_accuracy = 89; --------------------->>>>>>>>>>>
+	// Quote Accuracy - How accurate are quoted prices vs final order prices
+	total_accuracy = 0;
+	accuracy_count = 0;
+	all_orders = Order_Confirmation[ID != null && Final_Amount != null && Status == "Approved"];
+	for each  order in all_orders
+	{
+		// Find the related quotation
+		related_quotes = Quotation[Customer_Company == order.Customer_Name && Grand_Total != null];
+		if(related_quotes != null && related_quotes.Grand_Total != null)
+		{
+			quoted_amount = related_quotes.Grand_Total;
+			final_amount = order.Final_Amount;
+			// Calculate accuracy percentage (how close the quote was)
+			if(final_amount > 0)
+			{
+				difference = abs(quoted_amount - final_amount);
+				accuracy_percent = (1 - difference / final_amount) * 100.0;
+				// Only count if accuracy is positive (quote was reasonably close)
+				if(accuracy_percent > 0)
+				{
+					total_accuracy = total_accuracy + accuracy_percent;
+					accuracy_count = accuracy_count + 1;
+				}
+			}
+		}
+	}
+	quote_accuracy = if(accuracy_count > 0,(total_accuracy / accuracy_count).round(0),0);
+	quote_gauge_offset = (220 - 220 * quote_accuracy / 100.0).round(0);
+	// 	quote_gauge_offset = (220 - 220 * quote_accuracy / 100.0).round(0); -------------------->
+	customer_feedback = Customer_Feedback[ID != null].count();
+	payment_delay = Payment_Tracking[Follow_upStatus == "Un Paid" || Follow_upStatus == "Partial"].count();
+	// Sales Head KPIs 
+	new_leads_cold = 0;
+	// ------------------>>>>>>>>>>>>>>>
+	new_leads_referral = Customer_Calling_follow_up[Status == "Customer reference leads"].count();
+	new_leads_oem = Customer_Calling_follow_up[Status == "OEMS"].count();
+	new_leads_dealer = Customer_Calling_follow_up[Status == "Dealers"].count();
+	new_leads_max = new_leads_referral + new_leads_oem + new_leads_dealer + new_leads_cold;
+	if(new_leads_cold == 0 || new_leads_cold == null)
+	{
+		new_leads_cold_height = 0;
+	}
+	else
+	{
+		new_leads_cold_height = (new_leads_cold * 100.0 / new_leads_max).round(0);
+	}
+	if(new_leads_referral == 0 || new_leads_referral == null)
+	{
+		new_leads_referral_height = 0;
+	}
+	else
+	{
+		new_leads_referral_height = (new_leads_referral * 100.0 / new_leads_max).round(0);
+	}
+	if(new_leads_oem == 0 || new_leads_oem == null)
+	{
+		new_leads_oem_height = 0;
+	}
+	else
+	{
+		new_leads_oem_height = (new_leads_oem * 100.0 / new_leads_max).round(0);
+	}
+	if(new_leads_dealer == 0 || new_leads_dealer == null)
+	{
+		new_leads_dealer_height = 0;
+	}
+	else
+	{
+		new_leads_dealer_height = (new_leads_dealer * 100.0 / new_leads_max).round(0);
+	}
+	quotations_approved = Quotation[Status == "Approved"].count();
+	followups_frequency = 1;
+	orders_closed = Order_lost_Analysis[ID != null].count();
+	orders_value = Order_Confirmation[ID != null].sum(Final_Amount);
+	total_quotations = Quotation[ID != null].count();
+	total_order_confirmations = Order_Confirmation[ID != null].count();
+	conversion_rate = ifnull(total_quotations,0) - ifnull(total_order_confirmations,0);
+	conversion_donut_offset = (377 - 377 * conversion_rate / 100.0).round(0);
+	pre_visits = Customer_Pre_Site_Visit_Observation[Visit_Date > curr_date].count();
+	firstDayOfMonth = zoho.currentdate.toStartOfMonth();
+	customer_visits = Customer_Pre_Site_Visit_Observation[Visit_Date >= firstDayOfMonth && Visit_Date < curr_date].count();
+	customer_satisfaction = Customer_Feedback[ID != null && Overall_Performance != null].count();
+	// 	-----------------------------------------------------------------------------------------------
+	// Fetch all quotation records
+	// Calculate average delay
+	total_days = 0;
+	count = 0;
+	quotations = Quotation[ID != null && Date_field != null];
+	for each  rec in quotations
+	{
+		folloups = Quotation_Follow_Up[ID != null && Customer_Company == rec.Customer_Company];
+		if(folloups.Date_field != null)
+		{
+			diff_days = daysBetween(rec.Date_field,folloups.Date_field);
+			if(diff_days >= 0)
+			{
+				// Only count positive delays
+				total_days = total_days + diff_days;
+				count = count + 1;
+			}
+		}
+	}
+	lead_response_delay = if(count > 0,(total_days * 1.0 / count).round(0),0);
+	// Combined KPIs
+	admin_efficiency = 1;
+	admin_efficiency_gauge_offset = (220 - 220 * admin_efficiency / 100.0).round(0);
+	sales_effectiveness = 100;
+	sales_effectiveness_offset = (377 - 377 * sales_effectiveness / 100.0).round(0);
+	// Lead Quality percentages 
+	// 	total_leads_from_indiamart = Customer_Calling_follow_up[Lead_Source == "India mart"].count();
+	// 	quality_indiamart = 0; 
+	// 	// 	for each rec in 
+	// 	quality_justdial = 72; 
+	// 	quality_referral = 92; 
+	// 	quality_direct = 10; 
+	// 	quality_max = 92; 
+	// 	quality_indiamart_height = (quality_indiamart * 100.0 / quality_max).round(0);
+	// 	quality_justdial_height = (quality_justdial * 100.0 / quality_max).round(0);
+	// 	quality_referral_height = (quality_referral * 100.0 / quality_max).round(0);
+	// 	quality_direct_height = (quality_direct * 100.0 / quality_max).round(0);
+	// Get total leads from each source
+	total_leads_indiamart = Customer_Calling_follow_up[Lead_Source == "India mart"].count();
+	total_leads_justdial = Customer_Calling_follow_up[Lead_Source == "Just Dial"].count();
+	total_leads_referral = Customer_Calling_follow_up[Lead_Source == "Customer reference leads"].count();
+	total_leads_direct = Customer_Calling_follow_up[Lead_Source == "Direct Visit"].count();
+	// Count converted orders by matching customers
+	orders_indiamart = 0;
+	orders_justdial = 0;
+	orders_referral = 0;
+	orders_direct = 0;
+	// Get all confirmed orders
+	all_orders = Order_Confirmation[ID != null && Status == "Approved"];
+	// or whatever status means confirmed
+	for each  order in all_orders
+	{
+		// Find the lead for this customer using Customer_Name field
+		// Note: Customer_Name appears to be a lookup/number field in Order_Confirmation
+		leads = Customer_Calling_follow_up[Customer_Company == order.Customer_Name];
+		if(leads != null)
+		{
+			// Get the first lead (or most recent if multiple exist)
+			lead_source = leads.Lead_Source;
+			if(lead_source == "India mart")
+			{
+				orders_indiamart = orders_indiamart + 1;
+			}
+			else if(lead_source == "Just Dial")
+			{
+				orders_justdial = orders_justdial + 1;
+			}
+			else if(lead_source == "Customer reference leads")
+			{
+				orders_referral = orders_referral + 1;
+			}
+			else if(lead_source == "Direct Visit")
+			{
+				orders_direct = orders_direct + 1;
+			}
+		}
+	}
+	// Calculate quality percentages (conversion rate)
+	quality_indiamart = if(total_leads_indiamart > 0,(orders_indiamart * 100.0 / total_leads_indiamart).round(0),0);
+	quality_justdial = if(total_leads_justdial > 0,(orders_justdial * 100.0 / total_leads_justdial).round(0),0);
+	quality_referral = if(total_leads_referral > 0,(orders_referral * 100.0 / total_leads_referral).round(0),0);
+	quality_direct = if(total_leads_direct > 0,(orders_direct * 100.0 / total_leads_direct).round(0),0);
+	// For bar chart - use percentages directly
+	quality_max = 100;
+	// Since we're showing percentages
+	quality_indiamart_height = quality_indiamart;
+	quality_justdial_height = quality_justdial;
+	quality_referral_height = quality_referral;
+	quality_direct_height = quality_direct;
+	purchase_order_total_amount = Purchase_Order[ID != null && Total_Amount != 0 && Total_Amount != null].sum(Total_Amount);
+	order_conf_total_amount = Order_Confirmation[ID != null && Final_Amount != null].sum(Final_Amount);
+	profit_margin = order_conf_total_amount - purchase_order_total_amount;
+	if(order_conf_total_amount != 0)
+	{
+		profit_margin_percentage = profit_margin / order_conf_total_amount * 100;
+	}
+	else
+	{
+		profit_margin_percentage = 0;
+	}
+	// 	info profit_margin;
+	// 	yoy_growth = 72; 
+	// 	yoy_offset = (220 - 220 * yoy_growth / 100.0).round(0);
+	// 	qoq_growth = 60; 
+	// 	qoq_offset = (220 - 220 * qoq_growth / 100.0).round(0);
+	// YoY Growth - Compare same month last year
+	curr_month_orders = Order_Confirmation[Date_field >= curr_date.toStartOfMonth() && Final_Amount != null].sum(Final_Amount);
+	last_year_same_month_start = curr_date.subMonth(12).toStartOfMonth();
+	last_year_same_month_end = last_year_same_month_start.addMonth(1).subDay(1);
+	last_year_month_orders = Order_Confirmation[Date_field >= last_year_same_month_start && Date_field <= last_year_same_month_end && Final_Amount != null].sum(Final_Amount);
+	if(last_year_month_orders > 0)
+	{
+		yoy_growth = ((curr_month_orders - last_year_month_orders) * 100.0 / last_year_month_orders).round(0);
+	}
+	else
+	{
+		yoy_growth = 0;
+	}
+	yoy_offset = (220 - 220 * yoy_growth / 100.0).round(0);
+	// QoQ Growth - Compare last 3 months vs previous 3 months
+	curr_3months_start = curr_date.subMonth(3);
+	curr_3months_orders = Order_Confirmation[Date_field >= curr_3months_start && Final_Amount != null].sum(Final_Amount);
+	prev_3months_start = curr_date.subMonth(6);
+	prev_3months_end = curr_date.subMonth(3).subDay(1);
+	prev_3months_orders = Order_Confirmation[Date_field >= prev_3months_start && Date_field <= prev_3months_end && Final_Amount != null].sum(Final_Amount);
+	if(prev_3months_orders > 0)
+	{
+		qoq_growth = ((curr_3months_orders - prev_3months_orders) * 100.0 / prev_3months_orders).round(0);
+	}
+	else
+	{
+		qoq_growth = 0;
+	}
+	qoq_offset = (220 - 220 * qoq_growth / 100.0).round(0);
+	// Admin comparison data 
+	admin1_quotes = 8;
+	admin1_followups = 5;
+	admin1_conversion = 28;
+	admin1_delay = 2.1;
+	admin2_quotes = 7;
+	admin2_followups = 6;
+	admin2_conversion = 35;
+	admin2_delay = 1.3;
+	// ORDER LOST ANALYSIS
+	lostOrder = thisapp.sales.lostOrderAnalysisDaily();
+	// 	Order Confirmation for last four quarters   ------------------------------------>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// 	// Get the quarterly data
+	// quarterData = thisapp.sales.getLastFourQuarters();
+	// // Convert map to list to get quarters in order
+	// quartersList = List();
+	// for each quarter in quarterData.keys()
+	// {
+	//     quartersList.add(Map({"label": quarter, "value": quarterData.get(quarter)}));
+	// }
+	// // Sort or arrange quarters (you may need to reverse)
+	// // Since your function returns them in reverse order, let's get them properly
+	// // Get individual quarter values
+	// quarter_values = List();
+	// quarter_labels = List();
+	// for each quarter in quarterData.keys()
+	// {
+	//     quarter_labels.add(quarter);
+	//     quarter_values.add(quarterData.get(quarter));
+	// }
+	// // Find the maximum value for percentage calculation
+	// max_value = 0.0;
+	// for each value in quarter_values
+	// {
+	//     if(value > max_value)
+	//     {
+	//         max_value = value;
+	//     }
+	// }
+	// // Prepare data for each quarter (assuming you have 4 quarters)
+	// // Get them as list items
+	// q1_label = quarter_labels.get(0);
+	// q1_value = quarter_values.get(0);
+	// q1_sales = (q1_value / 1000).round(1);  // Convert to K format
+	// q1_width = (q1_value / max_value) * 100;
+	// q2_label = quarter_labels.get(1);
+	// q2_value = quarter_values.get(1);
+	// q2_sales = (q2_value / 1000).round(1);
+	// q2_width = (q2_value / max_value) * 100;
+	// q3_label = quarter_labels.get(2);
+	// q3_value = quarter_values.get(2);
+	// q3_sales = (q3_value / 1000).round(1);
+	// q3_width = (q3_value / max_value) * 100;
+	// q4_label = quarter_labels.get(3);
+	// q4_value = quarter_values.get(3);
+	// q4_sales = (q4_value / 1000).round(1);
+	// q4_width = (q4_value / max_value) * 100;
+	// 	-----------------V2-------->>>>>>>>>>> 
+	// Helper function to calculate width with minimum
+	// decimal calculateBarWidth(decimal value, decimal maxValue, decimal minWidth)
+	// {
+	//     if(maxValue == 0)
+	//     {
+	//         return 0;
+	//     }
+	//     width = (value / maxValue) * 100;
+	//     if(width > 0 && width < minWidth)
+	//     {
+	//         return minWidth;
+	//     }
+	//     return width;
+	// }
+	// Get the quarterly data
+	quarterData = thisapp.sales.getLastFourQuarters();
+	quarter_values = List();
+	quarter_labels = List();
+	for each  quarter in quarterData.keys()
+	{
+		quarter_labels.add(quarter);
+		quarter_values.add(quarterData.get(quarter));
+	}
+	// Find max value
+	max_value = 0.0;
+	for each  value in quarter_values
+	{
+		if(value > max_value)
+		{
+			max_value = value;
+		}
+	}
+	min_width = 10;
+	// Prepare data for each quarter
+	q1_label = quarter_labels.get(0);
+	q1_value = quarter_values.get(0);
+	q1_sales = (q1_value / 1000).round(1);
+	q1_width = thisapp.sales.calculateBarWidth(q1_value,max_value,min_width);
+	// 	q1_width = 1;
+	q2_label = quarter_labels.get(1);
+	q2_value = quarter_values.get(1);
+	q2_sales = (q2_value / 1000).round(1);
+	q2_width = thisapp.sales.calculateBarWidth(q2_value,max_value,min_width);
+	// 	q2_width = 1;
+	q3_label = quarter_labels.get(2);
+	q3_value = quarter_values.get(2);
+	q3_sales = (q3_value / 1000).round(1);
+	q3_width = thisapp.sales.calculateBarWidth(q3_value,max_value,min_width);
+	// 	q3_width = 1;
+	q4_label = quarter_labels.get(3);
+	q4_value = quarter_values.get(3);
+	q4_sales = (q4_value / 1000).round(1);
+	q4_width = thisapp.sales.calculateBarWidth(q4_value,max_value,min_width);
+	// 	q4_width = 1;
+	// Benchmarks & Targets New Section
+	// ===== Pull all benchmark variables =====
+	sales_value_target = benchmark_data.get("sales_value_target");
+	sales_value_actual = benchmark_data.get("sales_value");
+	sales_variance = benchmark_data.get("sales_variance");
+	sales_value_status_raw = benchmark_data.get("sales_value_status");
+	growth_target = benchmark_data.get("growth_target");
+	yearly_growth = benchmark_data.get("yearly_growth");
+	yearly_growth_display = benchmark_data.get("yearly_growth_display");
+	growth_variance_display = benchmark_data.get("growth_variance_display");
+	yearly_growth_status_raw = benchmark_data.get("yearly_growth_status");
+	order_value_target = benchmark_data.get("order_value");
+	order_value_actual = benchmark_data.get("order_value_actual");
+	order_variance = benchmark_data.get("order_variance");
+	order_status_raw = benchmark_data.get("order_status");
+	hot_enq_target = benchmark_data.get("hot_enq_target");
+	hot_enq_actual = benchmark_data.get("hot_enq_actual");
+	hot_enq_variance = benchmark_data.get("hot_enq_variance");
+	hot_enq_status_raw = benchmark_data.get("hot_enq_status");
+	dealer_target = benchmark_data.get("dealer_target");
+	dealer_actual = benchmark_data.get("dealer_appointments");
+	dealer_variance = benchmark_data.get("dealer_variance");
+	dealer_status_raw = benchmark_data.get("dealer_status");
+	lost_orders_target = benchmark_data.get("lost_orders_target");
+	lost_orders_actual = benchmark_data.get("lost_orders_reduction");
+	lost_orders_display = benchmark_data.get("lost_orders_display");
+	lost_variance = benchmark_data.get("lost_variance");
+	lost_orders_status_raw = benchmark_data.get("lost_orders_status");
+	followup_target = benchmark_data.get("followup_delay_target");
+	followup_actual = benchmark_data.get("followup_delay_actual");
+	followup_variance = benchmark_data.get("followup_delay_variance");
+	followup_status_raw = benchmark_data.get("followup_delay_status");
+	// ===== Convert status strings to symbols/colors =====
+	sales_value_status = if(sales_value_status_raw == "green","✓",if(sales_value_status_raw == "orange","⚠","✗"));
+	sales_value_color = if(sales_value_status_raw == "green","green",if(sales_value_status_raw == "orange","yellow","red"));
+	yearly_growth_status = if(yearly_growth_status_raw == "green","✓",if(yearly_growth_status_raw == "orange","⚠","✗"));
+	yearly_growth_color = if(yearly_growth_status_raw == "green","green",if(yearly_growth_status_raw == "orange","yellow","red"));
+	order_status = if(order_status_raw == "green","✓",if(order_status_raw == "orange","⚠","✗"));
+	order_color = if(order_status_raw == "green","green",if(order_status_raw == "orange","yellow","red"));
+	hot_enq_status = if(hot_enq_status_raw == "green","✓",if(hot_enq_status_raw == "orange","⚠","✗"));
+	hot_enq_color = if(hot_enq_status_raw == "green","green",if(hot_enq_status_raw == "orange","yellow","red"));
+	dealer_status = if(dealer_status_raw == "green","✓",if(dealer_status_raw == "orange","⚠","✗"));
+	dealer_color = if(dealer_status_raw == "green","green",if(dealer_status_raw == "orange","yellow","red"));
+	lost_orders_status = if(lost_orders_status_raw == "green","✓",if(lost_orders_status_raw == "orange","⚠","✗"));
+	lost_orders_color = if(lost_orders_status_raw == "green","green",if(lost_orders_status_raw == "orange","yellow","red"));
+	followup_status = if(followup_status_raw == "green","✓",if(followup_status_raw == "orange","⚠","✗"));
+	followup_color = if(followup_status_raw == "green","green",if(followup_status_raw == "orange","yellow","red"));
+	%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <style>
+
+        .tab-container {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Hide radio inputs */
+        .tab-input {
+            display: none;
+        }
+
+        /* Button wrapper for proper alignment */
+        .tab-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        /* Buttons - with resets to override Zoho styles */
+        .tab-label {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            margin: 0 !important;
+            background: #91b6ff;
+            border: none !important;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            line-height: 1.5;
+            transition: all 0.3s ease;
+            text-align: center;
+            vertical-align: middle;
+            white-space: nowrap;
+            color: #374151;
+        }
+
+        .tab-label:hover {
+            background: #d1d5db;
+        }
+
+        
+                /* Active tab highlight */
+.tab-input:checked + label.tab-label {
+    background-color: #2563eb !important; /* Blue */
+    color: #ffffff !important;
+    border: none !important;
+}
+
+/* Default/inactive tabs */
+label.tab-label {
+    background-color:#91b6ff ;
+    color: #374151 !important;
+}
+
+        /* Pages default hidden */
+        .tab-content {
+            display: none;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            margin-top: 20px;
+        }
+
+        /* Show content when matching radio is checked */
+        #tab1:checked ~ .tab-contents #content1,
+        #tab2:checked ~ .tab-contents #content2,
+        #tab3:checked ~ .tab-contents #content3 {
+            display: block;
+        }
+
+        /* Content styling */
+        .tab-content h2 {
+            margin-top: 0;
+            color: #1f2937;
+		    background : #c3c5c3;
+		    padding:10px;
+        }
+
+        .tab-content p {
+            color: #6b7280;
+            line-height: 1.6;
+        }
+        @media (max-width:1000px){
+  .kpi-row{ grid-template-columns: repeat(3, 1fr); }
+  .main-grid{ grid-template-columns:1fr; }
+}
+@media (max-width:640px){
+  .kpi-row{ grid-template-columns:repeat(2,1fr); }
+  .donut-wrapper{ flex-direction:column; gap:20px; }
+}
+
+    </style>
+</head>
+<body>
+    <div class="tab-container">
+        <!-- Radio inputs -->
+        <input type="radio" name="tabs" id="tab1" class="tab-input" checked>
+        <input type="radio" name="tabs" id="tab2" class="tab-input">
+        <input type="radio" name="tabs" id="tab3" class="tab-input">
+        
+        <!-- Tab buttons wrapper -->
+        <div class="tab-buttons">
+            <label for="tab1" class="tab-label">Today's </label>
+            <label for="tab2" class="tab-label">Weekly</label>
+            <label for="tab3" class="tab-label">Monthly</label>
+        </div>
+        
+        <!-- Content wrapper -->
+        <div class="tab-contents">
+            <div id="content1" class="tab-content">
+
+            <style>
+:root{
+  --bg:#F7F8FA;
+  --tile-bg:#FFFFFF;
+  --muted:#6b7280;
+  --radius:12px;
+  --gap:18px;
+  --accent:#0052CC;
+  --secondary:#36B37E;
+  --text:#172B4D;
+  --alert-red:#E53935;
+  --alert-blue:#2979FF;
+  --alert-green:#43A047;
+  --light-red:#FDE0E0;
+  --light-blue:#DCE9FF;
+  --light-green:#DFF6E0;
+  --heading-grey:#333; /* new neutral heading color */
+}
+
+*{box-sizing:border-box;}
+.header-bar{
+  background: #6f747c;
+  color: #fff;
+  padding:14px 20px;
+  font-size:18px;
+  font-weight:600;
+}
+.container{
+  /* max-width:1200px; */
+  width: 100%;
+  max-width: inherit;
+  margin:20px auto;
+  display:flex;
+  flex-direction:column;
+  gap: var(--gap);
+}
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+}
+.header h1{ font-size:20px; margin:0; font-weight:600; color:var(--heading-grey);}
+.subnote{ color:var(--muted); font-size:13px; }
+
+/* ✅ KPI Row Updated */
+.kpi-row{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:12px;
+  margin-bottom: var(--gap);
+  text-align:center; /* center tiles */
+}
+.tile{
+  background:var(--tile-bg);
+  padding:16px;
+  border-radius:3px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.05);
+  transition: transform 0.2s;
+}
+.tile:hover{ transform: translateY(-4px);}
+.tile .title{
+  font-size:13px;
+  color:#333333ad; /* neutral color */
+  font-weight:600;
+  margin-bottom:6px;
+}
+.tile .value{
+  font-size:24px; /* larger value text */
+  font-weight:700;
+  color:#000;
+}
+
+.health-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+}
+.health-card.followup-done {
+  padding: 100px; /* adds extra breathing space */
+}
+.health-card{
+  background:var(--tile-bg);
+  padding:16px;
+  border-radius:var(--radius);
+  box-shadow:0 4px 10px rgba(0,0,0,0.05);
+  flex:1 1 260px;
+  min-width:220px;
+  text-align:center;
+  transition: transform 0.2s;
+}
+.health-card:hover{ transform: translateY(-3px);}
+.health-card.red{ background: var(--light-red);}
+.health-card.blue{ background: var(--light-blue);}
+.health-card.green{ background: var(--light-green);}
+.health-card .hc-title { font-weight:700; font-size:14px; margin-bottom:10px; color:#000; }
+
+.health-card .hc-sub{ color:var(--muted); font-size:13px; margin-bottom:12px; }
+
+.red-counter,
+.red-indicator{
+  background:var(--alert-red);
+  color:#fff;
+  font-weight:700;
+  padding:10px 16px;
+  border-radius:12px;
+  font-size:18px;
+  display:inline-block;
+  min-width:40px;
+}
+
+.alert-badge{
+  margin-top:10px;
+  display:inline-block;
+  background:#fff7f7;
+  padding:8px 12px;
+  font-size:16px;
+  border-radius:8px;
+  font-weight:600;
+}
+.alert-badge::before{
+  content: "⚠️ "; 
+  font-size:22px;
+  vertical-align:middle;
+}
+
+.followup-progress{
+  --percent:85;
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.progress-track{
+  height:14px;
+  border-radius:10px;
+  background:#e0e0e0;
+  overflow:hidden;
+}
+.progress-fill{
+  height:100%;
+  width:0%;
+  border-radius:10px;
+  animation: fillAnimation 1.5s ease forwards;
+  background: linear-gradient(90deg, var(--accent), var(--secondary));
+}
+@keyframes fillAnimation{
+  0%{ width:0%; }
+  100%{ width: calc(var(--percent) * 1%); }
+}
+.percent-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-weight:700;
+  font-size:14px;
+}
+.percent-row .target{ color:var(--muted); font-weight:600; font-size:13px; }
+
+.table-card{
+  background:var(--tile-bg);
+  padding:14px;
+  border-radius:var(--radius);
+  box-shadow:0 4px 10px rgba(0,0,0,0.05);
+}
+.table-card h3{
+  color:var(--heading-grey); /* unified heading color */
+}
+
+table{ width:100%; border-collapse:collapse; font-size:13px; }
+thead th{ background:#f1f3f6; padding:10px; text-align:center; font-weight:700; color:var(--text); border-bottom:1px solid #d1d5db; }
+tbody td{ padding:10px; text-align:center; border-bottom:1px solid #d1d5db; color:var(--text); }
+
+.alerts-card{
+  background: #fff;
+  border-left:6px solid var(--alert-red);
+  padding:16px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.05);
+  margin-bottom: var(--gap);
+}
+.alerts-card h3{ margin:0 0 8px 0; font-size:15px; color:var(--alert-red); font-weight:600; }
+.alerts-list{ display:flex; flex-direction:column; gap:8px; font-weight:600; color:var(--text); }
+.alerts-item{ background:#fdf1f1; padding:10px; border-radius:8px; font-size:13px; display:flex; align-items:center; gap:8px; }
+.dot{ width:10px; height:10px; border-radius:50%; }
+.dot.red{ background:var(--alert-red);}
+.dot.yellow{ background:#FBC02D;}
+.dot.green{ background:var(--alert-green);}
+
+.lost-card{
+  text-align:center;
+  background:var(--tile-bg);
+  padding:26px;
+  border-radius:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.05);
+  max-width:100%;
+}
+
+/* ==== DONUT CHART ==== */
+.donut-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content:center;
+  gap: 30px;
+  margin-top: 10px;
+}
+
+.donut {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  position: relative;
+<%
+	if(lostOrder.get("total") == 0)
+	{
+		%>
+background: conic-gradient(grey 0deg 360deg);
+<%
+	}
+	else
+	{
+		%>
+background: conic-gradient(
+    #FBC02D 0deg var(--price-end),
+    #2684FF var(--price-end) var(--transport-end),
+    #36B37E var(--transport-end) var(--service-end),
+    #FF7043 var(--service-end) var(--toofar-end),
+    #9C27B0 var(--toofar-end) 360deg
+  );
+<%
+	}
+	%>
+}
+
+.donut::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  background: white;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+/* ==== LEGEND ==== */
+.legend {
+  gap: 10px 20px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #333;
+  margin-bottom:8px;
+}
+
+.legend-color {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+}
+.color-postponed { background: #9C27B0; }
+.color-toofar { background: #FF7043; }
+.color-service { background: #36B37E; }
+.color-transport { background: #2684FF; }
+.color-price { background: #FBC02D; }
+
+
+
+.main-grid{
+  display:grid;
+  grid-template-columns:1fr 380px;
+  gap:var(--gap);
+}
+.right-col{ align-items:center; }
+
+@media (max-width:1000px){
+  .kpi-row{ grid-template-columns: repeat(3, 1fr); }
+  .main-grid{ grid-template-columns:1fr; }
+}
+@media (max-width:640px){
+  .kpi-row{ grid-template-columns:repeat(2,1fr); }
+  .donut-wrapper{ flex-direction:column; gap:20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="header-bar">Sales Dashboard — Today’s Overview & Alerts</div>
+<div class="container">
+
+  <div class="header">
+    <div>
+      <h1><i class="fa-solid fa-chart-line"></i> Today’s Overview</h1>
+      <div class="subnote">Summary of today's activity</div>
+    </div>
+    <div style="text-align:right; font-size:13px; color:var(--muted);">
+      <%=zoho.loginuser%> | Date: <%=zoho.currentdate%>
+    </div>
+  </div>
+<%
+	followupDone = thisapp.sales.followupDonevsPending();
+	previsit = Customer_Pre_Site_Visit_Observation[Visit_Date != null && Visit_Date == zoho.currentdate && Status == "Requested"].count();
+	followupPending = thisapp.sales.missedSchedule();
+	%>
+<!-- ✅ KPI Tiles (Centered & Larger Numbers) -->
+  <div class="kpi-row">
+    <div class="tile"><div class="title"><i class="fa-solid fa-user-plus"></i> Leads</div><div class="value"><%=thisapp.sales.leadsCount()%></div></div>
+    <div class="tile"><div class="title"><i class="fa-solid fa-file-invoice"></i> Quotations</div><div class="value"><%=thisapp.sales.quoteCount()%></div></div>
+    <div class="tile"><div class="title"><i class="fa-solid fa-phone"></i> Follow-Ups</div><div class="value"><%=followupDone%> / <%=followupPending%></div></div>
+    <div class="tile"><div class="title"><i class="fa-solid fa-briefcase"></i> Orders</div><div class="value"><%=thisapp.sales.Orders_daily()%></div></div>
+    <div class="tile"><div class="title"><i class="fa-solid fa-money-bill-wave"></i> Payments</div><div class="value"><%=thisapp.sales.payments_daily()%></div></div>
+    <div class="tile"><div class="title"><i class="fa-solid fa-calendar-check"></i> Pre-Visits</div><div class="value"><%=previsit%></div></div>
+  </div>
+<%
+	admin_delay = thisapp.sales.AdminDelay();
+	UncontactedQuotes = thisapp.sales.quotationWithNoFollowUp();
+	%>
+<div class="health-row">
+    <div class="health-card red" style="border-bottom: 4px solid var(--alert-red);">
+      <div class="hc-title">Admin Delay</div>
+      <div class="alert-badge"><%=admin_delay%></div>
+    </div>
+    <div class="health-card blue" style="border-bottom: 4px solid var(--alert-blue);">
+      <div class="hc-title">⚠️ Missed Schedule</div>
+      <div class="red-indicator"><%=followupPending%></div>
+    </div>
+    <div class="health-card green" style="border-bottom: 4px solid var(--alert-green);">
+      <div class="hc-title">⏳ Uncontacted Quotes</div>
+      <div class="red-counter"><%=UncontactedQuotes%></div>
+    </div>
+  </div>
+<%
+	qfuPending = thisapp.sales.FollowupPending3days();
+	cus_inactive = thisapp.sales.inactive_customers_daily();
+	overdue = thisapp.sales.paymentoverdue();
+	previs = thisapp.sales.PreVisitObservsationAlerts();
+	%>
+<div class="alerts-card">
+    <h3>Critical Alerts</h3>
+    <div class="alerts-list">
+      <div class="alerts-item"><span class="dot red"></span> Quotations pending follow-up - <%=qfuPending%></div>
+      <div class="alerts-item"><span class="dot yellow"></span> Payments overdue - <%=overdue%></div>
+      <div class="alerts-item"><span class="dot green"></span> Customers inactive - <%=cus_inactive%></div>
+      <div class="alerts-item"><span class="dot green"></span> Service delay - <%=previs%></div>
+    </div>
+  </div>
+
+<div class="main-grid">
+    <div class="left-col">
+      <div class="lost-card">
+        <h3>Order Lost Analysis</h3>
+        <div class="donut-wrapper">	<div class="donut"
+		  style="
+			--price-end:<%=lostOrder.get("price_end")%>deg;
+			--transport-end:<%=lostOrder.get("transport_end")%>deg;
+			--service-end:<%=lostOrder.get("service_end")%>deg;
+			--toofar-end:<%=lostOrder.get("toofar_end")%>deg;
+		  ">
+		</div>
+
+		<!-- Legends -->
+		<div class="legend">
+		<div class="legend-item"><div class="legend-color color-price"></div>Price (<%=lostOrder.get("price")%>%)</div>
+			<div class="legend-item"><div class="legend-color color-transport"></div>Transport (<%=lostOrder.get("transport")%>%)</div>
+			<div class="legend-item"><div class="legend-color color-service"></div>Service Not Possible (<%=lostOrder.get("service_not_possible")%>%)</div>
+			<div class="legend-item"><div class="legend-color color-toofar"></div>Too Far (<%=lostOrder.get("toofar")%>%)</div>
+		  	<div class="legend-item"><div class="legend-color color-postponed"></div>Postponed (<%=lostOrder.get("postponed")%>%)</div>
+		</div>
+        </div>
+      </div>
+    </div>
+    <div class="right-col">
+      <div class="health-card followup-done">
+        <div class="hc-title">✅ Follow-Ups Done</div>
+        <div class="hc-sub">Target: 90%</div>
+        <div class="followup-progress" style="--percent:85;">
+          <div class="progress-track"><div class="progress-fill"></div></div>
+          <div class="percent-row"><span>85%</span><span class="target">Target 90%</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+<%
+	QuoteSent = thisapp.sales.DayWiseQuoteSent();
+	QSMon = QuoteSent.get("Mon");
+	QSTue = QuoteSent.get("Tue");
+	QSWed = QuoteSent.get("Wed");
+	QSThu = QuoteSent.get("Thu");
+	QSFri = QuoteSent.get("Fri");
+	QSTot = QuoteSent.get("Tot");
+	OrderConf = thisapp.sales.DayWiseOrder();
+	OMon = OrderConf.get("Mon");
+	OTue = OrderConf.get("Tue");
+	OWed = OrderConf.get("Wed");
+	OThu = OrderConf.get("Thu");
+	OFri = OrderConf.get("Fri");
+	OTot = OrderConf.get("Tot");
+	QuoteWOF = thisapp.sales.DayWiseQuoteWOF();
+	QMon = QuoteWOF.get("Mon");
+	QTue = QuoteWOF.get("Tue");
+	QWed = QuoteWOF.get("Wed");
+	QThu = QuoteWOF.get("Thu");
+	QFri = QuoteWOF.get("Fri");
+	QTot = QuoteWOF.get("Tot");
+	followupD = thisapp.sales.DayWiseFollowupDone();
+	fMon = followupD.get("Mon");
+	fTue = followupD.get("Tue");
+	fWed = followupD.get("Wed");
+	fThu = followupD.get("Thu");
+	fFri = followupD.get("Fri");
+	fTot = followupD.get("Tot");
+	%>
+<div class="table-card">
+    <h3>Day-wise Rolling View</h3>
+    <table>
+      <thead>
+        <tr><th>Metric</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Total</th></tr>
+      </thead>
+      <tbody>
+	  <tr><td>Quotations Sent</td><td><%=QSMon%></td><td><%=QSTue%></td><td><%=QSWed%></td><td><%=QSThu%></td><td><%=QSFri%></td><td><%=QSTot%></td></tr>
+        <tr><td>Follow-Ups</td><td><%=fMon%></td><td><%=fTue%></td><td><%=fWed%></td><td><%=fThu%></td><td><%=fFri%></td><td><%=fTot%></td></tr>
+        <tr><td>Orders</td><td><%=OMon%></td><td><%=OTue%></td><td><%=OWed%></td><td><%=OThu%></td><td><%=OFri%></td><td><%=OTot%></td></tr>
+        <tr><td>Quotations Without Follow-Up</td><td><%=QMon%></td><td><%=QTue%></td><td><%=QWed%></td><td><%=QThu%></td><td><%=QFri%></td><td><%=QTot%></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+ </div>
+
+
+
+
+           
+            <div id="content2" class="tab-content">
+              <style>
+    /* -------------------- General -------------------- */
+    .bod-sec-cnt2-cnt2 {
+      font-family: "Poppins", "Segoe UI", sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 30px;
+      color: #222;
+    }
+
+    .dashboard-cnt2 {
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    /* -------------------- section-cnt2 Cards -------------------- */
+    .section-cnt2 {
+      background: #fff;
+      padding: 25px;
+      border-radius: 16px;
+      margin-bottom: 30px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .section-cnt2:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    }
+
+    /* -------------------- section-cnt2 Headers -------------------- */
+    h2 {
+      text-align: center;
+      color: #111;
+      margin-bottom: 25px;
+      font-weight: 600;
+    }
+
+    h3 {
+      color: #111;
+      margin-bottom: 20px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      font-size: 18px;
+      position: relative;
+      padding-bottom: 8px;
+    }
+
+    h3 span {
+      font-size: 22px;
+      margin-right: 10px;
+    }
+
+    h3::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 3px;
+      width: 50px;
+      background: linear-gradient(90deg, #f39c12, #e67e22);
+      border-radius: 2px;
+    }
+
+    /* -------------------- KPI Table -------------------- */
+    .kpi-table-cnt2 {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 25px;
+    }
+
+    .kpi-table-cnt2 th,
+
+    .kpi-table-cnt2 td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .kpi-table-cnt2 th {
+      background: #454242;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .kpi-table-cnt2 tr:hover td {
+      background: #f9f9f9;
+    }
+
+    .kpi-table-cnt2 td.red {
+      color: #e74c3c;
+      font-weight: bold;
+    }
+
+    /* -------------------- Layout -------------------- */
+    .row-cnt2 {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+
+    /* -------------------- lead-cnt2 Source Chart -------------------- */
+    .lead-cnt2-source {
+      flex: 1;
+      min-width: 320px;
+    }
+
+    .lead-cnt2-row-cnt2 {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .lead-cnt2-label {
+      width: 160px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .chart-container-cnt2 {
+      flex: 1;
+      background: #eee;
+      border-radius: 20px;
+      height: 28px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .chart-bar-cnt2-cnt2 {
+      height: 100%;
+      line-height: 28px;
+      text-align: right;
+      color: #fff;
+      border-radius: 20px;
+      padding-right: 8px;
+      font-size: 13px;
+      width: 0%;
+      animation: fillbar-cnt2 1.5s forwards ease-out;
+    }
+
+    .chart-bar-cnt2-cnt2.blue {
+      background: #1c9f54;
+    }
+
+    .chart-bar-cnt2-cnt2.green {
+      background: #1c9f54;
+    }
+
+    .chart-bar-cnt2-cnt2.orange {
+      background: #1c9f54;
+    }
+
+    .chart-bar-cnt2-cnt2.red {
+      background: #1c9f54;
+    }
+
+    .chart-bar-cnt2-cnt2.lightgreen {
+      background: #1c9f54;
+    }
+
+    .chart-bar-cnt2-cnt2.purple {
+      background: #1c9f54;
+    }
+
+    @keyframes fillbar-cnt2 {
+      from {
+        width: 0%;
+      }
+
+      to {
+        width: var(--bar-cnt2-width);
+      }
+    }
+
+    /* -------------------- funnel-cnt2 Chart (Compact Zoho Style) -------------------- */
+    .funnel-cnt2-wrapper {
+      flex: 0 0 500px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .funnel-cnt2-container {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+      width: 100%;
+    }
+
+    .funnel-cnt2 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      flex: 0 0 250px;
+      position: relative;
+    }
+
+    .funnel-cnt2-stage {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .funnel-cnt2-segment {
+      width: 100%;
+      height: 55px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      animation: fadeInSegment 0.6s forwards;
+      transition: all 0.3s ease;
+      overflow: visible;
+    }
+
+    .funnel-cnt2-segment.stage1 {
+      clip-path: polygon(0% 0%, 100% 0%, 90% 100%, 10% 100%);
+      background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+      animation-delay: 0.1s;
+    }
+
+    .funnel-cnt2-segment.stage2 {
+      clip-path: polygon(10% 0%, 90% 0%, 80% 100%, 20% 100%);
+      background: linear-gradient(135deg, #f39c12 0%, #d68910 100%);
+      animation-delay: 0.2s;
+    }
+
+    .funnel-cnt2-segment.stage3 {
+      clip-path: polygon(20% 0%, 80% 0%, 70% 100%, 30% 100%);
+      background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+      animation-delay: 0.3s;
+    }
+
+    .funnel-cnt2-segment.stage4 {
+      clip-path: polygon(30% 0%, 70% 0%, 60% 100%, 40% 100%);
+      background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%);
+      animation-delay: 0.4s;
+    }
+
+    .funnel-cnt2-segment.stage5 {
+      clip-path: polygon(40% 0%, 60% 0%, 50% 100%, 50% 100%);
+      background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+      animation-delay: 0.5s;
+      height: 45px;
+    }
+
+    .funnel-cnt2-stage:hover .funnel-cnt2-segment {
+      filter: brightness(1.2);
+      transform: scale(1.05);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .funnel-cnt2-count {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      font-weight: 700;
+      font-size: 18px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+      z-index: 2;
+      transition: all 0.3s ease;
+    }
+
+    .funnel-cnt2-stage:hover .funnel-cnt2-count {
+      transform: translate(-50%, -50%) scale(1.15);
+    }
+
+
+    @keyframes fadeInSegment {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .funnel-cnt2-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .funnel-cnt2-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #fafafa;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: 2px solid transparent;
+    }
+
+    .funnel-cnt2-legend-item:hover {
+      background: #f0f0f0;
+      transform: translateX(5px);
+      border-color: #ddd;
+    }
+
+    .funnel-cnt2-color-box {
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      transition: all 0.3s ease;
+    }
+
+    .funnel-cnt2-legend-item:hover .funnel-cnt2-color-box {
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    }
+
+    .funnel-cnt2-color-box.color1 {
+      background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    }
+
+    .funnel-cnt2-color-box.color2 {
+      background: linear-gradient(135deg, #f39c12 0%, #d68910 100%);
+    }
+
+    .funnel-cnt2-color-box.color3 {
+      background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    }
+
+    .funnel-cnt2-color-box.color4 {
+      background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%);
+    }
+
+    .funnel-cnt2-color-box.color5 {
+      background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+    }
+
+    .funnel-cnt2-legend-text {
+      flex: 1;
+    }
+
+    .funnel-cnt2-legend-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 2px;
+    }
+
+    .funnel-cnt2-legend-value {
+      font-size: 13px;
+      color: #666;
+      font-weight: 500;
+    }
+
+    .funnel-cnt2-legend-conversion {
+      font-size: 12px;
+      color: #27ae60;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    /* -------------------- metrics-cnt2 -------------------- */
+    .metrics-cnt2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .metric-box {
+      background: #fafafa;
+      padding: 15px;
+      border-radius: 5px;
+      text-align: center;
+      border: 1px solid #eee;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .metric-box:hover {
+      transform: scale(1.03);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .metric-box h4 {
+      margin: 0;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .metric-box p {
+      margin: 5px 0 0;
+      font-size: 18px;
+      font-weight: bold;
+      color: #e67e22;
+    }
+
+    .metric-box p.red {
+      color: #e74c3c;
+    }
+
+    /* -------------------- bar-cnt2 Chart -------------------- */
+    .bar-cnt2-chart {
+      margin-top: 25px;
+      background: #f9f9f9;
+      padding: 15px;
+      border-radius: 12px;
+      border: 1px solid #eee;
+    }
+
+    .bar-cnt2-chart h4 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 15px;
+    }
+
+    .bar-cnt2 {
+      background: #e0e0e0;
+      border-radius: 50px;
+      overflow: hidden;
+      margin-bottom: 14px;
+      height: 28px;
+      position: relative;
+    }
+
+    .bar-cnt2-fill {
+      height: 100%;
+      color: #fff;
+      text-align: right;
+      line-height: 28px;
+      padding-right: 10px;
+      font-size: 13px;
+      border-radius: 50px;
+      width: 0%;
+      animation: grow-cnt2bar-cnt2 1.5s forwards ease-out;
+    }
+
+    .bar-cnt21 .bar-cnt2-fill {
+      background: #ecb560;
+    }
+
+    .bar-cnt22 .bar-cnt2-fill {
+      background: #2ecc71;
+    }
+
+    @keyframes grow-cnt2bar-cnt2 {
+      from {
+        width: 0;
+      }
+
+      to {
+        width: var(--width);
+      }
+    }
+
+    /* -------------------- gauge-cnt2 -------------------- */
+    .gauge-cnt2-wrapper {
+      flex: 0 0 240px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .gauge-cnt2-container {
+      position: relative;
+      width: 450px;
+      height: 170px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .gauge-cnt2-arc-container {
+      position: relative;
+      width: 160px;
+      height: 80px;
+    }
+
+    .gauge-cnt2-bg-arc {
+      width: 160px;
+      height: 80px;
+      border-radius: 80px 80px 0 0;
+      background: #e8ecef;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gauge-cnt2-progress-arc {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 160px;
+      height: 80px;
+      border-radius: 80px 80px 0 0;
+      background: linear-gradient(90deg, #ff6b6b 0%, #feca57 25%, #48dbfb 50%, #1dd1a1 75%, #10ac84 100%);
+      clip-path: polygon(0 100%,
+          0 0,
+          calc(var(--percentage, 0) * 1%) 0,
+          calc(var(--percentage, 0) * 1%) 100%);
+      animation: fillgauge-cnt2Arc 2s ease-out forwards;
+    }
+
+    @keyframes fillgauge-cnt2Arc {
+      from {
+        clip-path: polygon(0 100%, 0 100%, 0 100%, 0 100%);
+      }
+
+      to {
+        clip-path: polygon(0 100%,
+            0 0,
+            calc(var(--percentage, 0) * 1%) 0,
+            calc(var(--percentage, 0) * 1%) 100%);
+
+      }
+    }
+
+    .gauge-cnt2-inner-cutout {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 60px;
+      background: #fff;
+      border-radius: 60px 60px 0 0;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .gauge-cnt2-value-display {
+      position: absolute;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 10;
+    }
+
+    .gauge-cnt2-percentage {
+      font-size: 28px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .gauge-cnt2-text {
+      font-size: 11px;
+      color: #6c757d;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .gauge-cnt2-wrapper {
+      position: relative;
+      /* make wrapper relative for absolute positioning */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+
+
+    .gauge-cnt2-indicator {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 4px;
+      height: 60px;
+      background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+      transform-origin: bottom center;
+      transform: translateX(-50%) rotate(calc(-90deg + (var(--percentage, 0) * 1.8deg)));
+      border-radius: 4px 4px 0 0;
+      animation: rotateIndicator 2s ease-out forwards;
+      z-index: 5;
+      box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+    }
+
+    .gauge-cnt2-indicator::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 16px;
+      height: 16px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      border: 3px solid #fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    @keyframes rotateIndicator {
+      from {
+        transform: translateX(-50%) rotate(-90deg);
+      }
+
+      to {
+        transform: translateX(-50%) rotate(calc(-90deg + (var(--percentage, 0) * 1.8deg)));
+      }
+    }
+
+    .gauge-cnt2-labels {
+      position: absolute;
+      bottom: -5px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 5px;
+      font-size: 10px;
+      color: #adb5bd;
+      font-weight: 600;
+    }
+
+    /* Heading inside the gauge-cnt2 curve */
+    /* Heading inside the gauge-cnt2, above the arc */
+    .gauge-cnt2-inside-heading {
+      position: absolute;
+      top: 10px;
+      /* adjust as needed to sit in the red box area */
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 14px;
+      font-weight: 700;
+      color: #333;
+      text-align: center;
+      z-index: 10;
+      pointer-events: none;
+      /* ensures it doesn’t interfere with gauge-cnt2 hover/animation */
+    }
+
+
+    /* -------------------- Pending Table -------------------- */
+    .pending-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .pending-table th,
+    .pending-table td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .pending-table th {
+      background: #454242;
+      color: #ffffff;
+    }
+
+    .pending-table td.red {
+      color: #e74c3c;
+      font-weight: bold;
+    }
+
+    .pending-table tr:nth-child(even) {
+      background: #fafafa;
+    }
+
+    .pending-table tr:hover td {
+      background: #f0f0f0;
+    }
+
+    /* -------------------- Responsive -------------------- */
+    @media(max-width:900px) {
+      .row-cnt2 {
+        flex-direction: column;
+      }
+
+      .funnel-cnt2-wrapper,
+      .lead-cnt2-source {
+        min-width: 100%;
+        flex: 1 1 100%;
+      }
+
+      .gauge-cnt2-wrapper {
+        flex: 1 1 100%;
+      }
+
+      .metrics-cnt2 {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      }
+    }
+  </style>
+
+
+  <div class="dashboard-cnt2">
+    <h2>Weekly Tracker & Lead Conversion Overview</h2>
+
+    <!-- KPI Table -->
+    <!-- 
+      HOW TO UPDATE: Change the numbers in <td> cells
+      - For alerts, add class="red" to the <td> tag
+    -->
+    <div class="section-cnt2">
+      <h3><span></span>Weekly KPI Highlights</h3>
+      <table class="kpi-table-cnt2">
+        <tr>
+          <th>Metric</th>
+          <th>Current Week</th>
+          <th>Last Week</th>
+          <th>Change</th>
+        </tr>
+<%
+	NewLeads = thisapp.sales.WeeklyLeads();
+	NewQuoteSent = thisapp.sales.WeeklyQuoteSent();
+	NewOrdersConfirmed = thisapp.sales.WeeklyOrders();
+	NewFollowUp = thisapp.sales.WeeklyFollowupMissed();
+	NewPayReceive = thisapp.sales.WeeklyPaymentReceived();
+	NewPVPending = thisapp.sales.WeeklyPVPending();
+	%>
+<tr>
+          <td>New Leads</td>
+		  <td><%=NewLeads.get(0)%></td>
+          <td><%=NewLeads.get(1)%></td>
+<%
+	if(NewLeads.get(2) == "decrease")
+	{
+		%>
+<td style="color:red;">-<%=NewLeads.get(3)%>%</td>
+<%
+	}
+	else if(NewLeads.get(2) == "increase" && NewLeads.get(3) == 0)
+	{
+		%>
+<td><%=NewLeads.get(3)%>%</td>
+<%
+	}
+	else if(NewLeads.get(2) == "increase" && NewLeads.get(3) != 0)
+	{
+		%>
+<td>+<%=NewLeads.get(3)%>%</td>
+<%
+	}
+	%>
+</tr>
+        <tr>
+          <td>Quotations Sent</td>
+          <td><%=NewQuoteSent.get(0)%></td>
+          <td><%=NewQuoteSent.get(1)%></td>
+<%
+	if(NewQuoteSent.get(2) == "decrease")
+	{
+		%>
+<td style="color:red;">-<%=NewQuoteSent.get(3)%>%</td>
+<%
+	}
+	else if(NewQuoteSent.get(2) == "increase" && NewQuoteSent.get(3) == 0)
+	{
+		%>
+<td><%=NewQuoteSent.get(3)%>%</td>
+<%
+	}
+	else if(NewQuoteSent.get(2) == "increase" && NewQuoteSent.get(3) != 0)
+	{
+		%>
+<td>+<%=NewQuoteSent.get(3)%>%</td>
+<%
+	}
+	%>
+</tr>
+        <tr>
+          <td>Orders Confirmed</td>
+          <td><%=NewOrdersConfirmed.get(0)%></td>
+          <td><%=NewOrdersConfirmed.get(1)%></td>
+<%
+	if(NewOrdersConfirmed.get(2) == "decrease")
+	{
+		%>
+<td style="color:red;">-<%=NewOrdersConfirmed.get(3)%>%</td>
+<%
+	}
+	else if(NewOrdersConfirmed.get(2) == "increase" && NewOrdersConfirmed.get(3) == 0)
+	{
+		%>
+<td><%=NewOrdersConfirmed.get(3)%>%</td>
+<%
+	}
+	else if(NewOrdersConfirmed.get(2) == "increase" && NewOrdersConfirmed.get(3) != 0)
+	{
+		%>
+<td>+<%=NewOrdersConfirmed.get(3)%>%</td>
+<%
+	}
+	%>
+</tr>
+        <tr>
+          <td>Payments Received (₹)</td>
+		  <td>₹<%=NewPayReceive.get(0)%></td>
+          <td>₹<%=NewPayReceive.get(1)%></td>
+<%
+	if(NewPayReceive.get(2) == "decrease")
+	{
+		%>
+<td style="color:red;">-<%=NewPayReceive.get(3)%>%</td>
+<%
+	}
+	else if(NewPayReceive.get(2) == "increase" && NewPayReceive.get(3) == 0)
+	{
+		%>
+<td><%=NewPayReceive.get(3)%>%</td>
+<%
+	}
+	else if(NewPayReceive.get(2) == "increase" && NewPayReceive.get(3) != 0)
+	{
+		%>
+<td>+<%=NewPayReceive.get(3)%>%</td>
+<%
+	}
+	%>
+</tr>
+        <tr>
+          <td>Follow-Ups Missed</td>
+          <td><%=NewFollowUp.get(0)%></td>
+          <td><%=NewFollowUp.get(1)%></td>
+<%
+	if(NewFollowUp.get(2) == "decrease")
+	{
+		%>
+<td style="color:red;">-<%=NewFollowUp.get(3)%></td>
+<%
+	}
+	else if(NewFollowUp.get(2) == "increase" && NewFollowUp.get(3) == 0)
+	{
+		%>
+<td><%=NewFollowUp.get(3)%></td>
+<%
+	}
+	else if(NewFollowUp.get(2) == "increase" && NewFollowUp.get(3) != 0)
+	{
+		%>
+<td>+<%=NewFollowUp.get(3)%></td>
+<%
+	}
+	%>
+</tr>
+        <tr>
+          <td>Pre-Visits Pending</td>
+          <td><%=NewPVPending.get(0)%></td>
+          <td><%=NewPVPending.get(1)%></td>
+<%
+	if(NewPVPending.get(2) == "decrease")
+	{
+		%>
+<td style="color:red;">-<%=NewPVPending.get(3)%></td>
+<%
+	}
+	else if(NewPVPending.get(2) == "increase" && NewPVPending.get(3) == 0)
+	{
+		%>
+<td><%=NewPVPending.get(3)%></td>
+<%
+	}
+	else if(NewPVPending.get(2) == "increase" && NewPVPending.get(3) != 0)
+	{
+		%>
+<td>+<%=NewPVPending.get(3)%></td>
+<%
+	}
+	%>
+</tr>
+      </table>
+    </div>
+
+    <!-- lead-cnt2 Source + funnel-cnt2 -->
+    <!-- lead-cnt2 Source + funnel-cnt2 -->
+<%
+	lsc = thisapp.sales.WeeklyLeadSource();
+	%>
+<div class="section-cnt2">
+      <div class="row-cnt2" style="align-items: flex-start; justify-content: space-between; gap: 40px;">
+
+        <!-- lead-cnt2 Source -->
+        <div class="lead-cnt2-source" style="flex: 1; min-width: 400px;">
+          <h3 style="margin-bottom: 20px;"><span></span>Lead Source & Conversion</h3>
+
+          <div class="lead-cnt2-row-cnt2"><span class="lead-cnt2-label">IndiaMART</span>
+            <div class="chart-container-cnt2">
+				<div class="chart-bar-cnt2-cnt2 blue" style="--bar-cnt2-width:<%=lsc.get(0)%>%;"><%=lsc.get(0)%>%</div>
+			</div>
+          </div>
+          <div class="lead-cnt2-row-cnt2"><span class="lead-cnt2-label">Justdial</span>
+            <div class="chart-container-cnt2">
+              <div class="chart-bar-cnt2-cnt2 green" style="--bar-cnt2-width:<%=lsc.get(1)%>%;"><%=lsc.get(1)%>%</div>
+            </div>
+          </div>
+          <div class="lead-cnt2-row-cnt2"><span class="lead-cnt2-label">Cold Calls</span>
+            <div class="chart-container-cnt2">
+              <div class="chart-bar-cnt2-cnt2 orange" style="--bar-cnt2-width:<%=lsc.get(2)%>%;"><%=lsc.get(2)%>%</div>
+            </div>
+          </div>
+          <div class="lead-cnt2-row-cnt2"><span class="lead-cnt2-label">Existing Customers</span>
+            <div class="chart-container-cnt2">
+              <div class="chart-bar-cnt2-cnt2 red" style="--bar-cnt2-width:<%=lsc.get(3)%>%;"><%=lsc.get(3)%>%</div>
+            </div>
+          </div>
+          <div class="lead-cnt2-row-cnt2"><span class="lead-cnt2-label">Referrals</span>
+            <div class="chart-container-cnt2">
+              <div class="chart-bar-cnt2-cnt2 lightgreen" style="--bar-cnt2-width:<%=lsc.get(4)%>%;"><%=lsc.get(4)%>%</div>
+            </div>
+          </div>
+          <div class="lead-cnt2-row-cnt2"><span class="lead-cnt2-label">Dealers / OEM</span>
+            <div class="chart-container-cnt2">
+              <div class="chart-bar-cnt2-cnt2 purple" style="--bar-cnt2-width:<%=lsc.get(5)%>%;"><%=lsc.get(5)%>%</div>
+            </div>
+          </div>
+        </div>
+<%
+	// sales
+	lead_cnt = thisapp.sales.WeeklyLeadCnt();
+	qs_cnt = thisapp.sales.WeeklySalesQuoteSent();
+	fu_cnt = thisapp.sales.WeeklyFollowup();
+	oc_cnt = thisapp.sales.WeeklyOrderConfirmed();
+	pt_cnt = thisapp.sales.WeeklySalesPaymentReceived();
+	%>
+<!-- funnel-cnt2 (right side) -->
+        <div class="funnel-cnt2-wrapper"
+          style="flex: 1; min-width: 400px; display: flex; flex-direction: column; align-items: center;">
+          <h3 style="margin-bottom: 20px;"><span></span>Sales</h3>
+          <div class="funnel-cnt2-container" style="align-items: flex-start; gap: 40px;">
+            <div class="funnel-cnt2-container" style="align-items: flex-start; gap: 40px;">
+              <div class="funnel-cnt2" style="flex: 0 0 240px;">
+                <div class="funnel-cnt2-stage">
+                  <div class="funnel-cnt2-segment stage1">
+                    <div class="funnel-cnt2-count"><%=lead_cnt%></div>
+                  </div>
+                </div>
+                <div class="funnel-cnt2-stage">
+                  <div class="funnel-cnt2-segment stage2">
+                    <div class="funnel-cnt2-count"><%=qs_cnt%></div>
+                  </div>
+                </div>
+                <div class="funnel-cnt2-stage">
+                  <div class="funnel-cnt2-segment stage3">
+                    <div class="funnel-cnt2-count"><%=fu_cnt%></div>
+                  </div>
+                </div>
+                <div class="funnel-cnt2-stage">
+                  <div class="funnel-cnt2-segment stage4">
+                    <div class="funnel-cnt2-count"><%=oc_cnt%></div>
+                  </div>
+                </div>
+                <div class="funnel-cnt2-stage">
+                  <div class="funnel-cnt2-segment stage5">
+                    <div class="funnel-cnt2-count"><%=pt_cnt%></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="funnel-cnt2-legend" style="flex: 1;">
+                <div class="funnel-cnt2-legend-item">
+                  <div class="funnel-cnt2-color-box color1"></div>
+                  <div class="funnel-cnt2-legend-text">
+                    <div class="funnel-cnt2-legend-title">Lead Counts</div>
+                    <div class="funnel-cnt2-legend-value">Count: <%=lead_cnt%></div>
+                  </div>
+                </div>
+                <div class="funnel-cnt2-legend-item">
+                  <div class="funnel-cnt2-color-box color2"></div>
+                  <div class="funnel-cnt2-legend-text">
+                    <div class="funnel-cnt2-legend-title">Quotations Sent</div>
+                    <div class="funnel-cnt2-legend-value">Count: <%=qs_cnt%></div>
+                    <div class="funnel-cnt2-legend-conversion"></div>
+                  </div>
+                </div>
+                <div class="funnel-cnt2-legend-item">
+                  <div class="funnel-cnt2-color-box color3"></div>
+                  <div class="funnel-cnt2-legend-text">
+                    <div class="funnel-cnt2-legend-title">Follow-Ups Done</div>
+                    <div class="funnel-cnt2-legend-value">Count: <%=fu_cnt%></div>
+                    <div class="funnel-cnt2-legend-conversion"></div>
+                  </div>
+                </div>
+                <div class="funnel-cnt2-legend-item">
+                  <div class="funnel-cnt2-color-box color4"></div>
+                  <div class="funnel-cnt2-legend-text">
+                    <div class="funnel-cnt2-legend-title">Orders Confirmed</div>
+                    <div class="funnel-cnt2-legend-value">Count: <%=oc_cnt%></div>
+                    <div class="funnel-cnt2-legend-conversion"></div>
+                  </div>
+                </div>
+                <div class="funnel-cnt2-legend-item">
+                  <div class="funnel-cnt2-color-box color5"></div>
+                  <div class="funnel-cnt2-legend-text">
+                    <div class="funnel-cnt2-legend-title">Payments Received</div>
+                    <div class="funnel-cnt2-legend-value">Count: <%=pt_cnt%></div>
+                    <div class="funnel-cnt2-legend-conversion"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+<%
+	leadAwaiting = thisapp.sales.leadsAwaitingContact();
+	AverageDelay = thisapp.sales.averageDelay();
+	newDealers = thisapp.sales.weeklyNewDealersAddedThisMonth();
+	%>
+<!-- ? Add the 3 metric boxes as a full-width row-cnt2 below lead-cnt2 Source + funnel-cnt2 -->
+      <div class="metrics-cnt2" style="display:flex; gap:15px; margin-top:30px; flex-wrap:wrap;">
+        <div class="metric-box">
+          <h4>New Dealers Added This Month</h4>
+          <p><%=newDealers%></p>
+        </div>
+        <div class="metric-box">
+          <h4>Lead Awaiting Contact</h4>
+          <p><%=leadAwaiting%></p>
+        </div>
+        <div class="metric-box">
+          <h4>Average Delay (Days)</h4>
+          <p><%=AverageDelay%></p>
+        </div>
+      </div>
+
+    </div>
+
+
+
+    <!-- Pre-Visit & Service -->
+    <div class="section-cnt2">
+      <h3><span></span>Pre-Visit & Service Coordination</h3>
+
+      <!-- 
+        HOW TO UPDATE: Change the numbers in <p> tags
+      -->
+<%
+	pre_Visit = thisapp.sales.WeeklyPreSiteVisitStatus();
+	req_per = pre_Visit.get("Requested_Percentage");
+	com_per = pre_Visit.get("Completed_Percentage");
+	request_cnt = pre_Visit.get("Requested_Count");
+	completed_cnt = pre_Visit.get("Completed_Count");
+	%>
+<div class="row-cnt2" style="align-items:center; margin-top: 20px;">
+        <!-- bar-cnt2 Chart -->
+        <!-- 
+          HOW TO UPDATE bar-cnt2 CHART: 
+          Change the --width value (as percentage) and the label text
+          Example: style="--width:75%;">15 Requests
+        -->
+        <div class="bar-cnt2-chart" style="flex:1; min-width:320px; margin: 0;">
+          <h4>Pre-Visit Requests vs Completed</h4>
+          <div class="bar-cnt2 bar-cnt21">
+		  <div class="bar-cnt2-fill" style="--width:<%=req_per%>"><%=request_cnt%> Requests</div>
+          </div>
+          <div class="bar-cnt2 bar-cnt22">
+            <div class="bar-cnt2-fill" style="--width:<%=com_per%>"><%=completed_cnt%> Completed</div>
+          </div>
+        </div>
+
+        <!-- gauge-cnt2 Chart -->
+        <!-- 
+          HOW TO UPDATE gauge-cnt2: 
+          Change the --percentage value (0-100) in the gauge-cnt2-container style
+          Also update the number in gauge-cnt2-percentage div
+          Example: style="--percentage: 75;" and <div class="gauge-cnt2-percentage">75</div>
+        -->
+
+        <div class="gauge-cnt2-wrapper">
+<%
+	feedbackAfterVisit = thisapp.sales.WeeklyCustomerFeedback();
+	%>
+<div class="gauge-cnt2-container" style="--percentage: <%=feedbackAfterVisit%>;">
+            <div class="gauge-cnt2-inside-heading">Feedback After Visit (%)</div>
+
+            <div class="gauge-cnt2-arc-container">
+              <!-- Heading inside the gauge-cnt2 -->
+              <div class="gauge-cnt2-bg-arc">
+                <div class="gauge-cnt2-progress-arc"></div>
+              </div>
+
+              <div class="gauge-cnt2-inner-cutout"></div>
+
+              <div class="gauge-cnt2-indicator"></div>
+              <div class="gauge-cnt2-value-display">
+                <div class="gauge-cnt2-percentage"><%=feedbackAfterVisit%></div>
+                <div class="gauge-cnt2-text">Feedback</div>
+              </div>
+            </div>
+
+            <div class="gauge-cnt2-labels">
+              <span>0%</span>
+              <span>100%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pending Items Table -->
+      <!-- 
+        HOW TO UPDATE: Add/remove <tr> row-cnt2s and change the values in <td> cells
+      -->
+      <h4 style="margin-top:30px;">Pending >3 Days (Detailed)</h4>
+      
+	  <table class="pending-table">
+		  <tr>
+			<th>Customer</th>
+			<th>Product</th>
+			<th>Age (Days)</th>
+		  </tr>
+<%
+	get_det = Customer_Calling_follow_up[Status == "Open" || Status == "In Progress" && Lead_Date < zoho.currentdate.subDay(3)];
+	get_det_cnt = get_det.count();
+	if(get_det_cnt == 0)
+	{
+		%>
+<tr>
+			<td colspan="3" style="text-align:center;">No pending leads</td>
+		</tr>
+<%
+	}
+	else
+	{
+		for each  det in get_det
+		{
+			// Customer Name
+			cust = "";
+			if(det.Customer_Company != null)
+			{
+				cust = det.Customer_Company.Customer_Name;
+			}
+			// Product List
+			productList = List();
+			if(det.Item_Details != null)
+			{
+				for each  prod in det.Item_Details
+				{
+					if(prod.Item_Name != null)
+					{
+						productList.add(prod.Item_Name.Product_Name);
+					}
+				}
+			}
+			// Age calculation
+			age = 0;
+			if(det.Lead_Date != null)
+			{
+				age = det.Lead_Date.daysBetween(zoho.currentdate);
+			}
+			%>
+<tr>
+			<td><%=cust%></td>
+			<td><%=productList%></td>
+			<td><%=age%></td>
+		</tr>
+<%
+		}
+	}
+	%>
+</table>
+    </div>
+
+  </div>
+    </div>
+
+	<div id="content3" class="tab-content">
+<style>
+/* ===== RESET & BASE ===== */
+.c3 * { box-sizing: border-box; }
+.c3 {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f5f7fa;
+  padding: 20px;
+  color: #1f2937;
+}
+
+/* ===== SECTION CARD ===== */
+.c3-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+  padding: 24px;
+  margin-bottom: 24px;
+}
+.c3-card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 20px 0;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #f3f4f6;
+}
+
+/* ===== DASHBOARD HEADER ===== */
+.c3-header {
+  background: #6f747c;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px 8px 0 0;
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+/* ===== SUMMARY TILES ===== */
+.c3-tiles {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
+@media (max-width: 900px) { .c3-tiles { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px) { .c3-tiles { grid-template-columns: 1fr; } }
+
+.c3-tile {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  padding: 16px;
+  border-left: 4px solid #10b981;
+  transition: transform 0.2s;
+}
+.c3-tile:hover { transform: translateY(-3px); }
+.c3-tile-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+.c3-tile-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111;
+}
+.c3-tile-sub {
+  font-size: 11px;
+  color: #9ca3af;
+  margin-top: 3px;
+}
+
+/* ===== VERTICAL BAR CHART ===== */
+.c3-bar-chart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 220px;
+  gap: 6px;
+  padding-bottom: 0;
+}
+.c3-bar-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  height: 100%;
+  justify-content: flex-end;
+}
+.c3-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 150px;
+  width: 100%;
+  justify-content: center;
+  overflow: visible;
+}
+.c3-bar {
+  width: 14px;
+  border-radius: 3px 3px 0 0;
+  transition: all 0.6s ease;
+  min-height: 2px;
+  position: relative;
+  cursor: default;
+}
+.c3-bar-lbl {
+  font-size: 10px;
+  color: #6b7280;
+  text-align: center;
+  white-space: nowrap;
+}
+/* Static value labels below month name */
+.c3-bar-vals {
+  font-size: 8px;
+  text-align: center;
+  line-height: 1.6;
+  margin-top: 2px;
+}
+
+/* ===== YOY CHART ===== */
+.c3-yoy-chart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  height: 240px;
+  gap: 20px;
+}
+.c3-yoy-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  height: 100%;
+  justify-content: flex-end;
+  overflow: visible;
+}
+.c3-yoy-bar-wrap {
+  width: 60px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 160px;
+  overflow: visible;
+}
+.c3-yoy-bar {
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  min-height: 4px;
+  transition: all 0.7s ease;
+}
+.c3-yoy-qlabel {
+  font-size: 13px;
+  font-weight: 700;
+  color: #374151;
+  margin-top: 6px;
+  text-align: center;
+}
+.c3-yoy-pct {
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 2px;
+}
+.c3-yoy-rev {
+  font-size: 11px;
+  color: #6b7280;
+  text-align: center;
+  margin-top: 1px;
+}
+.c3-yoy-prev {
+  font-size: 10px;
+  color: #9ca3af;
+  text-align: center;
+  margin-top: 1px;
+}
+
+/* ===== NO DATA STATE ===== */
+.c3-no-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 150px;
+  padding-bottom: 6px;
+}
+.c3-no-data-stub {
+  width: 14px;
+  height: 3px;
+  background: #e5e7eb;
+  border-radius: 2px;
+}
+
+/* ===== LEGEND ROW ===== */
+.c3-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 14px;
+}
+.c3-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #4b5563;
+}
+.c3-legend-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ===== HORIZONTAL BAR ===== */
+.c3-hbar-chart { display: flex; flex-direction: column; gap: 14px; }
+.c3-hbar-row { display: flex; align-items: center; gap: 12px; }
+.c3-hbar-label { min-width: 80px; font-size: 13px; font-weight: 600; color: #374151; }
+.c3-hbar-wrap { flex: 1; background: #f3f4f6; border-radius: 6px; overflow: hidden; height: 36px; }
+.c3-hbar-fill {
+  height: 100%;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  transition: width 1s ease;
+}
+
+/* ===== STACKED BAR ===== */
+.c3-stack-chart { display: flex; flex-direction: column; gap: 14px; }
+.c3-stack-row { display: flex; align-items: center; gap: 12px; }
+.c3-stack-label { min-width: 60px; font-size: 13px; font-weight: 600; color: #374151; }
+.c3-stack-bar {
+  flex: 1;
+  height: 36px;
+  display: flex;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #f3f4f6;
+}
+.c3-seg {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  transition: all 0.6s ease;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* ===== REVENUE TREND BARS ===== */
+.c3-rev-chart {
+  display: flex;
+  align-items: flex-end;
+  height: 200px;
+  gap: 4px;
+}
+.c3-rev-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  height: 100%;
+  justify-content: flex-end;
+}
+.c3-rev-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 150px;
+  width: 100%;
+  justify-content: center;
+}
+.c3-rev-bar {
+  width: 10px;
+  border-radius: 2px 2px 0 0;
+  min-height: 2px;
+  transition: height 0.6s ease;
+}
+.c3-rev-month { font-size: 9px; color: #9ca3af; text-align: center; }
+.c3-rev-no-data {
+  width: 10px;
+  height: 3px;
+  background: #e5e7eb;
+  border-radius: 2px;
+  align-self: flex-end;
+}
+
+/* ===== FUNNEL ===== */
+.c3-funnel-wrap {
+  display: flex;
+  align-items: flex-start;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.c3-funnel {
+  flex: 0 0 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.c3-funnel-seg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  border-radius: 3px;
+  animation: fadeInSeg 0.5s forwards;
+  opacity: 0;
+}
+@keyframes fadeInSeg { to { opacity: 1; } }
+.c3-funnel-legend { flex: 1; display: flex; flex-direction: column; gap: 10px; min-width: 200px; }
+.c3-funnel-leg-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #f9fafb;
+  border: 1px solid #f3f4f6;
+}
+.c3-funnel-leg-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 5px;
+  flex-shrink: 0;
+}
+.c3-funnel-leg-title { font-size: 13px; font-weight: 600; color: #1f2937; }
+.c3-funnel-leg-val { font-size: 12px; color: #6b7280; }
+
+/* ===== BENCHMARKS TABLE ===== */
+.c3-bench-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.c3-bench-table th {
+  background: #3d3d3d;
+  color: #fff;
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 600;
+}
+.c3-bench-table th:not(:first-child) { text-align: center; }
+.c3-bench-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #f3f4f6;
+  color: #374151;
+}
+.c3-bench-table td:not(:first-child) { text-align: center; }
+.c3-bench-table tr:hover td { background: #f9fafb; }
+.c3-circle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 13px;
+}
+.c3-circle.green  { background: #10b981; color: #fff; }
+.c3-circle.yellow { background: #f59e0b; color: #fff; }
+.c3-circle.red    { background: #ef4444; color: #fff; }
+
+/* ===== SATISFACTION ===== */
+.c3-sat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+@media (max-width: 700px) { .c3-sat-grid { grid-template-columns: 1fr; } }
+.c3-rating-score { font-size: 56px; font-weight: 700; color: #667eea; text-align: center; line-height: 1; }
+.c3-stars { display: flex; justify-content: center; gap: 4px; margin: 8px 0; }
+.c3-star { font-size: 26px; color: #fbbf24; }
+.c3-star.empty { color: #e5e7eb; }
+.c3-rating-lbl { text-align: center; font-size: 13px; color: #6b7280; }
+.c3-feedback-list { max-height: 260px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+.c3-feedback-item {
+  padding: 12px;
+  border-left: 3px solid #ef4444;
+  background: #fef2f2;
+  border-radius: 0 8px 8px 0;
+}
+.c3-feedback-date { font-size: 11px; color: #991b1b; font-weight: 600; margin-bottom: 3px; }
+.c3-feedback-text { font-size: 12px; color: #7f1d1d; line-height: 1.5; }
+
+/* ===== COMPETITOR TABLE ===== */
+/* ===== COMPETITOR TABLE ===== */
+.c3-comp-table { 
+  width: 100%; 
+  border-collapse: collapse; 
+  font-size: 13px; 
+  table-layout: fixed;  /* ADD THIS - forces equal column distribution */
+}
+
+.c3-comp-table th {
+  background: #3d3d3d;
+  color: #fff;
+  padding: 12px 10px;
+  text-align: left;
+  font-weight: 600;
+  vertical-align: middle;
+  word-wrap: break-word;  /* ADD THIS */
+}
+
+.c3-comp-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #e5e7eb;
+  color: #374151;
+  vertical-align: top;   /* ADD THIS - top aligns multi-line content */
+  word-wrap: break-word; /* ADD THIS - prevents overflow */
+  line-height: 1.5;      /* ADD THIS - better readability */
+  text-align: left;
+}
+
+.c3-comp-table tr:hover td { background: #f9fafb; }
+
+/* ADD - specific column widths */
+.c3-comp-table th:nth-child(1),
+.c3-comp-table td:nth-child(1) { width: 14%; }  /* Competitor */
+
+.c3-comp-table th:nth-child(2),
+.c3-comp-table td:nth-child(2) { width: 13%; }  /* Market Position */
+
+.c3-comp-table th:nth-child(3),
+.c3-comp-table td:nth-child(3) { width: 11%; }  /* Pricing */
+
+.c3-comp-table th:nth-child(4),
+.c3-comp-table td:nth-child(4) { width: 22%; }  /* Key Strengths */
+
+.c3-comp-table th:nth-child(5),
+.c3-comp-table td:nth-child(5) { width: 25%; }  /* Our Advantage */
+
+.c3-comp-table th:nth-child(6),
+.c3-comp-table td:nth-child(6) { 
+  width: 15%; 
+  white-space: nowrap;  /* Keep date on one line */
+}
+/* ===== TOP PERFORMER BANNER ===== */
+.c3-top-banner {
+  text-align: center;
+  margin-top: 16px;
+  padding: 14px;
+  background: #f0fdf4;
+  border-radius: 8px;
+  border: 2px solid #10b981;
+}
+.c3-top-banner-title { font-size: 14px; color: #059669; font-weight: 700; }
+.c3-top-banner-sub { font-size: 12px; color: #047857; margin-top: 4px; }
+
+/* ===== TWO-COL GRID ===== */
+.c3-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+@media (max-width: 800px) { .c3-two-col { grid-template-columns: 1fr; } }
+</style>
+<%
+	/* ---- reuse all variables already computed above in the page ---- */
+	%>
+<!-- HEADER -->
+<div class="c3-header">Monthly &amp; Quarterly Business Performance Dashboard</div>
+
+<div class="c3">
+
+<!-- ===== SUMMARY TILES ===== -->
+<div class="c3-tiles">
+  <div class="c3-tile">
+    <div class="c3-tile-label">Total Quotations</div>
+    <div class="c3-tile-value"><%=thisapp.sales.monthlyquote()%></div>
+  </div>
+  <div class="c3-tile">
+    <div class="c3-tile-label">Orders Confirmed</div>
+    <div class="c3-tile-value"><%=orders_confirmed%></div>
+  </div>
+  <div class="c3-tile">
+    <div class="c3-tile-label">Conversion Rate</div>
+    <div class="c3-tile-value"><%=conversion_rate%>%</div>
+  </div>
+  <div class="c3-tile">
+    <div class="c3-tile-label">Revenue</div>
+    <div class="c3-tile-value"><%=revenue%></div>
+  </div>
+  <div class="c3-tile">
+    <div class="c3-tile-label">Profit</div>
+    <div class="c3-tile-value"><%=profit%></div>
+  </div>
+  <div class="c3-tile">
+    <div class="c3-tile-label">Expenses</div>
+    <div class="c3-tile-value"><%=expenses%></div>
+  </div>
+  <div class="c3-tile">
+    <div class="c3-tile-label">Lost Orders (Value)</div>
+    <div class="c3-tile-value"><%=lost_orders_value%></div>
+    <div class="c3-tile-sub"><%=lost_orders_count%> orders</div>
+  </div>
+  <div class="c3-tile">
+    <div class="c3-tile-label">Avg Order Value</div>
+    <div class="c3-tile-value"><%=avg_order_value%></div>
+  </div>
+</div>
+
+<!-- ===== SALES vs COST vs PROFIT ===== -->
+<%
+	month_data_list = List();
+	if(jan_sales != null)
+	{
+		month_data_list.add({"name":"Jan","sales":jan_sales,"sales_height":jan_sales_height,"cost":jan_cost,"cost_height":jan_cost_height,"profit":jan_profit,"profit_height":jan_profit_height});
+	}
+	if(feb_sales != null)
+	{
+		month_data_list.add({"name":"Feb","sales":feb_sales,"sales_height":feb_sales_height,"cost":feb_cost,"cost_height":feb_cost_height,"profit":feb_profit,"profit_height":feb_profit_height});
+	}
+	if(mar_sales != null)
+	{
+		month_data_list.add({"name":"Mar","sales":mar_sales,"sales_height":mar_sales_height,"cost":mar_cost,"cost_height":mar_cost_height,"profit":mar_profit,"profit_height":mar_profit_height});
+	}
+	if(apr_sales != null)
+	{
+		month_data_list.add({"name":"Apr","sales":apr_sales,"sales_height":apr_sales_height,"cost":apr_cost,"cost_height":apr_cost_height,"profit":apr_profit,"profit_height":apr_profit_height});
+	}
+	if(may_sales != null)
+	{
+		month_data_list.add({"name":"May","sales":may_sales,"sales_height":may_sales_height,"cost":may_cost,"cost_height":may_cost_height,"profit":may_profit,"profit_height":may_profit_height});
+	}
+	if(jun_sales != null)
+	{
+		month_data_list.add({"name":"Jun","sales":jun_sales,"sales_height":jun_sales_height,"cost":jun_cost,"cost_height":jun_cost_height,"profit":jun_profit,"profit_height":jun_profit_height});
+	}
+	if(jul_sales != null)
+	{
+		month_data_list.add({"name":"Jul","sales":jul_sales,"sales_height":jul_sales_height,"cost":jul_cost,"cost_height":jul_cost_height,"profit":jul_profit,"profit_height":jul_profit_height});
+	}
+	if(aug_sales != null)
+	{
+		month_data_list.add({"name":"Aug","sales":aug_sales,"sales_height":aug_sales_height,"cost":aug_cost,"cost_height":aug_cost_height,"profit":aug_profit,"profit_height":aug_profit_height});
+	}
+	if(sep_sales != null)
+	{
+		month_data_list.add({"name":"Sep","sales":sep_sales,"sales_height":sep_sales_height,"cost":sep_cost,"cost_height":sep_cost_height,"profit":sep_profit,"profit_height":sep_profit_height});
+	}
+	if(oct_sales != null)
+	{
+		month_data_list.add({"name":"Oct","sales":oct_sales,"sales_height":oct_sales_height,"cost":oct_cost,"cost_height":oct_cost_height,"profit":oct_profit,"profit_height":oct_profit_height});
+	}
+	if(nov_sales != null)
+	{
+		month_data_list.add({"name":"Nov","sales":nov_sales,"sales_height":nov_sales_height,"cost":nov_cost,"cost_height":nov_cost_height,"profit":nov_profit,"profit_height":nov_profit_height});
+	}
+	if(dec_sales != null)
+	{
+		month_data_list.add({"name":"Dec","sales":dec_sales,"sales_height":dec_sales_height,"cost":dec_cost,"cost_height":dec_cost_height,"profit":dec_profit,"profit_height":dec_profit_height});
+	}
+	%>
+<div class="c3-card">
+  <div class="c3-card-title">Sales vs Cost vs Profit (Monthly)</div>
+  <div class="c3-bar-chart">
+<%
+	for each  month_data in month_data_list
+	{
+		%>
+<div class="c3-bar-group">
+      <div class="c3-bars">
+        <div class="c3-bar" style="height:<%=month_data.get("sales_height")%>%;background:linear-gradient(180deg,#10b981,#059669);"></div>
+        <div class="c3-bar" style="height:<%=month_data.get("cost_height")%>%;background:linear-gradient(180deg,#8b5cf6,#7c3aed);"></div>
+        <div class="c3-bar" style="height:<%=month_data.get("profit_height")%>%;background:linear-gradient(180deg,#f59e0b,#d97706);"></div>
+      </div>
+      <div class="c3-bar-lbl"><%=month_data.get("name")%></div>
+      <div class="c3-bar-vals">
+        <span style="color:#10b981;font-weight:600;">₹<%=month_data.get("sales")%><%=unit_label%></span><br>
+        <span style="color:#8b5cf6;font-weight:600;">₹<%=month_data.get("cost")%><%=unit_label%></span><br>
+        <span style="color:#f59e0b;font-weight:600;">₹<%=month_data.get("profit")%><%=unit_label%></span>
+      </div>
+    </div>
+<%
+	}
+	%>
+</div>
+  <div class="c3-legend">
+    <div class="c3-legend-item"><div class="c3-legend-dot" style="background:#10b981"></div>Sales</div>
+    <div class="c3-legend-item"><div class="c3-legend-dot" style="background:#8b5cf6"></div>Cost</div>
+    <div class="c3-legend-item"><div class="c3-legend-dot" style="background:#f59e0b"></div>Profit</div>
+  </div>
+</div>
+
+<!-- ===== QUOTATIONS vs ORDERS ===== -->
+<div class="c3-card">
+  <div class="c3-card-title">Quotations vs Orders per Month</div>
+  <div class="c3-bar-chart">
+<%
+	if(jan_display)
+	{
+		%>
+<div class="c3-bar-group">
+<%
+		if(jan_quot_height != 0 || jan_ord_height != 0)
+		{
+			%>
+<div class="c3-bars">
+        <div class="c3-bar" style="height:<%=jan_quot_height%>%;background:linear-gradient(180deg,#667eea,#764ba2);"></div>
+        <div class="c3-bar" style="height:<%=jan_ord_height%>%;background:linear-gradient(180deg,#10b981,#059669);"></div>
+      </div>
+      <div class="c3-bar-lbl">Jan</div>
+      <div class="c3-bar-vals">
+        <span style="color:#667eea;font-weight:600;"><%=jan_quotations%>Q</span><br>
+        <span style="color:#10b981;font-weight:600;"><%=jan_orders%>O</span>
+      </div>
+<%
+		}
+		else
+		{
+			%>
+<div class="c3-no-data"><div class="c3-no-data-stub"></div></div>
+      <div class="c3-bar-lbl">Jan</div>
+<%
+		}
+		%>
+</div>
+<%
+	}
+	if(feb_display)
+	{
+		%>
+<div class="c3-bar-group">
+<%
+		if(feb_quot_height != 0 || feb_ord_height != 0)
+		{
+			%>
+<div class="c3-bars">
+        <div class="c3-bar" style="height:<%=feb_quot_height%>%;background:linear-gradient(180deg,#667eea,#764ba2);"></div>
+        <div class="c3-bar" style="height:<%=feb_ord_height%>%;background:linear-gradient(180deg,#10b981,#059669);"></div>
+      </div>
+      <div class="c3-bar-lbl">Feb</div>
+      <div class="c3-bar-vals">
+        <span style="color:#667eea;font-weight:600;"><%=feb_quotations%>Q</span><br>
+        <span style="color:#10b981;font-weight:600;"><%=feb_orders%>O</span>
+      </div>
+<%
+		}
+		else
+		{
+			%>
+<div class="c3-no-data"><div class="c3-no-data-stub"></div></div>
+      <div class="c3-bar-lbl">Feb</div>
+<%
+		}
+		%>
+</div>
+<%
+	}
+	if(mar_display)
+	{
+		%>
+<div class="c3-bar-group">
+<%
+		if(mar_quot_height != 0 || mar_ord_height != 0)
+		{
+			%>
+<div class="c3-bars">
+        <div class="c3-bar" style="height:<%=mar_quot_height%>%;background:linear-gradient(180deg,#667eea,#764ba2);"></div>
+        <div class="c3-bar" style="height:<%=mar_ord_height%>%;background:linear-gradient(180deg,#10b981,#059669);"></div>
+      </div>
+      <div class="c3-bar-lbl">Mar</div>
+      <div class="c3-bar-vals">
+        <span style="color:#667eea;font-weight:600;"><%=mar_quotations%>Q</span><br>
+        <span style="color:#10b981;font-weight:600;"><%=mar_orders%>O</span>
+      </div>
+<%
+		}
+		else
+		{
+			%>
+<div class="c3-no-data"><div class="c3-no-data-stub"></div></div>
+      <div class="c3-bar-lbl">Mar</div>
+<%
+		}
+		%>
+</div>
+<%
+	}
+	if(apr_display)
+	{
+		%>
+<div class="c3-bar-group">
+<%
+		if(apr_quot_height != 0 || apr_ord_height != 0)
+		{
+			%>
+<div class="c3-bars">
+        <div class="c3-bar" style="height:<%=apr_quot_height%>%;background:linear-gradient(180deg,#667eea,#764ba2);"></div>
+        <div class="c3-bar" style="height:<%=apr_ord_height%>%;background:linear-gradient(180deg,#10b981,#059669);"></div>
+      </div>
+      <div class="c3-bar-lbl">Apr</div>
+      <div class="c3-bar-vals">
+        <span style="color:#667eea;font-weight:600;"><%=apr_quotations%>Q</span><br>
+        <span style="color:#10b981;font-weight:600;"><%=apr_orders%>O</span>
+      </div>
+<%
+		}
+		else
+		{
+			%>
+<div class="c3-no-data"><div class="c3-no-data-stub"></div></div>
+      <div class="c3-bar-lbl">Apr</div>
+<%
+		}
+		%>
+</div>
+<%
+	}
+	if(may_display)
+	{
+		%>
+<div class="c3-bar-group">
+<%
+		if(may_quot_height != 0 || may_ord_height != 0)
+		{
+			%>
+<div class="c3-bars">
+        <div class="c3-bar" style="height:<%=may_quot_height%>%;background:linear-gradient(180deg,#667eea,#764ba2);"></div>
+        <div class="c3-bar" style="height:<%=may_ord_height%>%;background:linear-gradient(180deg,#10b981,#059669);"></div>
+      </div>
+      <div class="c3-bar-lbl">May</div>
+      <div class="c3-bar-vals">
+        <span style="color:#667eea;font-weight:600;"><%=may_quotations%>Q</span><br>
+        <span style="color:#10b981;font-weight:600;"><%=may_orders%>O</span>
+      </div>
+<%
+		}
+		else
+		{
+			%>
+<div class="c3-no-data"><div class="c3-no-data-stub"></div></div>
+      <div class="c3-bar-lbl">May</div>
+<%
+		}
+		%>
+</div>
+<%
+	}
+	if(jun_display)
+	{
+		%>
+<div class="c3-bar-group">
+<%
+		if(jun_quot_height != 0 || jun_ord_height != 0)
+		{
+			%>
+<div class="c3-bars">
+        <div class="c3-bar" style="height:<%=jun_quot_height%>%;background:linear-gradient(180deg,#667eea,#764ba2);"></div>
+        <div class="c3-bar" style="height:<%=jun_ord_height%>%;background:linear-gradient(180deg,#10b981,#059669);"></div>
+      </div>
+      <div class="c3-bar-lbl">Jun</div>
+      <div class="c3-bar-vals">
+        <span style="color:#667eea;font-weight:600;"><%=jun_quotations%>Q</span><br>
+        <span style="color:#10b981;font-weight:600;"><%=jun_orders%>O</span>
+      </div>
+<%
+		}
+		else
+		{
+			%>
+<div class="c3-no-data"><div class="c3-no-data-stub"></div></div>
+      <div class="c3-bar-lbl">Jun</div>
+<%
+		}
+		%>
+</div>
+<%
+	}
+	if(jul_display)
+	{
+		%>
+<div class="c3-bar-group">
+<%
+		if(jul_quot_height != 0 || jul_ord_height != 0)
+		{
+			%>
+<div class="c3-bars">
+        <div class="c3-bar" style="height:<%=jul_quot_height%>%;background:linear-gradient(180deg,#667eea,#764ba2);"></div>
+        <div class="c3-bar" style="height:<%=jul_ord_height%>%;background:linear-gradient(180deg,#10b981,#059669);"></div>
+      </div>
+      <div class="c3-bar-lbl">Jul</div>
+      <div class="c3-bar-vals">
+        <span style="color:#667eea;font-weight:600;"><%=jul_quotations%>Q</span><br>
+        <span style="color:#10b981;font-weight:600;"><%=jul_orders%>O</span>
+      </div>
+<%
+		}
+		else
+		{
+			%>
+<div class="c3-no-data"><div class="c3-no-data-stub"></div></div>
+      <div class="c3-bar-lbl">Jul</div>
+<%
+		}
+		%>
+</div>
+<%
+	}
+	if(aug_display)
+	{
+		%>
+<div class="c3-bar-group">
+<%
+		if(aug_quot_height != 0 || aug_ord_height != 0)
+		{
+			%>
+<div class="c3-bars">
+        <div class="c3-bar" style="height:<%=aug_quot_height%>%;background:linear-gradient(180deg,#667eea,#764ba2);"></div>
+        <div class="c3-bar" style="height:<%=aug_ord_height%>%;background:linear-gradient(180deg,#10b981,#059669);"></div>
+      </div>
+      <div class="c3-bar-lbl">Aug</div>
+      <div class="c3-bar-vals">
+        <span style="color:#667eea;font-weight:600;"><%=aug_quotations%>Q</span><br>
+        <span style="color:#10b981;font-weight:600;"><%=aug_orders%>O</span>
+      </div>
+<%
+		}
+		else
+		{
+			%>
+<div class="c3-no-data"><div class="c3-no-data-stub"></div></div>
+      <div class="c3-bar-lbl">Aug</div>
+<%
+		}
+		%>
+</div>
+<%
+	}
+	if(sept_display)
+	{
+		%>
+<div class="c3-bar-group">
+<%
+		if(sep_quot_height != 0 || sep_ord_height != 0)
+		{
+			%>
+<div class="c3-bars">
+        <div class="c3-bar" style="height:<%=sep_quot_height%>%;background:linear-gradient(180deg,#667eea,#764ba2);"></div>
+        <div class="c3-bar" style="height:<%=sep_ord_height%>%;background:linear-gradient(180deg,#10b981,#059669);"></div>
+      </div>
+      <div class="c3-bar-lbl">Sep</div>
+      <div class="c3-bar-vals">
+        <span style="color:#667eea;font-weight:600;"><%=sep_quotations%>Q</span><br>
+        <span style="color:#10b981;font-weight:600;"><%=sep_orders%>O</span>
+      </div>
+<%
+		}
+		else
+		{
+			%>
+<div class="c3-no-data"><div class="c3-no-data-stub"></div></div>
+      <div class="c3-bar-lbl">Sep</div>
+<%
+		}
+		%>
+</div>
+<%
+	}
+	if(oct_display)
+	{
+		%>
+<div class="c3-bar-group">
+<%
+		if(oct_quot_height != 0 || oct_ord_height != 0)
+		{
+			%>
+<div class="c3-bars">
+        <div class="c3-bar" style="height:<%=oct_quot_height%>%;background:linear-gradient(180deg,#667eea,#764ba2);"></div>
+        <div class="c3-bar" style="height:<%=oct_ord_height%>%;background:linear-gradient(180deg,#10b981,#059669);"></div>
+      </div>
+      <div class="c3-bar-lbl">Oct</div>
+      <div class="c3-bar-vals">
+        <span style="color:#667eea;font-weight:600;"><%=oct_quotations%>Q</span><br>
+        <span style="color:#10b981;font-weight:600;"><%=oct_orders%>O</span>
+      </div>
+<%
+		}
+		else
+		{
+			%>
+<div class="c3-no-data"><div class="c3-no-data-stub"></div></div>
+      <div class="c3-bar-lbl">Oct</div>
+<%
+		}
+		%>
+</div>
+<%
+	}
+	if(nov_display)
+	{
+		%>
+<div class="c3-bar-group">
+<%
+		if(nov_quot_height != 0 || nov_ord_height != 0)
+		{
+			%>
+<div class="c3-bars">
+        <div class="c3-bar" style="height:<%=nov_quot_height%>%;background:linear-gradient(180deg,#667eea,#764ba2);"></div>
+        <div class="c3-bar" style="height:<%=nov_ord_height%>%;background:linear-gradient(180deg,#10b981,#059669);"></div>
+      </div>
+      <div class="c3-bar-lbl">Nov</div>
+      <div class="c3-bar-vals">
+        <span style="color:#667eea;font-weight:600;"><%=nov_quotations%>Q</span><br>
+        <span style="color:#10b981;font-weight:600;"><%=nov_orders%>O</span>
+      </div>
+<%
+		}
+		else
+		{
+			%>
+<div class="c3-no-data"><div class="c3-no-data-stub"></div></div>
+      <div class="c3-bar-lbl">Nov</div>
+<%
+		}
+		%>
+</div>
+<%
+	}
+	if(dec_display)
+	{
+		%>
+<div class="c3-bar-group">
+<%
+		if(dec_quot_height != 0 || dec_ord_height != 0)
+		{
+			%>
+<div class="c3-bars">
+        <div class="c3-bar" style="height:<%=dec_quot_height%>%;background:linear-gradient(180deg,#667eea,#764ba2);"></div>
+        <div class="c3-bar" style="height:<%=dec_ord_height%>%;background:linear-gradient(180deg,#10b981,#059669);"></div>
+      </div>
+      <div class="c3-bar-lbl">Dec</div>
+      <div class="c3-bar-vals">
+        <span style="color:#667eea;font-weight:600;"><%=dec_quotations%>Q</span><br>
+        <span style="color:#10b981;font-weight:600;"><%=dec_orders%>O</span>
+      </div>
+<%
+		}
+		else
+		{
+			%>
+<div class="c3-no-data"><div class="c3-no-data-stub"></div></div>
+      <div class="c3-bar-lbl">Dec</div>
+<%
+		}
+		%>
+</div>
+<%
+	}
+	%>
+</div>
+  <div class="c3-legend">
+    <div class="c3-legend-item"><div class="c3-legend-dot" style="background:#667eea"></div>Quotations (Q)</div>
+    <div class="c3-legend-item"><div class="c3-legend-dot" style="background:#10b981"></div>Orders (O)</div>
+    <div class="c3-legend-item"><div class="c3-legend-dot" style="background:#e5e7eb;border:1px solid #d1d5db"></div>No Data</div>
+  </div>
+</div>
+
+<!-- ===== MONTHLY REVENUE TREND ===== -->
+<div class="c3-card">
+  <div class="c3-card-title">Monthly Sales Revenue Trend (<%=previous_year%> vs <%=previous_previous_year%>)</div>
+  <div class="c3-rev-chart">
+
+    <div class="c3-rev-col">
+      <div class="c3-rev-bars">
+<%
+	if(jan_current_year_height != 0 || jan_prev_year_height != 0)
+	{
+		%>
+<div class="c3-rev-bar" style="height:<%=jan_current_year_height%>%;background:linear-gradient(180deg,#667eea,#764ba2);"></div>
+        <div class="c3-rev-bar" style="height:<%=jan_prev_year_height%>%;background:linear-gradient(180deg,#f59e0b,#d97706);"></div>
+<%
+	}
+	else
+	{
+		%>
+<div class="c3-rev-no-data"></div><div class="c3-rev-no-data"></div>
+<%
+	}
+	%>
+</div>
+      <div class="c3-rev-month">Jan</div>
+      <div style="font-size:8px;text-align:center;line-height:1.5;">
+        <span style="color:#667eea;font-weight:600;"><%=jan_current_year_revenue%><%=unit_label%></span><br>
+        <span style="color:#f59e0b;font-weight:600;"><%=jan_prev_year_revenue%><%=unit_label%></span>
+      </div>
+    </div>
+
+    <div class="c3-rev-col">
+      <div class="c3-rev-bars">
+<%
+	if(feb_current_year_height != 0 || feb_prev_year_height != 0)
+	{
+		%>
+<div class="c3-rev-bar" style="height:<%=feb_current_year_height%>%;background:linear-gradient(180deg,#667eea,#764ba2);"></div>
+        <div class="c3-rev-bar" style="height:<%=feb_prev_year_height%>%;background:linear-gradient(180deg,#f59e0b,#d97706);"></div>
+<%
+	}
+	else
+	{
+		%>
+<div class="c3-rev-no-data"></div><div class="c3-rev-no-data"></div>
+<%
+	}
+	%>
+</div>
+      <div class="c3-rev-month">Feb</div>
+      <div style="font-size:8px;text-align:center;line-height:1.5;">
+        <span style="color:#667eea;font-weight:600;"><%=feb_current_year_revenue%><%=unit_label%></span><br>
+        <span style="color:#f59e0b;font-weight:600;"><%=feb_prev_year_revenue%><%=unit_label%></span>
+      </div>
+    </div>
+
+    <div class="c3-rev-col">
+      <div class="c3-rev-bars">
+<%
+	if(mar_current_year_height != 0 || mar_prev_year_height != 0)
+	{
+		%>
+<div class="c3-rev-bar" style="height:<%=mar_current_year_height%>%;background:linear-gradient(180deg,#667eea,#764ba2);"></div>
+        <div class="c3-rev-bar" style="height:<%=mar_prev_year_height%>%;background:linear-gradient(180deg,#f59e0b,#d97706);"></div>
+<%
+	}
+	else
+	{
+		%>
+<div class="c3-rev-no-data"></div><div class="c3-rev-no-data"></div>
+<%
+	}
+	%>
+</div>
+      <div class="c3-rev-month">Mar</div>
+      <div style="font-size:8px;text-align:center;line-height:1.5;">
+        <span style="color:#667eea;font-weight:600;"><%=mar_current_year_revenue%><%=unit_label%></span><br>
+        <span style="color:#f59e0b;font-weight:600;"><%=mar_prev_year_revenue%><%=unit_label%></span>
+      </div>
+    </div>
+
+    <div class="c3-rev-col">
+      <div class="c3-rev-bars">
+<%
+	if(apr_current_year_height != 0 || apr_prev_year_height != 0)
+	{
+		%>
+<div class="c3-rev-bar" style="height:<%=apr_current_year_height%>%;background:linear-gradient(180deg,#667eea,#764ba2);"></div>
+        <div class="c3-rev-bar" style="height:<%=apr_prev_year_height%>%;background:linear-gradient(180deg,#f59e0b,#d97706);"></div>
+<%
+	}
+	else
+	{
+		%>
+<div class="c3-rev-no-data"></div><div class="c3-rev-no-data"></div>
+<%
+	}
+	%>
+</div>
+      <div class="c3-rev-month">Apr</div>
+      <div style="font-size:8px;text-align:center;line-height:1.5;">
+        <span style="color:#667eea;font-weight:600;"><%=apr_current_year_revenue%><%=unit_label%></span><br>
+        <span style="color:#f59e0b;font-weight:600;"><%=apr_prev_year_revenue%><%=unit_label%></span>
+      </div>
+    </div>
+
+    <div class="c3-rev-col">
+      <div class="c3-rev-bars">
+<%
+	if(may_current_year_height != 0 || may_prev_year_height != 0)
+	{
+		%>
+<div class="c3-rev-bar" style="height:<%=may_current_year_height%>%;background:linear-gradient(180deg,#667eea,#764ba2);"></div>
+        <div class="c3-rev-bar" style="height:<%=may_prev_year_height%>%;background:linear-gradient(180deg,#f59e0b,#d97706);"></div>
+<%
+	}
+	else
+	{
+		%>
+<div class="c3-rev-no-data"></div><div class="c3-rev-no-data"></div>
+<%
+	}
+	%>
+</div>
+      <div class="c3-rev-month">May</div>
+      <div style="font-size:8px;text-align:center;line-height:1.5;">
+        <span style="color:#667eea;font-weight:600;"><%=may_current_year_revenue%><%=unit_label%></span><br>
+        <span style="color:#f59e0b;font-weight:600;"><%=may_prev_year_revenue%><%=unit_label%></span>
+      </div>
+    </div>
+
+    <div class="c3-rev-col">
+      <div class="c3-rev-bars">
+<%
+	if(jun_current_year_height != 0 || jun_prev_year_height != 0)
+	{
+		%>
+<div class="c3-rev-bar" style="height:<%=jun_current_year_height%>%;background:linear-gradient(180deg,#667eea,#764ba2);"></div>
+        <div class="c3-rev-bar" style="height:<%=jun_prev_year_height%>%;background:linear-gradient(180deg,#f59e0b,#d97706);"></div>
+<%
+	}
+	else
+	{
+		%>
+<div class="c3-rev-no-data"></div><div class="c3-rev-no-data"></div>
+<%
+	}
+	%>
+</div>
+      <div class="c3-rev-month">Jun</div>
+      <div style="font-size:8px;text-align:center;line-height:1.5;">
+        <span style="color:#667eea;font-weight:600;"><%=jun_current_year_revenue%><%=unit_label%></span><br>
+        <span style="color:#f59e0b;font-weight:600;"><%=jun_prev_year_revenue%><%=unit_label%></span>
+      </div>
+    </div>
+
+    <div class="c3-rev-col">
+      <div class="c3-rev-bars">
+<%
+	if(jul_current_year_height != 0 || jul_prev_year_height != 0)
+	{
+		%>
+<div class="c3-rev-bar" style="height:<%=jul_current_year_height%>%;background:linear-gradient(180deg,#667eea,#764ba2);"></div>
+        <div class="c3-rev-bar" style="height:<%=jul_prev_year_height%>%;background:linear-gradient(180deg,#f59e0b,#d97706);"></div>
+<%
+	}
+	else
+	{
+		%>
+<div class="c3-rev-no-data"></div><div class="c3-rev-no-data"></div>
+<%
+	}
+	%>
+</div>
+      <div class="c3-rev-month">Jul</div>
+      <div style="font-size:8px;text-align:center;line-height:1.5;">
+        <span style="color:#667eea;font-weight:600;"><%=jul_current_year_revenue%><%=unit_label%></span><br>
+        <span style="color:#f59e0b;font-weight:600;"><%=jul_prev_year_revenue%><%=unit_label%></span>
+      </div>
+    </div>
+
+    <div class="c3-rev-col">
+      <div class="c3-rev-bars">
+<%
+	if(aug_current_year_height != 0 || aug_prev_year_height != 0)
+	{
+		%>
+<div class="c3-rev-bar" style="height:<%=aug_current_year_height%>%;background:linear-gradient(180deg,#667eea,#764ba2);"></div>
+        <div class="c3-rev-bar" style="height:<%=aug_prev_year_height%>%;background:linear-gradient(180deg,#f59e0b,#d97706);"></div>
+<%
+	}
+	else
+	{
+		%>
+<div class="c3-rev-no-data"></div><div class="c3-rev-no-data"></div>
+<%
+	}
+	%>
+</div>
+      <div class="c3-rev-month">Aug</div>
+      <div style="font-size:8px;text-align:center;line-height:1.5;">
+        <span style="color:#667eea;font-weight:600;"><%=aug_current_year_revenue%><%=unit_label%></span><br>
+        <span style="color:#f59e0b;font-weight:600;"><%=aug_prev_year_revenue%><%=unit_label%></span>
+      </div>
+    </div>
+
+    <div class="c3-rev-col">
+      <div class="c3-rev-bars">
+<%
+	if(sep_current_year_height != 0 || sep_prev_year_height != 0)
+	{
+		%>
+<div class="c3-rev-bar" style="height:<%=sep_current_year_height%>%;background:linear-gradient(180deg,#667eea,#764ba2);"></div>
+        <div class="c3-rev-bar" style="height:<%=sep_prev_year_height%>%;background:linear-gradient(180deg,#f59e0b,#d97706);"></div>
+<%
+	}
+	else
+	{
+		%>
+<div class="c3-rev-no-data"></div><div class="c3-rev-no-data"></div>
+<%
+	}
+	%>
+</div>
+      <div class="c3-rev-month">Sep</div>
+      <div style="font-size:8px;text-align:center;line-height:1.5;">
+        <span style="color:#667eea;font-weight:600;"><%=sep_current_year_revenue%><%=unit_label%></span><br>
+        <span style="color:#f59e0b;font-weight:600;"><%=sep_prev_year_revenue%><%=unit_label%></span>
+      </div>
+    </div>
+
+    <div class="c3-rev-col">
+      <div class="c3-rev-bars">
+<%
+	if(oct_current_year_height != 0 || oct_prev_year_height != 0)
+	{
+		%>
+<div class="c3-rev-bar" style="height:<%=oct_current_year_height%>%;background:linear-gradient(180deg,#667eea,#764ba2);"></div>
+        <div class="c3-rev-bar" style="height:<%=oct_prev_year_height%>%;background:linear-gradient(180deg,#f59e0b,#d97706);"></div>
+<%
+	}
+	else
+	{
+		%>
+<div class="c3-rev-no-data"></div><div class="c3-rev-no-data"></div>
+<%
+	}
+	%>
+</div>
+      <div class="c3-rev-month">Oct</div>
+      <div style="font-size:8px;text-align:center;line-height:1.5;">
+        <span style="color:#667eea;font-weight:600;"><%=oct_current_year_revenue%><%=unit_label%></span><br>
+        <span style="color:#f59e0b;font-weight:600;"><%=oct_prev_year_revenue%><%=unit_label%></span>
+      </div>
+    </div>
+
+    <div class="c3-rev-col">
+      <div class="c3-rev-bars">
+<%
+	if(nov_current_year_height != 0 || nov_prev_year_height != 0)
+	{
+		%>
+<div class="c3-rev-bar" style="height:<%=nov_current_year_height%>%;background:linear-gradient(180deg,#667eea,#764ba2);"></div>
+        <div class="c3-rev-bar" style="height:<%=nov_prev_year_height%>%;background:linear-gradient(180deg,#f59e0b,#d97706);"></div>
+<%
+	}
+	else
+	{
+		%>
+<div class="c3-rev-no-data"></div><div class="c3-rev-no-data"></div>
+<%
+	}
+	%>
+</div>
+      <div class="c3-rev-month">Nov</div>
+      <div style="font-size:8px;text-align:center;line-height:1.5;">
+        <span style="color:#667eea;font-weight:600;"><%=nov_current_year_revenue%><%=unit_label%></span><br>
+        <span style="color:#f59e0b;font-weight:600;"><%=nov_prev_year_revenue%><%=unit_label%></span>
+      </div>
+    </div>
+
+    <div class="c3-rev-col">
+      <div class="c3-rev-bars">
+<%
+	if(dec_current_year_height != 0 || dec_prev_year_height != 0)
+	{
+		%>
+<div class="c3-rev-bar" style="height:<%=dec_current_year_height%>%;background:linear-gradient(180deg,#667eea,#764ba2);"></div>
+        <div class="c3-rev-bar" style="height:<%=dec_prev_year_height%>%;background:linear-gradient(180deg,#f59e0b,#d97706);"></div>
+<%
+	}
+	else
+	{
+		%>
+<div class="c3-rev-no-data"></div><div class="c3-rev-no-data"></div>
+<%
+	}
+	%>
+</div>
+      <div class="c3-rev-month">Dec</div>
+      <div style="font-size:8px;text-align:center;line-height:1.5;">
+        <span style="color:#667eea;font-weight:600;"><%=dec_current_year_revenue%><%=unit_label%></span><br>
+        <span style="color:#f59e0b;font-weight:600;"><%=dec_prev_year_revenue%><%=unit_label%></span>
+      </div>
+    </div>
+
+  </div>
+  <div class="c3-legend">
+    <div class="c3-legend-item"><div class="c3-legend-dot" style="background:#667eea"></div><%=previous_year%></div>
+    <div class="c3-legend-item"><div class="c3-legend-dot" style="background:#f59e0b"></div><%=previous_previous_year%></div>
+  </div>
+</div>
+
+<!-- ===== YOY GROWTH ===== -->
+<div class="c3-card">
+  <div class="c3-card-title">Year-over-Year Growth (%)</div>
+  <div class="c3-yoy-chart">
+
+    <!-- Q1 -->
+    <div class="c3-yoy-group">
+      <div class="c3-yoy-bar-wrap">
+<%
+	if(q1_growth == 0)
+	{
+		%>
+<div class="c3-yoy-bar" style="height:5%;background:linear-gradient(180deg,#ef4444,#dc2626);"></div>
+<%
+	}
+	else if(q1_growth < 0)
+	{
+		%>
+<div class="c3-yoy-bar" style="height:<%=q1_growth_height * -1%>%;background:linear-gradient(180deg,#ef4444,#dc2626);"></div>
+<%
+	}
+	else if(q1_growth >= 30)
+	{
+		%>
+<div class="c3-yoy-bar" style="height:<%=q1_growth_height%>%;background:linear-gradient(180deg,#10b981,#059669);"></div>
+<%
+	}
+	else
+	{
+		%>
+<div class="c3-yoy-bar" style="height:<%=q1_growth_height%>%;background:linear-gradient(180deg,#f59e0b,#d97706);"></div>
+<%
+	}
+	%>
+</div>
+      <div class="c3-yoy-qlabel">Q1</div>
+<%
+	if(q1_growth < 0)
+	{
+		%>
+<div class="c3-yoy-pct" style="color:#ef4444;"><%=q1_growth%>%</div>
+<%
+	}
+	else if(q1_growth >= 30)
+	{
+		%>
+<div class="c3-yoy-pct" style="color:#10b981;">+<%=q1_growth%>%</div>
+<%
+	}
+	else
+	{
+		%>
+<div class="c3-yoy-pct" style="color:#d97706;"><%=q1_growth%>%</div>
+<%
+	}
+	%>
+<div class="c3-yoy-rev">₹<%=(q1_revenue / 100000).round(1)%>L</div>
+      <div class="c3-yoy-prev">prev ₹<%=(q1_prev_revenue / 100000).round(1)%>L</div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="c3-yoy-group">
+      <div class="c3-yoy-bar-wrap">
+<%
+	if(q2_growth == 0)
+	{
+		%>
+<div class="c3-yoy-bar" style="height:5%;background:linear-gradient(180deg,#ef4444,#dc2626);"></div>
+<%
+	}
+	else if(q2_growth < 0)
+	{
+		%>
+<div class="c3-yoy-bar" style="height:<%=q2_growth_height * -1%>%;background:linear-gradient(180deg,#ef4444,#dc2626);"></div>
+<%
+	}
+	else if(q2_growth >= 30)
+	{
+		%>
+<div class="c3-yoy-bar" style="height:<%=q2_growth_height%>%;background:linear-gradient(180deg,#10b981,#059669);"></div>
+<%
+	}
+	else
+	{
+		%>
+<div class="c3-yoy-bar" style="height:<%=q2_growth_height%>%;background:linear-gradient(180deg,#f59e0b,#d97706);"></div>
+<%
+	}
+	%>
+</div>
+      <div class="c3-yoy-qlabel">Q2</div>
+<%
+	if(q2_growth < 0)
+	{
+		%>
+<div class="c3-yoy-pct" style="color:#ef4444;"><%=q2_growth%>%</div>
+<%
+	}
+	else if(q2_growth >= 30)
+	{
+		%>
+<div class="c3-yoy-pct" style="color:#10b981;">+<%=q2_growth%>%</div>
+<%
+	}
+	else
+	{
+		%>
+<div class="c3-yoy-pct" style="color:#d97706;"><%=q2_growth%>%</div>
+<%
+	}
+	%>
+<div class="c3-yoy-rev">₹<%=(q2_revenue / 100000).round(1)%>L</div>
+      <div class="c3-yoy-prev">prev ₹<%=(q2_prev_revenue / 100000).round(1)%>L</div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="c3-yoy-group">
+      <div class="c3-yoy-bar-wrap">
+<%
+	if(q3_growth == 0)
+	{
+		%>
+<div class="c3-yoy-bar" style="height:5%;background:linear-gradient(180deg,#ef4444,#dc2626);"></div>
+<%
+	}
+	else if(q3_growth < 0)
+	{
+		%>
+<div class="c3-yoy-bar" style="height:<%=q3_growth_height * -1%>%;background:linear-gradient(180deg,#ef4444,#dc2626);"></div>
+<%
+	}
+	else if(q3_growth >= 30)
+	{
+		%>
+<div class="c3-yoy-bar" style="height:<%=q3_growth_height%>%;background:linear-gradient(180deg,#10b981,#059669);"></div>
+<%
+	}
+	else
+	{
+		%>
+<div class="c3-yoy-bar" style="height:<%=q3_growth_height%>%;background:linear-gradient(180deg,#f59e0b,#d97706);"></div>
+<%
+	}
+	%>
+</div>
+      <div class="c3-yoy-qlabel">Q3</div>
+<%
+	if(q3_growth < 0)
+	{
+		%>
+<div class="c3-yoy-pct" style="color:#ef4444;"><%=q3_growth%>%</div>
+<%
+	}
+	else if(q3_growth >= 30)
+	{
+		%>
+<div class="c3-yoy-pct" style="color:#10b981;">+<%=q3_growth%>%</div>
+<%
+	}
+	else
+	{
+		%>
+<div class="c3-yoy-pct" style="color:#d97706;"><%=q3_growth%>%</div>
+<%
+	}
+	%>
+<div class="c3-yoy-rev">₹<%=(q3_revenue / 100000).round(1)%>L</div>
+      <div class="c3-yoy-prev">prev ₹<%=(q3_prev_revenue / 100000).round(1)%>L</div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="c3-yoy-group">
+      <div class="c3-yoy-bar-wrap">
+<%
+	if(q4_growth == 0)
+	{
+		%>
+<div class="c3-yoy-bar" style="height:5%;background:linear-gradient(180deg,#ef4444,#dc2626);"></div>
+<%
+	}
+	else if(q4_growth < 0)
+	{
+		%>
+<div class="c3-yoy-bar" style="height:<%=q4_growth_height * -1%>%;background:linear-gradient(180deg,#ef4444,#dc2626);"></div>
+<%
+	}
+	else if(q4_growth >= 30)
+	{
+		%>
+<div class="c3-yoy-bar" style="height:<%=q4_growth_height%>%;background:linear-gradient(180deg,#10b981,#059669);"></div>
+<%
+	}
+	else
+	{
+		%>
+<div class="c3-yoy-bar" style="height:<%=q4_growth_height%>%;background:linear-gradient(180deg,#f59e0b,#d97706);"></div>
+<%
+	}
+	%>
+</div>
+      <div class="c3-yoy-qlabel">Q4</div>
+<%
+	if(q4_growth < 0)
+	{
+		%>
+<div class="c3-yoy-pct" style="color:#ef4444;"><%=q4_growth%>%</div>
+<%
+	}
+	else if(q4_growth >= 30)
+	{
+		%>
+<div class="c3-yoy-pct" style="color:#10b981;">+<%=q4_growth%>%</div>
+<%
+	}
+	else
+	{
+		%>
+<div class="c3-yoy-pct" style="color:#d97706;"><%=q4_growth%>%</div>
+<%
+	}
+	%>
+<div class="c3-yoy-rev">₹<%=(q4_revenue / 100000).round(1)%>L</div>
+      <div class="c3-yoy-prev">prev ₹<%=(q4_prev_revenue / 100000).round(1)%>L</div>
+    </div>
+
+  </div>
+  <div class="c3-top-banner">
+    <div class="c3-top-banner-title">Top Performing Quarter: <%=top_quarter_label%></div>
+    <div class="c3-top-banner-sub">Growth: +<%=top_quarter_growth%>% YOY &nbsp;|&nbsp; Revenue: <%=top_quarter_revenue_display%></div>
+  </div>
+</div>
+
+<!-- ===== MONTHLY SALES FUNNEL ===== -->
+<%
+	mLead_Cnt = Customer_Calling_follow_up[ID != null && Lead_Date in this month].count();
+	mqs_cnt = Quotation[ID != null && Date_field in this month && Status == "Sent"].count();
+	mfu_cnt = thisapp.sales.MonthlyFollowUp();
+	moc_cnt = thisapp.sales.MonthlyOrderConfirmed();
+	mpt_cnt = thisapp.sales.MonthlyPaymentReceived();
+	%>
+<div class="c3-card">
+  <div class="c3-card-title">Monthly Sales Funnel</div>
+  <div class="c3-funnel-wrap">
+    <div class="c3-funnel">
+  <div class="c3-funnel-seg" style="
+    width:100%; height:56px;
+    background:linear-gradient(135deg,#e74c3c,#c0392b);
+    clip-path:polygon(0% 0%, 100% 0%, 92% 100%, 8% 100%);
+    animation-delay:0.1s;"><%=mLead_Cnt%>
+  </div>
+  <div class="c3-funnel-seg" style="
+    width:100%; height:56px;
+    background:linear-gradient(135deg,#f39c12,#d68910);
+    clip-path:polygon(8% 0%, 92% 0%, 84% 100%, 16% 100%);
+    animation-delay:0.2s;"><%=mqs_cnt%>
+  </div>
+  <div class="c3-funnel-seg" style="
+    width:100%; height:56px;
+    background:linear-gradient(135deg,#3498db,#2980b9);
+    clip-path:polygon(16% 0%, 84% 0%, 76% 100%, 24% 100%);
+    animation-delay:0.3s;"><%=mfu_cnt%>
+  </div>
+  <div class="c3-funnel-seg" style="
+    width:100%; height:56px;
+    background:linear-gradient(135deg,#1abc9c,#16a085);
+    clip-path:polygon(24% 0%, 76% 0%, 68% 100%, 32% 100%);
+    animation-delay:0.4s;"><%=moc_cnt%>
+  </div>
+  <div class="c3-funnel-seg" style="
+    width:100%; height:48px;
+    background:linear-gradient(135deg,#9b59b6,#8e44ad);
+    clip-path:polygon(32% 0%, 68% 0%, 50% 100%, 50% 100%);
+    animation-delay:0.5s;"><%=mpt_cnt%>
+  </div>
+</div>
+    <div class="c3-funnel-legend">
+      <div class="c3-funnel-leg-item">
+        <div class="c3-funnel-leg-dot" style="background:linear-gradient(135deg,#e74c3c,#c0392b)"></div>
+        <div><div class="c3-funnel-leg-title">Lead Counts</div><div class="c3-funnel-leg-val">Count: <%=mLead_Cnt%></div></div>
+      </div>
+      <div class="c3-funnel-leg-item">
+        <div class="c3-funnel-leg-dot" style="background:linear-gradient(135deg,#f39c12,#d68910)"></div>
+        <div><div class="c3-funnel-leg-title">Quotations Sent</div><div class="c3-funnel-leg-val">Count: <%=mqs_cnt%></div></div>
+      </div>
+      <div class="c3-funnel-leg-item">
+        <div class="c3-funnel-leg-dot" style="background:linear-gradient(135deg,#3498db,#2980b9)"></div>
+        <div><div class="c3-funnel-leg-title">Follow-Ups Done</div><div class="c3-funnel-leg-val">Count: <%=mfu_cnt%></div></div>
+      </div>
+      <div class="c3-funnel-leg-item">
+        <div class="c3-funnel-leg-dot" style="background:linear-gradient(135deg,#1abc9c,#16a085)"></div>
+        <div><div class="c3-funnel-leg-title">Orders Confirmed</div><div class="c3-funnel-leg-val">Count: <%=moc_cnt%></div></div>
+      </div>
+      <div class="c3-funnel-leg-item">
+        <div class="c3-funnel-leg-dot" style="background:linear-gradient(135deg,#9b59b6,#8e44ad)"></div>
+        <div><div class="c3-funnel-leg-title">Payments Received</div><div class="c3-funnel-leg-val">Count: <%=mpt_cnt%></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TWO-COL: LAST 4 QUARTERS + ORDER LOST REASONS ===== -->
+<div class="c3-two-col">
+
+  <!-- Sales Last 4 Quarters -->
+  <div class="c3-card" style="margin-bottom:0">
+    <div class="c3-card-title">Sales Last 4 Quarters</div>
+    <div class="c3-hbar-chart">
+      <div class="c3-hbar-row">
+        <div class="c3-hbar-label"><%=q1_label%></div>
+        <div class="c3-hbar-wrap">
+          <div class="c3-hbar-fill" style="width:<%=q1_width%>%;background:linear-gradient(90deg,#ef4444,#dc2626);">₹<%=q1_sales%>K</div>
+        </div>
+      </div>
+      <div class="c3-hbar-row">
+        <div class="c3-hbar-label"><%=q2_label%></div>
+        <div class="c3-hbar-wrap">
+          <div class="c3-hbar-fill" style="width:<%=q2_width%>%;background:linear-gradient(90deg,#f59e0b,#d97706);">₹<%=q2_sales%>K</div>
+        </div>
+      </div>
+      <div class="c3-hbar-row">
+        <div class="c3-hbar-label"><%=q3_label%></div>
+        <div class="c3-hbar-wrap">
+          <div class="c3-hbar-fill" style="width:<%=q3_width%>%;background:linear-gradient(90deg,#10b981,#059669);">₹<%=q3_sales%>K</div>
+        </div>
+      </div>
+      <div class="c3-hbar-row">
+        <div class="c3-hbar-label"><%=q4_label%></div>
+        <div class="c3-hbar-wrap">
+          <div class="c3-hbar-fill" style="width:<%=q4_width%>%;background:linear-gradient(90deg,#3b82f6,#2563eb);">₹<%=q4_sales%>K</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Lost Reasons -->
+  <div class="c3-card" style="margin-bottom:0">
+    <div class="c3-card-title">Order Lost Reasons by Quarter</div>
+    <div class="c3-stack-chart">
+      <div class="c3-stack-row">
+        <div class="c3-stack-label">Q1</div>
+        <div class="c3-stack-bar">
+          <div class="c3-seg" style="width:<%=q1_price%>%;background:#ef4444;" title="Price"><%=q1_price%>%</div>
+          <div class="c3-seg" style="width:<%=q1_quality%>%;background:#f59e0b;" title="Quality"><%=q1_quality%>%</div>
+          <div class="c3-seg" style="width:<%=q1_delivery%>%;background:#8b5cf6;" title="Delivery"><%=q1_delivery%>%</div>
+          <div class="c3-seg" style="width:<%=q1_other%>%;background:#6b7280;" title="Other"><%=q1_other%>%</div>
+        </div>
+      </div>
+      <div class="c3-stack-row">
+        <div class="c3-stack-label">Q2</div>
+        <div class="c3-stack-bar">
+          <div class="c3-seg" style="width:<%=q2_price%>%;background:#ef4444;"><%=q2_price%>%</div>
+          <div class="c3-seg" style="width:<%=q2_quality%>%;background:#f59e0b;"><%=q2_quality%>%</div>
+          <div class="c3-seg" style="width:<%=q2_delivery%>%;background:#8b5cf6;"><%=q2_delivery%>%</div>
+          <div class="c3-seg" style="width:<%=q2_other%>%;background:#6b7280;"><%=q2_other%>%</div>
+        </div>
+      </div>
+      <div class="c3-stack-row">
+        <div class="c3-stack-label">Q3</div>
+        <div class="c3-stack-bar">
+          <div class="c3-seg" style="width:<%=q3_price%>%;background:#ef4444;"><%=q3_price%>%</div>
+          <div class="c3-seg" style="width:<%=q3_quality%>%;background:#f59e0b;"><%=q3_quality%>%</div>
+          <div class="c3-seg" style="width:<%=q3_delivery%>%;background:#8b5cf6;"><%=q3_delivery%>%</div>
+          <div class="c3-seg" style="width:<%=q3_other%>%;background:#6b7280;"><%=q3_other%>%</div>
+        </div>
+      </div>
+      <div class="c3-stack-row">
+        <div class="c3-stack-label">Q4</div>
+        <div class="c3-stack-bar">
+          <div class="c3-seg" style="width:<%=q4_price%>%;background:#ef4444;"><%=q4_price%>%</div>
+          <div class="c3-seg" style="width:<%=q4_quality%>%;background:#f59e0b;"><%=q4_quality%>%</div>
+          <div class="c3-seg" style="width:<%=q4_delivery%>%;background:#8b5cf6;"><%=q4_delivery%>%</div>
+          <div class="c3-seg" style="width:<%=q4_other%>%;background:#6b7280;"><%=q4_other%>%</div>
+        </div>
+      </div>
+    </div>
+    <div class="c3-legend" style="margin-top:14px;">
+      <div class="c3-legend-item"><div class="c3-legend-dot" style="background:#ef4444"></div>Price</div>
+      <div class="c3-legend-item"><div class="c3-legend-dot" style="background:#f59e0b"></div>Quality</div>
+      <div class="c3-legend-item"><div class="c3-legend-dot" style="background:#8b5cf6"></div>Delivery</div>
+      <div class="c3-legend-item"><div class="c3-legend-dot" style="background:#6b7280"></div>Other</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== BENCHMARKS & TARGETS ===== -->
+<%
+	dealer_variation = dealer_target - dealer_actual;
+	%>
+<div class="c3-card">
+  <div class="c3-card-title">Benchmarks &amp; Targets</div>
+<table class="c3-bench-table">
+  <thead>
+    <tr>
+      <th style="width:28%">Metric</th>
+      <th>Target</th>
+      <th>Actual</th>
+      <th>Variance</th>
+      <th style="width:80px">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Sales Value (₹)</td>
+      <td>₹<%=sales_value_target%></td>
+      <td>₹<%=sales_value_actual%></td>
+      <td><%=if(sales_variance >= 0,"+" + sales_variance,sales_variance)%></td>
+      <td><span class="c3-circle <%=sales_value_color%>"><%=sales_value_status%></span></td>
+    </tr>
+    <tr>
+      <td>Growth %</td>
+      <td><%=growth_target%>%</td>
+      <td><%=yearly_growth_display%></td>
+      <td><%=growth_variance_display%></td>
+      <td><span class="c3-circle <%=yearly_growth_color%>"><%=yearly_growth_status%></span></td>
+    </tr>
+    <tr>
+      <td>Orders Confirmed</td>
+      <td><%=order_value_target%></td>
+      <td><%=order_value_actual%></td>
+      <td><%=if(order_variance >= 0,"+" + order_variance,order_variance)%></td>
+      <td><span class="c3-circle <%=order_color%>"><%=order_status%></span></td>
+    </tr>
+    <tr>
+      <td>Hot Enquiries</td>
+      <td><%=hot_enq_target%></td>
+      <td><%=hot_enq_actual%></td>
+      <td><%=if(hot_enq_variance >= 0,"+" + hot_enq_variance,hot_enq_variance)%></td>
+      <td><span class="c3-circle <%=hot_enq_color%>"><%=hot_enq_status%></span></td>
+    </tr>
+    <tr>
+      <td>Dealer Appointments</td>
+      <td><%=dealer_target%>/month</td>
+      <td><%=dealer_actual%></td>
+      <td><%=if(dealer_variance >= 0,"+" + dealer_variance,dealer_variance)%></td>
+      <td><span class="c3-circle <%=dealer_color%>"><%=dealer_status%></span></td>
+    </tr>
+    <tr>
+      <td>Lost Orders Reduction</td>
+      <td><%=lost_orders_target%>%</td>
+      <td><%=lost_orders_display%></td>
+      <td><%=if(lost_variance >= 0,"+" + lost_variance + "%",lost_variance + "%")%></td>
+      <td><span class="c3-circle <%=lost_orders_color%>"><%=lost_orders_status%></span></td>
+    </tr>
+    <tr>
+      <td>Follow-up Delay</td>
+      <td>≤<%=followup_target%> days</td>
+      <td><%=followup_actual%> days</td>
+      <td><%=if(followup_variance >= 0,"-" + followup_variance + "d","+" + followup_variance * -1 + "d over")%></td>
+      <td><span class="c3-circle <%=followup_color%>"><%=followup_status%></span></td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ===== CUSTOMER SATISFACTION ===== -->
+<div class="c3-card">
+  <div class="c3-card-title">Customer Satisfaction</div>
+  <div class="c3-sat-grid">
+    <div>
+      <div class="c3-rating-score"><%=overall_rating_display%></div>
+      <div class="c3-stars">
+<%
+	for each  i in {1,2,3,4,5}
+	{
+		if(i <= full_stars)
+		{
+			%>
+<span class="c3-star">★</span>
+<%
+		}
+		else if(i == full_stars + 1 && has_half_star)
+		{
+			%>
+<span class="c3-star">★</span>
+<%
+		}
+		else
+		{
+			%>
+<span class="c3-star empty">★</span>
+<%
+		}
+	}
+	%>
+</div>
+      <div class="c3-rating-lbl">Average Customer Rating</div>
+      <!-- Monthly rating bars with static value labels -->
+      <div class="c3-bar-chart" style="height:160px;margin-top:20px;">
+        <div class="c3-bar-group">
+          <div class="c3-bars"><div class="c3-bar" style="height:<%=jan_height%>%;background:linear-gradient(180deg,#fbbf24,#f59e0b);width:14px;"></div></div>
+          <div class="c3-bar-lbl">Jan</div>
+          <div class="c3-bar-vals"><span style="color:#f59e0b;font-weight:600;"><%=jan_avg%></span></div>
+        </div>
+        <div class="c3-bar-group">
+          <div class="c3-bars"><div class="c3-bar" style="height:<%=feb_height%>%;background:linear-gradient(180deg,#fbbf24,#f59e0b);width:14px;"></div></div>
+          <div class="c3-bar-lbl">Feb</div>
+          <div class="c3-bar-vals"><span style="color:#f59e0b;font-weight:600;"><%=feb_avg%></span></div>
+        </div>
+        <div class="c3-bar-group">
+          <div class="c3-bars"><div class="c3-bar" style="height:<%=mar_height%>%;background:linear-gradient(180deg,#fbbf24,#f59e0b);width:14px;"></div></div>
+          <div class="c3-bar-lbl">Mar</div>
+          <div class="c3-bar-vals"><span style="color:#f59e0b;font-weight:600;"><%=mar_avg%></span></div>
+        </div>
+        <div class="c3-bar-group">
+          <div class="c3-bars"><div class="c3-bar" style="height:<%=apr_height%>%;background:linear-gradient(180deg,#fbbf24,#f59e0b);width:14px;"></div></div>
+          <div class="c3-bar-lbl">Apr</div>
+          <div class="c3-bar-vals"><span style="color:#f59e0b;font-weight:600;"><%=apr_avg%></span></div>
+        </div>
+        <div class="c3-bar-group">
+          <div class="c3-bars"><div class="c3-bar" style="height:<%=may_height%>%;background:linear-gradient(180deg,#fbbf24,#f59e0b);width:14px;"></div></div>
+          <div class="c3-bar-lbl">May</div>
+          <div class="c3-bar-vals"><span style="color:#f59e0b;font-weight:600;"><%=may_avg%></span></div>
+        </div>
+        <div class="c3-bar-group">
+          <div class="c3-bars"><div class="c3-bar" style="height:<%=jun_height%>%;background:linear-gradient(180deg,#fbbf24,#f59e0b);width:14px;"></div></div>
+          <div class="c3-bar-lbl">Jun</div>
+          <div class="c3-bar-vals"><span style="color:#f59e0b;font-weight:600;"><%=jun_avg%></span></div>
+        </div>
+        <div class="c3-bar-group">
+          <div class="c3-bars"><div class="c3-bar" style="height:<%=jul_height%>%;background:linear-gradient(180deg,#fbbf24,#f59e0b);width:14px;"></div></div>
+          <div class="c3-bar-lbl">Jul</div>
+          <div class="c3-bar-vals"><span style="color:#f59e0b;font-weight:600;"><%=jul_avg%></span></div>
+        </div>
+        <div class="c3-bar-group">
+          <div class="c3-bars"><div class="c3-bar" style="height:<%=aug_height%>%;background:linear-gradient(180deg,#fbbf24,#f59e0b);width:14px;"></div></div>
+          <div class="c3-bar-lbl">Aug</div>
+          <div class="c3-bar-vals"><span style="color:#f59e0b;font-weight:600;"><%=aug_avg%></span></div>
+        </div>
+        <div class="c3-bar-group">
+          <div class="c3-bars"><div class="c3-bar" style="height:<%=sep_height%>%;background:linear-gradient(180deg,#fbbf24,#f59e0b);width:14px;"></div></div>
+          <div class="c3-bar-lbl">Sep</div>
+          <div class="c3-bar-vals"><span style="color:#f59e0b;font-weight:600;"><%=sep_avg%></span></div>
+        </div>
+        <div class="c3-bar-group">
+          <div class="c3-bars"><div class="c3-bar" style="height:<%=oct_height%>%;background:linear-gradient(180deg,#fbbf24,#f59e0b);width:14px;"></div></div>
+          <div class="c3-bar-lbl">Oct</div>
+          <div class="c3-bar-vals"><span style="color:#f59e0b;font-weight:600;"><%=oct_avg%></span></div>
+        </div>
+        <div class="c3-bar-group">
+          <div class="c3-bars"><div class="c3-bar" style="height:<%=nov_height%>%;background:linear-gradient(180deg,#fbbf24,#f59e0b);width:14px;"></div></div>
+          <div class="c3-bar-lbl">Nov</div>
+          <div class="c3-bar-vals"><span style="color:#f59e0b;font-weight:600;"><%=nov_avg%></span></div>
+        </div>
+        <div class="c3-bar-group">
+          <div class="c3-bars"><div class="c3-bar" style="height:<%=dec_height%>%;background:linear-gradient(180deg,#fbbf24,#f59e0b);width:14px;"></div></div>
+          <div class="c3-bar-lbl">Dec</div>
+          <div class="c3-bar-vals"><span style="color:#f59e0b;font-weight:600;"><%=dec_avg%></span></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:14px;font-weight:700;color:#1f2937;margin-bottom:12px;">Recent Feedbacks</div>
+      <div class="c3-feedback-list">
+<%
+	for each  dat in customer_feedback_dat
+	{
+		%>
+<div class="c3-feedback-item">
+          <div class="c3-feedback-date"><%=dat.Date_field%></div>
+          <div class="c3-feedback-text"><%=dat.Remarks%> — <%=dat.Name_of_Customer.Customer_Name%> — Rating: <%=dat.Overall_Performance%></div>
+        </div>
+<%
+	}
+	%>
+</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== COMPETITOR ANALYSIS ===== -->
+<!-- ===== COMPETITOR ANALYSIS ===== -->
+<div class="c3-card">
+  <div class="c3-card-title">Competitor Analysis</div>
+
+  <!-- ADD this wrapper div -->
+  <div style="overflow-x: auto; -webkit-overflow-scrolling: touch;">
+    <table class="c3-comp-table">
+      <thead>
+        <tr>
+          <th>Competitor</th>
+          <th>Market Position</th>
+          <th>Pricing</th>
+          <th>Key Strengths</th>
+          <th>Our Advantage</th>
+          <th>Updated</th>
+        </tr>
+      </thead>
+      <tbody>
+<%
+	if(competitor_data != null && competitor_data.size() > 0)
+	{
+		for each  comp in competitor_data
+		{
+			comp_name = ifnull(comp.get("competitor_name"),"—");
+			comp_position = ifnull(comp.get("market_position"),"—");
+			comp_pricing = ifnull(comp.get("pricing"),"—");
+			comp_strength = ifnull(comp.get("key_strengths"),"—");
+			comp_adv = ifnull(comp.get("our_advantage"),"—");
+			comp_date = ifnull(comp.get("updated_date"),"—");
+			%>
+<tr>
+          <td><strong><%=comp_name%></strong></td>
+          <td><%=comp_position%></td>
+          <td><%=comp_pricing%></td>
+          <td><%=comp_strength%></td>
+          <td><%=comp_adv%></td>
+          <td><%=comp_date%></td>
+        </tr>
+<%
+		}
+	}
+	else
+	{
+		%>
+<tr>
+          <td colspan="6" style="text-align:center;color:#9ca3af;padding:20px;">
+            No competitor data available.
+          </td>
+        </tr>
+<%
+	}
+	%>
+</tbody>
+    </table>
+  </div><!-- end overflow wrapper -->
+</div>
+</div><!-- end .c3 -->
+</div><!-- end #content3 -->
+	
+</div>
+        </div>
+    </div>
+</body>
+</html>
+<%
+
+}%>

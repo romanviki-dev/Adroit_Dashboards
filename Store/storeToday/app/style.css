@@ -1,0 +1,454 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background: #f8fafc;
+    margin: 0;
+    padding: 20px;
+    color: #1f2937;
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.tiles {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+@media (max-width: 1200px) {
+    .tiles {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .tiles {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 520px) {
+    .tiles {
+        grid-template-columns: 1fr;
+    }
+}
+
+.tile {
+    background: #fff;
+    padding: 16px;
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    cursor: pointer;
+    transition: .25s;
+    text-align: center;
+}
+
+.tile:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.10);
+}
+
+.title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #4b5563;
+}
+
+.value {
+    font-size: 28px;
+    font-weight: 700;
+    margin-top: 8px;
+    color: #111827;
+}
+
+.sub-value {
+    font-size: 14px;
+    color: #6b7280;
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+.btn {
+    margin-top: 12px;
+    background: #e0e7ff;
+    color: #3730a3;
+    padding: 6px 12px;
+    border-radius: 8px;
+    display: inline-block;
+    font-size: 13px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+#lowstock-toggle,
+#po-toggle,
+#po-toggle2,
+#po-toggle3 {
+    display: none;
+}
+
+#lowstock-toggle:checked ~ .side-panel-lowstock,
+#po-toggle:checked ~ .side-panel-po-total,
+#po-toggle2:checked ~ .side-panel-po-billed,
+#po-toggle3:checked ~ .side-panel-po-received {
+    right: 0;
+}
+
+.side-panel {
+    position: fixed;
+    top: 0;
+    right: -480px;
+    width: 400px;
+    height: 100%;
+    background: #fff;
+    box-shadow: -4px 0 18px rgba(0, 0, 0, 0.15);
+    transition: all .35s ease;
+    padding: 20px;
+    z-index: 999;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+.side-panel .panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 1;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.side-panel .panel-title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.side-panel .close-btn {
+    background: #e5e7eb;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+    font-size: 13px;
+}
+
+table th,
+table td {
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+table th {
+    background: #f3f4f6;
+    font-weight: 600;
+}
+
+.chart-wrapper,
+.tech-chart-card {
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.08);
+    max-width: 1200px;
+    margin: 30px auto;
+    border: 1px solid #e5e7eb;
+}
+
+.chart-title,
+.tech-chart-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 15px;
+}
+
+.top-line {
+    width: 100%;
+    height: 4px;
+    background: #0dbf79;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+.legend {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.legend-color {
+    border-radius: 5px;
+}
+
+/* Purchase Order Progress & Service Flow Cards Row Layout */
+.funnel-tech-row {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: stretch;
+    max-width: 1200px;
+    margin: 30px auto;
+}
+
+.funnel-tech-row > div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0px 4px 18px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e5e7eb;
+}
+
+.funnel-container {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+}
+
+.funnel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: 250px;
+}
+
+.funnel-stage {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.funnel-segment {
+    width: 100%;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.funnel-segment.stage1 {
+    clip-path: polygon(0% 0%, 100% 0%, 90% 100%, 10% 100%);
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+}
+
+.funnel-segment.stage2 {
+    clip-path: polygon(10% 0%, 90% 0%, 80% 100%, 20% 100%);
+    background: linear-gradient(135deg, #f39c12 0%, #d68910 100%);
+}
+
+.funnel-segment.stage3 {
+    clip-path: polygon(20% 0%, 80% 0%, 70% 100%, 30% 100%);
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+}
+
+.funnel-segment.stage4 {
+    clip-path: polygon(30% 0%, 70% 0%, 60% 100%, 40% 100%);
+    background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%);
+}
+
+.funnel-segment.stage5 {
+    clip-path: polygon(40% 0%, 60% 0%, 50% 100%, 50% 100%);
+    background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+    height: 45px;
+}
+
+.funnel-count {
+    color: #fff;
+    font-weight: 700;
+    font-size: 16px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+.funnel-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+    max-width: 220px;
+}
+
+.funnel-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fafafa;
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+}
+
+.funnel-color-box {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+}
+
+.color1 { background: #e74c3c; }
+.color2 { background: #f39c12; }
+.color3 { background: #3498db; }
+.color4 { background: #1abc9c; }
+.color5 { background: #9b59b6; }
+
+.tech-bars {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    height: 240px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e5e7eb;
+    width: 100%;
+    gap: 15px;
+}
+
+.tech-item {
+    text-align: center;
+    flex: 1;
+}
+
+.tech-bar-group {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 6px;
+    height: 100%;
+}
+
+.tech-bar {
+    width: 20px;
+    border-radius: 6px 6px 0 0;
+}
+
+.tech-issued { background: #2563eb; }
+.tech-returned { background: #22c55e; }
+
+.tech-name {
+    margin-top: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #4b5563;
+}
+
+.svg-tooltip {
+    position: fixed;
+    background: rgba(30, 30, 30, 0.92);
+    color: #fff;
+    padding: 7px 13px;
+    border-radius: 8px;
+    font-size: 13px;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+.svg-tooltip.visible {
+    opacity: 1;
+}
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 900px) {
+    .funnel-tech-row {
+        flex-direction: column !important;
+        align-items: stretch;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .tiles {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px;
+    }
+
+    .tile {
+        padding: 12px;
+    }
+
+    .value {
+        font-size: 22px;
+    }
+
+    .funnel-tech-row {
+        gap: 15px;
+        margin: 15px auto;
+    }
+
+    .funnel-tech-row > div {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .funnel-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .funnel {
+        width: 100%;
+        max-width: 220px;
+    }
+
+    .funnel-legend {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .side-panel {
+        width: 100% !important;
+        right: -100% !important;
+    }
+
+    .chart-wrapper,
+    .tech-chart-card {
+        padding: 15px;
+        margin: 15px auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .tiles {
+        grid-template-columns: 1fr !important;
+    }
+}

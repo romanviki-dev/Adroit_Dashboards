@@ -1,0 +1,87 @@
+int sales.leadsCount()
+{
+	leads = Customer_Calling_follow_up[Lead_Date == zoho.currentdate];
+	return leads.count();
+}
+
+
+int sales.quoteCount()
+{
+	return Quotation[Date_field == zoho.currentdate].count();
+}
+
+
+int sales.Orders_daily()
+{
+	orders = Order_Confirmation[Date_field != null && Date_field == zoho.currentdate];
+	return orders.count();
+}
+
+
+float sales.payments_daily()
+{
+	totalAmount = 0.0;
+	advPayments = Payment_Tracking[Payment_Date == zoho.currentdate && Advance_Amount != null && Advance_Amount != 0];
+	for each  rec in advPayments
+	{
+		totalAmount = totalAmount + rec.Advance_Amount;
+	}
+	finalPayments = Payment_Made[Payment_Date == zoho.currentdate && Payable_Amount != null && Payable_Amount != 0];
+	for each  rec1 in finalPayments
+	{
+		totalAmount = totalAmount + rec1.Payable_Amount;
+	}
+	return totalAmount;
+}
+
+
+int sales.AdminDelay()
+{
+	cDate = zoho.currentdate.subDay(1);
+	data = Quotation[Date_field != null && Date_field < cDate && Status == "Draft"];
+	return data.count();
+}
+
+
+int sales.quotationWithNoFollowUp()
+{
+	return Quotation_Follow_Up[Has_Follow_up == false].count();
+}
+
+
+int sales.quoteCount()
+{
+	return Quotation[Date_field == zoho.currentdate].count();
+}
+
+float sales.revenue_monthly()
+{
+	amount = Payment_Tracking[ID != 0];
+	amount1 = Payment_Made[ID != 0];
+	totalAmount = 0.0;
+	month = zoho.currentdate.getMonth();
+	for each  rec in amount
+	{
+		if(rec.Payment_Date.getMonth() == month)
+		{
+			if(rec.Advance_Amount != null && rec.Advance_Amount != 0)
+			{
+				totalAmount = totalAmount + rec.Advance_Amount;
+			}
+		}
+	}
+	for each  rec1 in amount1
+	{
+		if(rec1.Payment_Date.getMonth() == month)
+		{
+			if(rec1.Payable_Amount != null && rec1.Payable_Amount != 0)
+			{
+				totalAmount = totalAmount + rec1.Payable_Amount;
+			}
+		}
+	}
+	return totalAmount;
+}
+
+
+

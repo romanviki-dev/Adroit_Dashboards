@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adroit Service Performance Summary</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Zoho Creator Widget SDK (v2 — ZOHO.CREATOR.DATA.getRecords) -->
+  <script src="https://static.zohocdn.com/creator/widgets/version/2.0/widgetsdk-min.js"></script>
+  <!-- ApexCharts — donut/gauge/line charts, replacing the old hand-built CSS/SVG ones -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.45.2/dist/apexcharts.min.js"></script>
+</head>
+<body>
+
+<div class="tab-container">
+
+  <!-- Fatal / partial-load notices -->
+  <div id="notice-container"></div>
+
+  <!-- Tab radios: the original page's CSS keys off :checked, so they stay real inputs -->
+  <input type="radio" name="tabs" id="tab1" class="tab-input" checked>
+  <input type="radio" name="tabs" id="tab2" class="tab-input">
+  <input type="radio" name="tabs" id="tab3" class="tab-input">
+
+  <div class="tab-buttons">
+    <label for="tab1" class="tab-label">Today's</label>
+    <label for="tab2" class="tab-label">Weekly</label>
+    <label for="tab3" class="tab-label">Monthly</label>
+  </div>
+
+  <div class="tab-contents">
+    <div id="content1" class="tab-content">
+      <div class="widget-status">
+        <div class="widget-spinner"></div>
+        Loading today's data&hellip;
+      </div>
+    </div>
+
+    <div id="content2" class="tab-content">
+      <div class="widget-status">Select the Weekly tab to load its data.</div>
+    </div>
+
+    <div id="content3" class="tab-content">
+      <div class="widget-status">Select the Monthly tab to load its data.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Shared runtime: number formatting, drill-down modal, fetch diagnostics -->
+<script src="adroitWidgetKit.js"></script>
+<!-- Dashboard logic -->
+<script src="servicePerformance.js"></script>
+</body>
+</html>

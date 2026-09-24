@@ -1,0 +1,176 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Store Dashboard - Today's Snapshot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Zoho Creator Widget SDK (v2 - ZOHO.CREATOR.DATA.getRecords) -->
+  <script src="https://static.zohocdn.com/creator/widgets/version/2.0/widgetsdk-min.js"></script>
+  <!-- ApexCharts -- donut/gauge/line/bar charts, replacing the old hand-built CSS/SVG ones -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.45.2/dist/apexcharts.min.js"></script>
+</head>
+<body>
+
+<h1>Today's Snapshot <span id="loading-text" style="font-size:14px; color:#666; font-weight:normal;">(Loading...)</span></h1>
+
+<!-- Tiles Container -->
+<div class="tiles" id="tilesContainer">
+    <article class="tile">
+        <div class="title">Total Material Transactions Today</div>
+        <div class="value" id="totalTransactionsVal">0</div>
+    </article>
+
+    <article class="tile">
+        <div class="title">Production Stops (Material Shortage)</div>
+        <div class="value" id="prodStopsVal">0</div>
+    </article>
+
+    <article class="tile">
+        <div class="title">Items Issued to Service</div>
+        <div class="value" id="itemsIssuedVal">0</div>
+    </article>
+
+    <article class="tile">
+        <div class="title">Items Returned from Service</div>
+        <div class="value" id="itemsReturnedVal">0</div>
+    </article>
+
+    <article class="tile">
+        <div class="title">Rejected Items Received</div>
+        <div class="value" id="rejectedItemsVal">0</div>
+    </article>
+
+    <article class="tile">
+        <div class="title">Low Stock Alerts (SKU below min)</div>
+        <div class="value" id="lowStockVal">0</div>
+        <label for="lowstock-toggle" class="btn">View Report</label>
+    </article>
+
+    <article class="tile">
+        <div class="title">Red Tag Materials Added</div>
+        <div class="value" id="redTagVal">0</div>
+    </article>
+
+    <article class="tile">
+        <div class="tile-top">
+            <div class="title">Purchase Orders – Total</div>
+        </div>
+        <div class="value" id="poTotalVal">0</div>
+        <div class="sub-value" id="poTotalSubVal">₹ 0.00</div>
+        <label for="po-toggle" class="btn">View Details</label>
+    </article>
+
+    <article class="tile">
+        <div class="tile-top">
+            <div class="title">Purchase Orders – Billed</div>
+        </div>
+        <div class="value" id="poBilledVal">0</div>
+        <div class="sub-value" id="poBilledSubVal">₹ 0.00</div>
+        <label for="po-toggle2" class="btn">View Details</label>
+    </article>
+
+    <article class="tile">
+        <div class="tile-top">
+            <div class="title">Purchase Orders – Received</div>
+        </div>
+        <div class="value" id="poReceivedVal">0</div>
+        <div class="sub-value" id="poReceivedSubVal">₹ 0.00</div>
+        <label for="po-toggle3" class="btn">View Details</label>
+    </article>
+</div>
+
+<!-- SIDE PANELS -->
+<input type="checkbox" id="lowstock-toggle">
+<div class="side-panel side-panel-lowstock">
+    <div class="panel-header">
+        <div class="panel-title">Low Stock Alert Report</div>
+        <label for="lowstock-toggle" class="close-btn">✖</label>
+    </div>
+    <table>
+        <thead>
+            <tr><th>SKU</th><th>Item</th><th>Stock</th><th>Min</th></tr>
+        </thead>
+        <tbody id="lowStockTableBody">
+            <!-- Dynamically populated via script.js -->
+        </tbody>
+    </table>
+</div>
+
+<input type="checkbox" id="po-toggle">
+<div class="side-panel side-panel-po-total">
+    <div class="panel-header">
+        <div class="panel-title">Purchase Orders - Total</div>
+        <label for="po-toggle" class="close-btn">✖</label>
+    </div>
+    <table>
+        <thead>
+            <tr><th>PO Number</th><th>Employee</th><th>Date & Time</th></tr>
+        </thead>
+        <tbody id="poTotalTableBody">
+            <!-- Dynamically populated via script.js -->
+        </tbody>
+    </table>
+</div>
+
+<input type="checkbox" id="po-toggle2">
+<div class="side-panel side-panel-po-billed">
+    <div class="panel-header">
+        <div class="panel-title">Purchase Orders - Billed</div>
+        <label for="po-toggle2" class="close-btn">✖</label>
+    </div>
+    <table>
+        <thead>
+            <tr><th>PO Number</th><th>Employee</th><th>Date & Time</th></tr>
+        </thead>
+        <tbody id="poBilledTableBody">
+            <!-- Dynamically populated via script.js -->
+        </tbody>
+    </table>
+</div>
+
+<input type="checkbox" id="po-toggle3">
+<div class="side-panel side-panel-po-received">
+    <div class="panel-header">
+        <div class="panel-title">Purchase Orders - Received</div>
+        <label for="po-toggle3" class="close-btn">✖</label>
+    </div>
+    <table>
+        <thead>
+            <tr><th>PO Number</th><th>Employee</th><th>Date & Time</th></tr>
+        </thead>
+        <tbody id="poReceivedTableBody">
+            <!-- Dynamically populated via script.js -->
+        </tbody>
+    </table>
+</div>
+
+<!-- CHART SECTION -->
+<div class="chart-wrapper">
+    <div class="chart-title">Material Flow vs Production Stops</div>
+    <div class="top-line"></div>
+    <div id="hourly-flow-chart"></div>
+</div>
+
+<!-- FUNNEL & TECHNICIAN ROW -->
+<div class="funnel-tech-row">
+    <div class="tech-chart-card" style="max-width:520px;">
+        <h3 class="tech-chart-title">Purchase Order Progress</h3>
+        <div id="po-funnel-chart"></div>
+    </div>
+
+    <div class="tech-chart-card">
+        <h3 class="tech-chart-title">Service Flow – Technician Wise</h3>
+        <div id="tech-flow-chart"></div>
+    </div>
+</div>
+
+
+<!-- Shared runtime: number formatting, drill-down modal, fetch diagnostics -->
+<script src="adroitWidgetKit.js"></script>
+<!-- Dashboard logic: reads the reports directly (replaces the todayStoreWidget Custom API) -->
+<script src="storeToday.js"></script>
+</body>
+</html>

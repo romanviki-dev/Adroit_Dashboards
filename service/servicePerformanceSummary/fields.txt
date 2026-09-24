@@ -1,0 +1,474 @@
+=== SERVICE_CALL_LOG -> Service_Call_Logs (Service_Call_Logs) ===
+273 record(s) sampled, 21 field(s):
+Status, Feedback_Status, Feedback_Link, Customer_Name, Phone_Number1, Product, Attachment, Service_Coordinator, Committed_Date, Date_field, Service_Call_Log_No, Remarks, Service_Engineer_Name, Call_Received_From, Feedback_Sent_Date, Nature_Of_Calls, ID, Repeat_Call_Reason, Customer_Complaint, Place, Added_Time
+
+Sample record:
+{
+  "Status": "Open",
+  "Feedback_Status": "Draft",
+  "Feedback_Link": {},
+  "Customer_Name": {
+    "Customer_Name.suffix": "",
+    "Customer_Name.first_name": "M/S. Madura Garments",
+    "ID": "302392000000179085",
+    "Customer_Name.last_name": "",
+    "zc_display_value": "   M/S. Madura Garments    ",
+    "Customer_Name.prefix": ""
+  },
+  "Phone_Number1": "+919842582400",
+  "Product": "SERVO",
+  "Attachment": "",
+  "Service_Coordinator": {
+    "Employee_Name.suffix": "",
+    "Employee_Name.first_name": "ABIRAMI",
+    "Employee_Name.last_name": "",
+    "ID": "302392000000307011",
+    "Employee_Name.prefix": "",
+    "zc_display_value": "   ABIRAMI    "
+  },
+  "Committed_Date": "19-09-2026",
+  "Date_field": "19-09-2026",
+  "Service_Call_Log_No": "273",
+  "Remarks": "",
+  "Service_Engineer_Name": {},
+  "Call_Received_From": "ABIRAMI",
+  "Feedback_Sent_Date": "",
+  "Nature_Of_Calls": {
+    "Nature_of_Calls": "PW",
+    "ID": "302392000000990011",
+    "zc_display_value": "PW"
+  },
+  "ID": "302392000002877210",
+  "Repeat_Call_Reason": "",
+  "Customer_Complaint": "SERVO NOT ON",
+  "Place": "Tirupur",
+  "Added_Time": "19-09-2026 10:34:38"
+}
+
+=== SERVICE_REPORT -> All_Service_Reports (All_Service_Reports) ===
+69 record(s) sampled, 30 field(s):
+Invoice, Customer_Name, Material_Used, Contact_Person, Product, Service_Call_Log, SR_Reopen, Cash, If_more_than_2_times_Reason, Remarks, Capacity, Call_Received_Date, Customer_Location, Contact_Number, ID, Added_Time, Status, Customer_Feedback, SR_Reopen_Description, Material_Used_1, Nature_Of_the_Problem, S_No, Make, SRDate, Spare_Replaced, Payment, Service_Engineer_Name, Call_Attended_Date, SR_No_Date, How_Many_Times_Visited
+
+Sample record:
+{
+  "Invoice": "",
+  "Customer_Name": {
+    "Customer_Name.suffix": "",
+    "Customer_Name.first_name": "M/S. VIRUKSHAM",
+    "ID": "302392000001621003",
+    "Customer_Name.last_name": "",
+    "zc_display_value": "   M/S. VIRUKSHAM    ",
+    "Customer_Name.prefix": ""
+  },
+  "Material_Used": "",
+  "Contact_Person": {
+    "prefix": "",
+    "last_name": "",
+    "suffix": "",
+    "first_name": "",
+    "zc_display_value": ""
+  },
+  "Product": "INVERTER",
+  "Service_Call_Log": {
+    "Service_Call_Log_No": "219",
+    "ID": "302392000002728156",
+    "zc_display_value": "219"
+  },
+  "SR_Reopen": "",
+  "Cash": "",
+  "If_more_than_2_times_Reason": "",
+  "Remarks": "",
+  "Capacity": {},
+  "Call_Received_Date": "07-09-2026",
+  "Customer_Location": "MADAMPATTI",
+  "Contact_Number": "",
+  "ID": "302392000002913081",
+  "Added_Time": "23-09-2026 18:34:14",
+  "Status": "Pending For Spares",
+  "Customer_Feedback": "",
+  "SR_Reopen_Description": "",
+  "Material_Used_1": "",
+  "Nature_Of_the_Problem": "",
+  "S_No": "",
+  "Make": {},
+  "SRDate": "",
+  "Spare_Replaced": [],
+  "Payment": "",
+  "Service_Engineer_Name": {},
+  "Call_Attended_Date": "",
+  "SR_No_Date": "",
+  "How_Many_Times_Visited": ""
+}
+
+=== SERVICE_FEEDBACK -> All_Service_Feedback1 (All_Service_Feedback1) ===
+ERROR: code 9220: No records exist in this report.
+
+=== FIELD_EXECUTIVE -> Field_Executives (Field_Executives) ===
+ERROR: code 9220: No records exist in this report.
+
+=== EMPLOYEES -> All_Employees (All_Employees) ===
+19 record(s) sampled, 8 field(s):
+Email, Address, Department_Role, Employee_No, Employee_Name, Phone_Number, ID, Profile
+
+Sample record:
+{
+  "Email": "shanth@adroitpower.com",
+  "Address": {
+    "country": "",
+    "district_city": "",
+    "latitude": "",
+    "address_line_1": "",
+    "state_province": "",
+    "address_line_2": "",
+    "postal_code": "",
+    "zc_display_value": "",
+    "longitude": ""
+  },
+  "Department_Role": {
+    "Add_Department": "MD",
+    "ID": "302392000000334084",
+    "zc_display_value": "MD"
+  },
+  "Employee_No": "EMP-1",
+  "Employee_Name": {
+    "prefix": "",
+    "last_name": "VIMALA",
+    "suffix": "",
+    "first_name": "SHANTHKUMAR /",
+    "zc_display_value": "SHANTHKUMAR / VIMALA"
+  },
+  "Phone_Number": "+919894018778",
+  "ID": "302392000000551087",
+  "Profile": ""
+}
+
+=== SERVICE_QUOTATION -> Service_Quotations (Service_Quotations) ===
+58 record(s) sampled, 26 field(s):
+Email, Description, Customer_Name, Service_Quotation_No, Nature_of_Calls, Phone_Number, Kind_Attention, Tax_Amount, Payment_Terms, Shipping_Address, ID, Total_Amount_INR, Status, Type_field, Additional_Address, Sub_Total, Role, Date_field, Validity, Get_Amounts, Subject_field, Prepared_By_Whom, Billing_Address, Total, Additional_Discount, Final_Price
+
+Sample record:
+{
+  "Email": "servicecbe@adroitpower.com",
+  "Description": "With reference to the telecon had with our Service Engineer Mr. Karthick, here below we submit our offer for your kind perusal.",
+  "Customer_Name": {
+    "Customer_Name.suffix": "",
+    "Customer_Name.first_name": "M/s. GENCO METAL WORKS",
+    "ID": "302392000002913023",
+    "Customer_Name.last_name": "",
+    "zc_display_value": "   M/s. GENCO METAL WORKS    ",
+    "Customer_Name.prefix": ""
+  },
+  "Service_Quotation_No": "SO-162",
+  "Nature_of_Calls": {
+    "Nature_of_Calls": "PW",
+    "ID": "302392000000990011",
+    "zc_display_value": "PW"
+  },
+  "Phone_Number": "+919894099911",
+  "Kind_Attention": "Mr. Sivadasan ",
+  "Tax_Amount": "1440.00",
+  "Payment_Terms": {
+    "Payment_Terms": "100 % Payment along with your PO",
+    "ID": "302392000000061083",
+    "zc_display_value": "100 % Payment along with your PO"
+  },
+  "Shipping_Address": {},
+  "ID": "302392000002913030",
+  "Total_Amount_INR": "Nine Thousand Four Hundred Forty Rupees Only",
+  "Status": "Draft",
+  "Type_field": "New",
+  "Additional_Address": {},
+  "Sub_Total": "8000.00",
+  "Role": "Service Co-ordinator",
+  "Date_field": "23-09-2026",
+  "Validity": "15 Days",
+  "Get_Amounts": "true",
+  "Subject_field": "Service Offer For DC Aanalog and Voltmeter - Reg",
+  "Prepared_By_Whom": {
+    "Employee_Name.suffix": "",
+    "Employee_Name.first_name": "ABIRAMI",
+    "Employee_Name.last_name": "",
+    "ID": "302392000000307011",
+    "Employee_Name.prefix": "",
+    "zc_display_value": "   ABIRAMI    "
+  },
+  "Billing_Address": {
+    "Address.district_city": "Coimbatore",
+    "Address.state_province": "Taminadu",
+    "Address.address_line_2": "Idigarai,",
+    "ID": "302392000002913026",
+    "zc_display_value": " SF No.798/1,Gas Company Road, Idigarai, Coimbatore Taminadu",
+    "Address.address_line_1": "SF No.798/1,Gas Company Road,"
+  },
+  "Total": "9440.00",
+  "Additional_Discount": "",
+  "Final_Price": "8000.00"
+}
+
+=== SERVICE_INVOICE -> Service_Invoice_Follow_up_Un_paid (Service_Invoice_Follow_up_Un_paid) ===
+54 record(s) sampled, 25 field(s):
+Customer, Not_Coming, Final_Total, Service_Call_Log, Unit, Payment_Status, Gst_Amount_Spare, Remarks, Tax_Spare, Spare_Amount, ID, Payment_Mode, Spares, Received, Contact_No, Invoice_Number, Make, Service_Coordinator, Received_On, Date_field, Details, Total, Service_Amount, Place, Pending
+
+Sample record:
+{
+  "Customer": {
+    "Customer_Name.suffix": "",
+    "Customer_Name.first_name": "M/S. Ammarun Foundaries",
+    "ID": "302392000000177081",
+    "Customer_Name.last_name": "",
+    "zc_display_value": "   M/S. Ammarun Foundaries    ",
+    "Customer_Name.prefix": ""
+  },
+  "Not_Coming": "",
+  "Final_Total": "18880.00",
+  "Service_Call_Log": {},
+  "Unit": "5 KVA/120 V DC 1:1 UPS-2",
+  "Payment_Status": "Un Paid",
+  "Gst_Amount_Spare": "",
+  "Remarks": "",
+  "Tax_Spare": {},
+  "Spare_Amount": "",
+  "ID": "302392000002913059",
+  "Payment_Mode": "",
+  "Spares": "",
+  "Received": "",
+  "Contact_No": "+919943241311",
+  "Invoice_Number": "S265/26-27",
+  "Make": {},
+  "Service_Coordinator": {
+    "Employee_Name.suffix": "",
+    "Employee_Name.first_name": "ABIRAMI",
+    "Employee_Name.last_name": "",
+    "ID": "302392000000307011",
+    "Employee_Name.prefix": "",
+    "zc_display_value": "   ABIRAMI    "
+  },
+  "Received_On": "",
+  "Date_field": "21-09-2026",
+  "Details": "CAMC CHARGES",
+  "Total": "16000.00",
+  "Service_Amount": "16000.00",
+  "Place": "COIMBATORE",
+  "Pending": ""
+}
+
+=== REJECTION_REPLACEMENT -> Rejection_And_Replacement_Register_Report (Rejection_And_Replacement_Register_Report) ===
+1 record(s) sampled, 18 field(s):
+Status, Follow_Up_Date, Type_field, Received_From, Remarks_Rejection_Replacement, Reference, Make, Material_Requisition_ID, Adroit_DC_Number, Date_field, Department, Supplier_DC_Number, Decision_box, Defective_Product, Qty, Nature_of_Issue, Supplier, ID
+
+Sample record:
+{
+  "Status": "Draft",
+  "Follow_Up_Date": "",
+  "Type_field": "Rejection",
+  "Received_From": {
+    "Employee_Name.suffix": "",
+    "Employee_Name.first_name": "HIRANJITH",
+    "Employee_Name.last_name": "",
+    "ID": "302392000001372025",
+    "Employee_Name.prefix": "",
+    "zc_display_value": "   HIRANJITH    "
+  },
+  "Remarks_Rejection_Replacement": "SCRAP",
+  "Reference": "BOM",
+  "Make": {
+    "Manufacture_Name": "AMS",
+    "ID": "302392000002025050",
+    "zc_display_value": "AMS"
+  },
+  "Material_Requisition_ID": {},
+  "Adroit_DC_Number": "",
+  "Date_field": "",
+  "Department": "Production",
+  "Supplier_DC_Number": "",
+  "Decision_box": "false",
+  "Defective_Product": {
+    "Product_Code": "5A AUTOMANUAL SWITCH",
+    "ID": "302392000000359447",
+    "zc_display_value": "5A AUTOMANUAL SWITCH"
+  },
+  "Qty": "1",
+  "Nature_of_Issue": "EXTRA OBSERVE CURRENT ",
+  "Supplier": {
+    "Vendor_Supplier_Name": "MM Electronics",
+    "ID": "302392000000322201",
+    "zc_display_value": "MM Electronics"
+  },
+  "ID": "302392000002472029"
+}
+
+=== STANDBY_UNIT -> Stand_By_Unit1 (Stand_By_Unit1) ===
+2 record(s) sampled, 13 field(s):
+Status, Inward_Date, Arranged_By, Type_of_Stand_By, Outward_Date, Product, S_No, Make, Range, Capacity, Remarks, ID, StandBy_To
+
+Sample record:
+{
+  "Status": "Sent",
+  "Inward_Date": "",
+  "Arranged_By": {
+    "Employee_Name.suffix": "",
+    "Employee_Name.first_name": "KARTHICK",
+    "Employee_Name.last_name": "",
+    "ID": "302392000000624119",
+    "Employee_Name.prefix": "",
+    "zc_display_value": "   KARTHICK    "
+  },
+  "Type_of_Stand_By": {
+    "Type_of_Stand_By": "SERVO STAND BY",
+    "ID": "302392000000983050",
+    "zc_display_value": "SERVO STAND BY"
+  },
+  "Outward_Date": "25-07-2026",
+  "Product": {
+    "Name_Of_the_Product": "SERVO",
+    "ID": "302392000000086024",
+    "zc_display_value": "SERVO"
+  },
+  "S_No": "2",
+  "Make": {
+    "Make": "ADROIT",
+    "ID": "302392000001479015",
+    "zc_display_value": "ADROIT"
+  },
+  "Range": "",
+  "Capacity": {
+    "Capacity_Name": "30 KVA SERVO ",
+    "ID": "302392000002896065",
+    "zc_display_value": "30 KVA SERVO "
+  },
+  "Remarks": "Quote No - So - 225R1",
+  "ID": "302392000002896067",
+  "StandBy_To": {
+    "Customer_Name.suffix": "",
+    "Customer_Name.first_name": "M/S. Surfine Tools",
+    "ID": "302392000000184369",
+    "Customer_Name.last_name": "",
+    "zc_display_value": "   M/S. Surfine Tools    ",
+    "Customer_Name.prefix": ""
+  }
+}
+
+=== AMC_CONTRACT -> All_Amc_Contracts (All_Amc_Contracts) ===
+4 record(s) sampled, 15 field(s):
+Status, AMC_Payment_Status, Customer_Name, AMC_Schedule_Plan, S_No, Make, Capacity, Qty, AMC_Amount, AMC_End_Date, ID, Customer_Address, AMC_Start_Date, Quotation_Number, Type_of_AMC
+
+Sample record:
+{
+  "Status": "Missed",
+  "AMC_Payment_Status": "paid",
+  "Customer_Name": {
+    "Customer_Name.suffix": "",
+    "Customer_Name.first_name": "M/S. N.S Exports",
+    "ID": "302392000000179981",
+    "Customer_Name.last_name": "",
+    "zc_display_value": "   M/S. N.S Exports    ",
+    "Customer_Name.prefix": ""
+  },
+  "AMC_Schedule_Plan": "QUATERLY",
+  "S_No": "7",
+  "Make": {
+    "Make": "ADROIT",
+    "ID": "302392000001479015",
+    "zc_display_value": "ADROIT"
+  },
+  "Capacity": {
+    "Capacity_Name": "15KVA 3PH A/C",
+    "ID": "302392000001208188",
+    "zc_display_value": "15KVA 3PH A/C"
+  },
+  "Qty": "2.00",
+  "AMC_Amount": "21000.00",
+  "AMC_End_Date": "26-07-2026",
+  "ID": "302392000002514010",
+  "Customer_Address": {
+    "Address.district_city": "Tirupur",
+    "Address.state_province": "",
+    "Address.address_line_2": "No.7 Fox Garden, Perichipalayam, Knp Colony Post,",
+    "ID": "302392000001136663",
+    "zc_display_value": "   No.7 Fox Garden, Perichipalayam, Knp Colony Post, Tirupur  ",
+    "Address.address_line_1": ""
+  },
+  "AMC_Start_Date": "21-07-2025",
+  "Quotation_Number": {},
+  "Type_of_AMC": "COMPREHENSIVE"
+}
+
+=== PRODUCT -> All_Product (All_Product) ===
+1000 record(s) sampled, 17 field(s):
+Product_Image, Modified_Time, Minimum_Stock_Level, Cloned_From.Is_Red_Tag_Material, Product_Name, Is_Red_Tag_Material, Red_Tagged_Date, Product_Units, Available_Stock, Product_Code, Product_Status, Price, Group_Name, ID, Product_Type, SPEC, Last_Order_Date
+
+Sample record:
+{
+  "Product_Image": "",
+  "Modified_Time": "17-06-2026 11:22:41",
+  "Minimum_Stock_Level": "0",
+  "Cloned_From.Is_Red_Tag_Material": "",
+  "Product_Name": "Auto Transformer 40KVA 3:3",
+  "Is_Red_Tag_Material": "false",
+  "Red_Tagged_Date": "",
+  "Product_Units": {},
+  "Available_Stock": "0.00",
+  "Product_Code": "AT 40KVA 3:3",
+  "Product_Status": "Active",
+  "Price": "0.00",
+  "Group_Name": {},
+  "ID": "302392000001277007",
+  "Product_Type": {
+    "ID": "302392000000603459",
+    "Product_Type": "Finished Goods",
+    "zc_display_value": "Finished Goods"
+  },
+  "SPEC": "",
+  "Last_Order_Date": ""
+}
+
+=== EXPENSE_ENGINEER -> Expense_of_Engineer_Report (Expense_of_Engineer_Report) ===
+ERROR: code 9220: No records exist in this report.
+
+=== REWORK -> All_Reworks (All_Reworks) ===
+ERROR: code 9220: No records exist in this report.
+
+=== TRAINING_REPORT -> Training_Reports (Training_Reports) ===
+ERROR: code 9220: No records exist in this report.
+
+=== TOOL_KIT -> Production_Tool_Kit_of_Engineers1 (Production_Tool_Kit_of_Engineers1) ===
+ERROR: code 9220: No records exist in this report.
+
+=== VEHICLE_SERVICE -> Vehicle_Service_Reports (Vehicle_Service_Reports) ===
+ERROR: code 9220: No records exist in this report.
+
+=== INTERNAL_CALIBRATION -> Internal_Calibrations (Internal_Calibrations) ===
+40 record(s) sampled, 14 field(s):
+Status, Validity_of_Meter, Rev_Date, Approved_By, Standard, Tested_By, Rev_No, Meter_Type, Meter_S, Meter_Make, Calibration_Type, ID, UUC_E, Meter_Type_Make
+
+Sample record:
+{
+  "Status": "Approved",
+  "Validity_of_Meter": "11.8.28",
+  "Rev_Date": "18-07-2016",
+  "Approved_By": {
+    "Employee_Name.suffix": "",
+    "Employee_Name.first_name": "SHANTHKUMAR /",
+    "Employee_Name.last_name": "VIMALA",
+    "ID": "302392000000551087",
+    "Employee_Name.prefix": "",
+    "zc_display_value": "   SHANTHKUMAR / VIMALA  "
+  },
+  "Standard": "",
+  "Tested_By": {
+    "Employee_Name.suffix": "",
+    "Employee_Name.first_name": "KARTHICK",
+    "Employee_Name.last_name": "",
+    "ID": "302392000000624119",
+    "Employee_Name.prefix": "",
+    "zc_display_value": "   KARTHICK    "
+  },
+  "Rev_No": "0",
+  "Meter_Type": "CLAMPMETER",
+  "Meter_S": "190426864",
+  "Meter_Make": "METRAVI",
+  "Calibration_Type": "Volt",
+  "ID": "302392000002685028",
+  "UUC_E": "",
+  "Meter_Type_Make": "KUSAM MECO -KM2709"
+}

@@ -1,0 +1,190 @@
+=== product -> All_Product (All_Product) ===
+1000 record(s) sampled, 17 field(s):
+Product_Image, Modified_Time, Minimum_Stock_Level, Cloned_From.Is_Red_Tag_Material, Product_Name, Is_Red_Tag_Material, Red_Tagged_Date, Product_Units, Available_Stock, Product_Code, Product_Status, Price, Group_Name, ID, Product_Type, SPEC, Last_Order_Date
+
+Sample record:
+{
+  "Product_Image": "",
+  "Modified_Time": "17-06-2026 11:22:41",
+  "Minimum_Stock_Level": "0",
+  "Cloned_From.Is_Red_Tag_Material": "",
+  "Product_Name": "Auto Transformer 40KVA 3:3",
+  "Is_Red_Tag_Material": "false",
+  "Red_Tagged_Date": "",
+  "Product_Units": {},
+  "Available_Stock": "0.00",
+  "Product_Code": "AT 40KVA 3:3",
+  "Product_Status": "Active",
+  "Price": "0.00",
+  "Group_Name": {},
+  "ID": "302392000001277007",
+  "Product_Type": {
+    "ID": "302392000000603459",
+    "Product_Type": "Finished Goods",
+    "zc_display_value": "Finished Goods"
+  },
+  "SPEC": "",
+  "Last_Order_Date": ""
+}
+
+=== purchaseOrder -> All_Purchase_Orders (All_Purchase_Orders) ===
+239 record(s) sampled, 20 field(s):
+Status, Bill_Number, Bill_Date, PO_Number, Vendor_Name, Total_Amount, Delivered_On, Expected_Delivery_Date, Reference, Sub_Total, Warehouse_Name, Attachments, Tax_Amount, Item_Details, PO_Date, Is_Trading_Order, ID, Notes, Bills, Added_Time
+
+Sample record:
+{
+  "Status": "Waiting For Approval",
+  "Bill_Number": "",
+  "Bill_Date": "",
+  "PO_Number": "435",
+  "Vendor_Name": {
+    "Vendor_Supplier_Name": "LAKSHMI FIRE CONTROL",
+    "ID": "302392000000322037",
+    "zc_display_value": " LAKSHMI FIRE CONTROL"
+  },
+  "Total_Amount": "59708.00",
+  "Delivered_On": "",
+  "Expected_Delivery_Date": "25-09-2026",
+  "Reference": "",
+  "Sub_Total": "50600.00",
+  "Warehouse_Name": {
+    "Warehouse": "Adroit Store",
+    "ID": "302392000000135003",
+    "zc_display_value": "Adroit Store"
+  },
+  "Attachments": [],
+  "Tax_Amount": "9108.00",
+  "Item_Details": [
+    {
+      "Product_Code": {
+        "Product_Code": "U6 ",
+        "ID": "302392000000358091",
+        "zc_display_value": "U6 "
+      },
+      "Remarks": "STOCK",
+      "Price": "253.00",
+      "Quantity": "200.00",
+      "ID": "302392000002914203",
+      "zc_display_value": "U6 -200.00-STOCK-253.00"
+    }
+  ],
+  "PO_Date": "23-09-2026",
+  "Is_Trading_Order": "false",
+  "ID": "302392000002914206",
+  "Notes": "",
+  "Bills": [],
+  "Added_Time": "23-09-2026 18:04:20"
+}
+
+=== supplierRating -> Supplier_Rating_Report (Supplier_Rating_Report) ===
+853 record(s) sampled, 16 field(s):
+Purchase_Receive, Product, Supplied_Qty_Dec, Delivery_Rating, Total_Rating, Verbal_Purchase, Order_Qty_Dec, Delay_in_Days, Supplier_Name, Accepted_Qty, Quantity_Rating, Date_field, Supplied_Qty, Accepted_Qty_Dec, Order_Qty, ID
+
+Sample record:
+{
+  "Purchase_Receive": {},
+  "Product": {
+    "Product_Code": "10X6 MM  DIA -7120",
+    "ID": "302392000001096296",
+    "zc_display_value": "10X6 MM  DIA -7120"
+  },
+  "Supplied_Qty_Dec": "200.00",
+  "Delivery_Rating": "40",
+  "Total_Rating": "100",
+  "Verbal_Purchase": {
+    "Verbal_Purchase_ID": "VP176",
+    "ID": "302392000002914096",
+    "zc_display_value": "VP176"
+  },
+  "Order_Qty_Dec": "200.00",
+  "Delay_in_Days": "",
+  "Supplier_Name": {
+    "Vendor_Supplier_Name": "PIXYS TERMINALS",
+    "ID": "302392000001081350",
+    "zc_display_value": "PIXYS TERMINALS"
+  },
+  "Accepted_Qty": "0",
+  "Quantity_Rating": "60",
+  "Date_field": "23-09-2026",
+  "Supplied_Qty": "0",
+  "Accepted_Qty_Dec": "200.00",
+  "Order_Qty": "0",
+  "ID": "302392000002914117"
+}
+
+=== vendors -> All_Vendors (All_Vendors) ===
+580 record(s) sampled, 11 field(s):
+Vendor_Supplier_Name, Email, Billing_Address, Phone_Number, ID, Supplier_Points, Product_Details, Vendor_Status, GST_Number, Vendor_No, Added_Time
+
+Sample record:
+{
+  "Vendor_Supplier_Name": "MANIBHADRA ELECTRICALS",
+  "Email": "",
+  "Billing_Address": {
+    "country": "India",
+    "district_city": "Coimbatore",
+    "latitude": "11.00181",
+    "address_line_1": "NO:59,SOMASUNDARAM MILL ROAD",
+    "state_province": "TAMILNADU",
+    "address_line_2": "",
+    "postal_code": "641009",
+    "zc_display_value": "NO:59,SOMASUNDARAM MILL ROAD, Coimbatore, TAMILNADU, 641009, India",
+    "longitude": "76.96284"
+  },
+  "Phone_Number": "+919486078139",
+  "ID": "302392000002830216",
+  "Supplier_Points": "0",
+  "Product_Details": [],
+  "Vendor_Status": "Pending",
+  "GST_Number": "",
+  "Vendor_No": "",
+  "Added_Time": "15-09-2026 16:02:50"
+}
+
+=== tools -> All_Tools (All_Tools) ===
+ERROR: code 9220: No records exist in this report.
+
+=== rejectionReplacement -> Rejection_Replacement_Register_Format (Rejection_Replacement_Register_Format) ===
+41 record(s) sampled, 18 field(s):
+Status, Follow_Up_Date, Type_field, Received_From, Remarks_Rejection_Replacement, Reference, Make, Material_Requisition_ID, Adroit_DC_Number, Date_field, Department, Supplier_DC_Number, Decision_box, Defective_Product, Qty, Nature_of_Issue, Supplier, ID
+
+Sample record:
+{
+  "Status": "Pending",
+  "Follow_Up_Date": "",
+  "Type_field": "Replacement",
+  "Received_From": {
+    "Employee_Name.suffix": "",
+    "Employee_Name.first_name": "HIRANJITH",
+    "Employee_Name.last_name": "",
+    "ID": "302392000001372025",
+    "Employee_Name.prefix": "",
+    "zc_display_value": "   HIRANJITH    "
+  },
+  "Remarks_Rejection_Replacement": "",
+  "Reference": "",
+  "Make": {
+    "Manufacture_Name": "CT",
+    "ID": "302392000002025103",
+    "zc_display_value": "CT"
+  },
+  "Material_Requisition_ID": {},
+  "Adroit_DC_Number": "605/02.09.26",
+  "Date_field": "18-08-2026",
+  "Department": "Production",
+  "Supplier_DC_Number": "",
+  "Decision_box": "false",
+  "Defective_Product": {
+    "Product_Code": "50/ 30mA   CT COIL",
+    "ID": "302392000000358179",
+    "zc_display_value": "50/ 30mA   CT COIL"
+  },
+  "Qty": "2",
+  "Nature_of_Issue": "NOT WORKING",
+  "Supplier": {
+    "Vendor_Supplier_Name": "Indtra Industries",
+    "ID": "302392000000321773",
+    "zc_display_value": "Indtra Industries"
+  },
+  "ID": "302392000002580074"
+}

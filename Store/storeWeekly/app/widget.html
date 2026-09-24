@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Performance & Flow Analysis</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  .weekly-container {
+    font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 20px;
+    background: #f5f7fa;
+    min-height: 100vh;
+  }
+
+  .weekly-header { margin-bottom: 24px; display: flex; align-items: center; gap: 14px; }
+  .weekly-header .header-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: linear-gradient(135deg,#3b82f6,#6366f1);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 22px; flex-shrink: 0;
+  }
+  .weekly-title { font-size: 26px; font-weight: 600; color: #1a1a1a; }
+  .weekly-subtitle { font-size: 13px; color: #666; }
+
+  .weekly-kpi-section, .weekly-chart-container {
+    background: white; border-radius: 12px; padding: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 24px;
+  }
+  .weekly-kpi-section { overflow-x: auto; }
+
+  .weekly-section-title, .weekly-chart-title {
+    font-size: 16px; font-weight: 600; color: #1a1a1a; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .weekly-section-title i, .weekly-chart-title i { color: #6366f1; }
+
+  .weekly-kpi-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+  .weekly-kpi-table th {
+    background: #f9fafb; padding: 12px 16px; text-align: left;
+    font-size: 13px; font-weight: 600; color: #374151; border-bottom: 2px solid #e5e7eb;
+  }
+  .weekly-kpi-table td { padding: 16px; font-size: 14px; color: #1f2937; border-bottom: 1px solid #f3f4f6; }
+  .weekly-kpi-table tr:last-child td { border-bottom: none; }
+
+  .weekly-indicator {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px; border-radius: 50%; font-size: 13px;
+  }
+  .weekly-indicator.red { background: #fee2e2; color: #dc2626; }
+  .weekly-indicator.orange { background: #fed7aa; color: #ea580c; }
+  .weekly-indicator.blue { background: #dbeafe; color: #2563eb; }
+  .weekly-indicator.green { background: #d1fae5; color: #059669; }
+  .weekly-indicator.purple { background: #e9d5ff; color: #9333ea; }
+
+  .weekly-charts-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 20px; margin-bottom: 24px;
+  }
+
+  .weekly-bar-chart { display: flex; flex-direction: column; gap: 16px; }
+  .weekly-bar-row { display: flex; align-items: center; gap: 12px; }
+  .weekly-bar-label { min-width: 110px; font-size: 13px; color: #1a1a1a; font-weight: 500; display: flex; align-items: center; gap: 6px; }
+  .weekly-bar-label i { color: #9ca3af; }
+  .weekly-bar-track { flex: 1; height: 32px; background: #f3f4f6; border-radius: 6px; position: relative; overflow: hidden; }
+  .weekly-bar-fill {
+    height: 100%; display: flex; align-items: center; justify-content: flex-end;
+    padding: 0 8px; color: white; font-size: 12px; font-weight: 600; transition: width 0.5s ease;
+  }
+  .weekly-bar-fill.issued { background: linear-gradient(90deg,#3b82f6 0%,#60a5fa 100%); }
+  .weekly-bar-fill.returned { background: linear-gradient(90deg,#10b981 0%,#34d399 100%); }
+
+  .weekly-stacked-chart { display: flex; align-items: flex-end; justify-content: space-around; height: 280px; padding: 20px 0; border-bottom: 2px solid #e5e7eb; }
+  .weekly-column { display: flex; flex-direction: column; align-items: center; width: 60px; }
+  .weekly-column-stack { display: flex; flex-direction: column-reverse; width: 100%; border-radius: 6px 6px 0 0; overflow: hidden; }
+  .weekly-segment { width: 100%; display: flex; align-items: center; justify-content: center; color: white; font-size: 11px; font-weight: 600; transition: all 0.3s ease; }
+  .weekly-segment:hover { opacity: 0.85; }
+  .weekly-segment.rework { background: #f59e0b; }
+  .weekly-column-label { margin-top: 8px; font-size: 11px; color: #666; text-align: center; }
+
+  .weekly-flow-chart { display: flex; align-items: flex-end; justify-content: space-around; height: 260px; padding: 20px 10px; border-bottom: 2px solid #e5e7eb; gap: 8px; }
+  .weekly-flow-day { flex: 1; display: flex; flex-direction: column; align-items: center; max-width: 80px; }
+  .weekly-flow-bars { display: flex; gap: 6px; align-items: flex-end; height: 200px; width: 100%; justify-content: center; }
+  .weekly-flow-bar { flex: 1; max-width: 24px; min-width: 16px; border-radius: 4px 4px 0 0; position: relative; transition: all 0.3s ease; }
+  .weekly-flow-bar.material { background: linear-gradient(180deg,#3b82f6 0%,#60a5fa 100%); }
+  .weekly-flow-bar.returned { background: linear-gradient(180deg,#10b981 0%,#34d399 100%); }
+  .weekly-flow-bar.stockout { background: linear-gradient(180deg,#ef4444 0%,#f87171 100%); }
+  .weekly-flow-bar:hover { opacity: 0.85; transform: translateY(-2px); }
+  .weekly-flow-bar:hover::after {
+    content: attr(data-value); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%);
+    background: #1a1a1a; color: white; padding: 4px 8px; border-radius: 4px; font-size: 11px;
+    font-weight: 600; white-space: nowrap; margin-bottom: 5px; z-index: 10;
+  }
+  .weekly-flow-label { margin-top: 10px; font-size: 11px; color: #666; font-weight: 500; }
+
+  .weekly-legend { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 16px; padding-top: 16px; border-top: 1px solid #e5e7eb; }
+  .weekly-legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #666; }
+  .weekly-legend-color { width: 16px; height: 16px; border-radius: 3px; }
+
+  .weekly-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; height: 180px; color: #9ca3af; font-size: 14px; font-weight: 500; }
+  .weekly-empty i { font-size: 28px; }
+
+  .weekly-point-group { cursor: pointer; }
+  .weekly-point-group:hover .weekly-chart-point { r: 16; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3)); }
+  .weekly-point-group:hover .weekly-tooltip-bg { opacity: 0.95 !important; }
+  .weekly-point-group:hover .weekly-point-label { opacity: 1 !important; }
+  .weekly-chart-point, .weekly-tooltip-bg, .weekly-point-label { transition: all 0.3s ease; }
+  svg { overflow: visible; }
+
+  @media (max-width: 1024px) { .weekly-charts-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 768px) {
+    .weekly-container { padding: 12px; }
+    .weekly-title { font-size: 20px; }
+    .weekly-kpi-section, .weekly-chart-container { padding: 16px; }
+    .weekly-kpi-table { font-size: 12px; }
+    .weekly-kpi-table th, .weekly-kpi-table td { padding: 10px 8px; }
+    .weekly-bar-label { min-width: 80px; font-size: 11px; }
+    .weekly-stacked-chart, .weekly-flow-chart { height: 220px; }
+    .weekly-column { width: 45px; }
+    .weekly-flow-bars { height: 160px; }
+  }
+</style>
+</head>
+<body>
+  <div class="weekly-container">
+    <div class="weekly-header">
+      <div class="header-icon"><i class="fas fa-chart-line"></i></div>
+      <div>
+        <div class="weekly-title">Weekly Performance & Flow Analysis</div>
+        <div class="weekly-subtitle">Comprehensive weekly metrics and trends</div>
+      </div>
+    </div>
+
+    <div class="weekly-kpi-section">
+      <h3 class="weekly-section-title"><i class="fas fa-tachometer-alt"></i> Weekly KPIs</h3>
+      <table class="weekly-kpi-table">
+        <thead>
+          <tr><th>Metric</th><th>Target</th><th>Actual</th><th>Indicator</th></tr>
+        </thead>
+        <tbody id="kpiTableBody">
+          <tr><td colspan="4" style="text-align:center;color:#9ca3af;"><i class="fas fa-spinner fa-spin"></i> Loading…</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="weekly-charts-grid">
+      <div class="weekly-chart-container">
+        <h3 class="weekly-chart-title"><i class="fas fa-people-carry"></i> Items Issued vs Returned (Technician-wise)</h3>
+        <div id="issuedVsReturned"><div class="weekly-empty"><i class="fas fa-spinner fa-spin"></i> Loading…</div></div>
+      </div>
+
+      <div class="weekly-chart-container">
+        <h3 class="weekly-chart-title"><i class="fas fa-coins"></i> Indirect Expense Breakdown</h3>
+        <div id="expenseBreakdown"><div class="weekly-empty"><i class="fas fa-spinner fa-spin"></i> Loading…</div></div>
+      </div>
+
+      <div class="weekly-chart-container">
+        <h3 class="weekly-chart-title"><i class="fas fa-times-circle"></i> Rejected Items (Warranty Split)</h3>
+        <div id="rejectedItems"><div class="weekly-empty"><i class="fas fa-spinner fa-spin"></i> Loading…</div></div>
+      </div>
+
+      <div class="weekly-chart-container">
+        <h3 class="weekly-chart-title"><i class="fas fa-boxes"></i> Daily Material Flow vs Stock Out Alerts</h3>
+        <div id="materialFlow"><div class="weekly-empty"><i class="fas fa-spinner fa-spin"></i> Loading…</div></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://static.zohocdn.com/creator/widgets/version/2.0/widgetsdk-min.js"></script>
+  <!-- ApexCharts -- donut/gauge/line/bar charts, replacing the old hand-built CSS/SVG ones -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.45.2/dist/apexcharts.min.js"></script>
+  <!-- Shared runtime: number formatting, drill-down modal, fetch diagnostics -->
+  <script src="adroitWidgetKit.js"></script>
+  <script src="storeWeekly.js"></script>
+</body>
+</html>

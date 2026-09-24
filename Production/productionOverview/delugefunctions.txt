@@ -1,0 +1,1057 @@
+map productionDashboard.getKPITableData()
+{
+	curr_date = zoho.currentdate;
+	week_start = curr_date.toStartOfWeek();
+	// planned production
+	planned_production_today = "nill";
+	planned_production_weekly = "nill";
+	// actual production
+	acutal_producion_today = "nill";
+	acutal_produtciton_weekly = "nill";
+	// delivery within committed date
+	order_confirmation_coll_today = "nill";
+	oder_confirmation_coll_weekly = "nill";
+	// order delays 
+	order_delays_today_count = 0;
+	order_delays_weekly_count = 0;
+	delayed_delivery_today = Order_Confirmation[Commited_Delivery_Date == curr_date];
+	for each  del_del_tod in delayed_delivery_today
+	{
+		if(del_del_tod.Actual_Delivery_Date == null)
+		{
+			order_delays_today_count = order_delays_today_count + 1;
+		}
+	}
+	delayed_delivery_weekly = Order_Confirmation[Commited_Delivery_Date >= week_start && Commited_Delivery_Date <= curr_date];
+	for each  weekly_delay in delayed_delivery_weekly
+	{
+		if(weekly_delay.Actual_Delivery_Date == null)
+		{
+			order_delays_weekly_count = order_delays_weekly_count + 1;
+		}
+	}
+	// producion stops due to missing parts
+	production_stops_due_missing_parts_today = "nill";
+	production_stops_due_missing_parts_weekly = "nill";
+	// Customer Complaints prod related 
+	customer_complaints_today = "nill";
+	customer_complaints_weekly = "nill";
+	// Rework rejection cases 
+	reworks_today_count = Rework[Date_field == curr_date].count();
+	reworks_weekly_count = Rework[Date_field >= week_start && Date_field <= curr_date].count();
+	// bom accuracy percentage
+	bom_acc_today = "nill";
+	bom_acc_weekly = "nill";
+	// man hours logged 
+	man_hours_today = 0;
+	man_hours_weekly = 0;
+	manufacturing_wo_today = Add_Work_Order_SERVO[Date_field == curr_date];
+	for each  man_wo_dat in manufacturing_wo_today
+	{
+		if(man_wo_dat.Man_Hours != null)
+		{
+			man_hours_today = man_hours_today + ifnull(man_wo_dat.Man_Hours,0);
+		}
+	}
+	manufacturing_wo_weekly = Add_Work_Order_SERVO[Date_field >= week_start && Date_field <= curr_date];
+	for each  man_wo_week_dat in manufacturing_wo_weekly
+	{
+		if(man_wo_week_dat.Man_Hours != null)
+		{
+			man_hours_weekly = man_hours_weekly + ifnull(man_wo_week_dat.Man_Hours,0);
+		}
+	}
+	// indirect expense 
+	indirect_expense_today = "nill";
+	indirect_expense_weekly = "nill";
+	res_map = Map();
+	// Planned production
+	res_map.put("planned_production_today",planned_production_today);
+	res_map.put("planned_production_weekly",planned_production_weekly);
+	// Actual production
+	res_map.put("actual_production_today",acutal_producion_today);
+	res_map.put("actual_production_weekly",acutal_produtciton_weekly);
+	// Delivery within committed date
+	res_map.put("order_confirmation_today",order_confirmation_coll_today);
+	res_map.put("order_confirmation_weekly",oder_confirmation_coll_weekly);
+	// Order delays
+	res_map.put("order_delays_today_count",order_delays_today_count);
+	res_map.put("order_delays_weekly_count",order_delays_weekly_count);
+	// Production stops due to missing parts
+	res_map.put("production_stops_missing_parts_today",production_stops_due_missing_parts_today);
+	res_map.put("production_stops_missing_parts_weekly",production_stops_due_missing_parts_weekly);
+	// Customer complaints (production related)
+	res_map.put("customer_complaints_today",customer_complaints_today);
+	res_map.put("customer_complaints_weekly",customer_complaints_weekly);
+	// Rework / rejection cases
+	res_map.put("reworks_today_count",reworks_today_count);
+	res_map.put("reworks_weekly_count",reworks_weekly_count);
+	// BOM accuracy
+	res_map.put("bom_accuracy_today",bom_acc_today);
+	res_map.put("bom_accuracy_weekly",bom_acc_weekly);
+	// Man hours logged
+	res_map.put("man_hours_today",man_hours_today);
+	res_map.put("man_hours_weekly",man_hours_weekly);
+	// Indirect expenses
+	res_map.put("indirect_expense_today",indirect_expense_today);
+	res_map.put("indirect_expense_weekly",indirect_expense_weekly);
+	return res_map;
+}
+
+map productionDashboard.getMaintenanceData()
+{
+	preventive_maintenance = Preventive_Maintenance[Preventive_Maintenance_Date != null];
+	machine_planned = 0;
+	machine_completed = 0;
+	vehicle_planned = 0;
+	vehicle_completed = 0;
+	calibration_planned = 0;
+	calibration_completed = 0;
+	total_planned = 0;
+	total_completed = 0;
+	for each  rec in preventive_maintenance
+	{
+		// Calculate planned count based on frequency
+		freq_count = 0;
+		if(rec.Frequency == "Monthly")
+		{
+			freq_count = 12;
+		}
+		else if(rec.Frequency == "3 Months")
+		{
+			freq_count = 4;
+		}
+		else if(rec.Frequency == "6 Months")
+		{
+			freq_count = 2;
+		}
+		else if(rec.Frequency == "Annually")
+		{
+			freq_count = 1;
+		}
+		// Determine completion (check if Due_Date is filled or a status field exists)
+		is_completed = if(rec.Due_Date != null,1,0);
+		if(rec.Type_of_Maintenance.contains("Maintenance"))
+		{
+			machine_planned = machine_planned + freq_count;
+			machine_completed = machine_completed + is_completed;
+		}
+		else if(rec.Type_of_Maintenance.contains("Servicing And Oil Check"))
+		{
+			vehicle_planned = vehicle_planned + freq_count;
+			vehicle_completed = vehicle_completed + is_completed;
+		}
+		else if(rec.Type_of_Maintenance.contains("Calibration"))
+		{
+			calibration_planned = calibration_planned + freq_count;
+			calibration_completed = calibration_completed + is_completed;
+		}
+		total_planned = total_planned + freq_count;
+		total_completed = total_completed + is_completed;
+	}
+	// Calculate compliance %
+	compliance_pct = if(total_planned > 0,(total_completed * 100 / total_planned).round(0),0);
+	result = Map();
+	result.put("machine_planned",machine_planned);
+	result.put("machine_completed",machine_completed);
+	result.put("vehicle_planned",vehicle_planned);
+	result.put("vehicle_completed",vehicle_completed);
+	result.put("calibration_planned",calibration_planned);
+	result.put("calibration_completed",calibration_completed);
+	result.put("total_planned",total_planned);
+	result.put("total_completed",total_completed);
+	result.put("compliance_pct",compliance_pct);
+	return result;
+}
+
+
+
+list productionDashboard.getMaterialShortageImpackWeekly()
+{
+	// 	Current Date
+	curr_date = zoho.currentdate;
+	// Month Start
+	month_start = curr_date.toStartOfMonth();
+	// Month End
+	next_month = month_start.addMonth(1);
+	month_end = next_month.subDay(1);
+	// Final Result List
+	result_list = List();
+	// Global maximum bar height
+	max_bar_height = 250;
+	// First store all counts
+	temp_list = List();
+	global_max = 0;
+	// Loop through 4 weeks
+	for each  week_no in {1,2,3,4}
+	{
+		// Week Start
+		week_start = month_start.addDay((week_no - 1) * 7);
+		// Skip future weeks
+		if(week_start > curr_date)
+		{
+			continue;
+		}
+		// Week End
+		week_end = week_start.addDay(6);
+		// Prevent month overflow
+		if(week_end > month_end)
+		{
+			week_end = month_end;
+		}
+		// Prevent future date overflow
+		if(week_end > curr_date)
+		{
+			week_end = curr_date;
+		}
+		// Planned Count
+		planned_count = Add_Work_Order_SERVO[Status != "Draft" && Date_field >= week_start && Date_field <= week_end].count();
+		// Actual Count
+		actual_count = Add_Work_Order_SERVO[Status == "Completed" && Date_field >= week_start && Date_field <= week_end].count();
+		// Find global max
+		if(planned_count > global_max)
+		{
+			global_max = planned_count;
+		}
+		week_map = Map();
+		week_map.put("week","Week " + week_no);
+		week_map.put("planned_count",planned_count);
+		week_map.put("start_date",week_start.toString("dd-MMM"));
+		week_map.put("end_date",week_end.toString("dd-MMM"));
+		temp_list.add(week_map);
+	}
+	height_scale = 0.85;
+	// Generate proportional heights
+	for each  item in temp_list
+	{
+		planned_count = item.get("planned_count");
+		if(global_max > 0)
+		{
+			planned_height = (planned_count * 100.0 / global_max * height_scale).round(2);
+		}
+		else
+		{
+			planned_height = 0;
+		}
+		item.put("planned_height",planned_height);
+		result_list.add(item);
+	}
+	return result_list;
+	// 	return list();
+}
+
+
+
+list productionDashboard.getOnTimeDeliveryTrend()
+{
+	curr_date = zoho.currentdate;
+	month_start = curr_date.toStartOfMonth();
+	next_month = month_start.addMonth(1);
+	month_end = next_month.subDay(1);
+	result_list = List();
+	for each  week_no in {1,2,3,4,5}
+	{
+		week_start = month_start.addDay((week_no - 1) * 7);
+		if(week_start > curr_date)
+		{
+			break;
+		}
+		week_end = week_start.addDay(6);
+		if(week_end > month_end)
+		{
+			week_end = month_end;
+		}
+		if(week_end > curr_date)
+		{
+			week_end = curr_date;
+		}
+		order_coll = Order_Confirmation[Date_field >= week_start && Date_field <= week_end];
+		total_orders = order_coll.count();
+		ontime_count = 0;
+		for each  order_rec in order_coll
+		{
+			if(order_rec.Actual_Delivery_Date <= order_rec.Commited_Delivery_Date)
+			{
+				ontime_count = ontime_count + 1;
+			}
+		}
+		if(total_orders > 0)
+		{
+			ontime_percentage = ((ontime_count * 100.0) / total_orders).round(2);
+		}
+		else
+		{
+			ontime_percentage = 0;
+		}
+		week_map = Map();
+		week_map.put("week","Week " + week_no);
+		week_map.put("week_start",week_start.toString("dd-MMM"));
+		week_map.put("week_end",week_end.toString("dd-MMM"));
+		week_map.put("total_orders",total_orders);
+		week_map.put("ontime_count",ontime_count);
+		week_map.put("ontime_percentage",ontime_percentage);
+		result_list.add(week_map);
+	}
+	// ── Find max value for scaling ──────────────────────
+	max_pct = 0;
+	for each  trend_data in result_list
+	{
+		pct = trend_data.get("ontime_percentage");
+		if(pct > max_pct)
+		{
+			max_pct = pct;
+		}
+	}
+	// Always include 95 (target) in the scale so target line is visible
+	if(max_pct < 95)
+	{
+		scale_max = 95;
+	}
+	else
+	{
+		scale_max = max_pct;
+	}
+	if(scale_max == 0)
+	{
+		scale_max = 10;
+	}
+	// ── Recalculate bar heights ─────────────────────────
+	for each  trend_data in result_list
+	{
+		pct = trend_data.get("ontime_percentage");
+		bar_h = ((pct * 80.0) / scale_max).round(2);
+		if(bar_h < 8 && pct > 0)
+		{
+			bar_h = 8;
+		}
+		trend_data.put("bar_height",bar_h);
+	}
+	// ── Target line position (same scale) ───────────────
+	target_bar_h = ((95 * 80.0) / scale_max).round(2);
+	if(target_bar_h > 88)
+	{
+		target_bar_h = 88;
+	}
+	// ── Y-axis tick values ───────────────────────────────
+	y_tick_1 = (scale_max * 0.2).round(0);
+	y_tick_2 = (scale_max * 0.4).round(0);
+	y_tick_3 = (scale_max * 0.6).round(0);
+	y_tick_4 = (scale_max * 0.8).round(0);
+	y_tick_5 = scale_max;
+	return result_list;
+}
+
+
+
+map productionDashboard.getOrderCommitmentDelayStatus_ThisWeek()
+{
+	curr_date = zoho.currentdate;
+	week_start = curr_date.toStartOfWeek();
+	result = Map();
+	table_list = List();
+	orders = Order_Confirmation[Commited_Delivery_Date >= week_start && Commited_Delivery_Date <= curr_date] sort by Commited_Delivery_Date desc;
+	for each  rec in orders
+	{
+		row = Map();
+		committed = rec.Commited_Delivery_Date;
+		actual = rec.Actual_Delivery_Date;
+		delay_days = 0;
+		status = "";
+		if(actual != null)
+		{
+			if(actual <= committed)
+			{
+				delay_days = 0;
+				status = "On Time";
+			}
+			else
+			{
+				delay_days = committed.daysBetween(actual);
+				status = "Delayed";
+			}
+		}
+		else
+		{
+			if(curr_date > committed)
+			{
+				delay_days = committed.daysBetween(curr_date);
+				status = "Critical";
+			}
+			else
+			{
+				delay_days = 0;
+				status = "Pending";
+			}
+		}
+		// Status colors
+		if(status == "On Time")
+		{
+			status_color = "status-green";
+			delay_color = "#28a745";
+		}
+		else if(status == "Delayed")
+		{
+			status_color = "status-yellow";
+			delay_color = "#e0a800";
+		}
+		else if(status == "Critical")
+		{
+			status_color = "status-red";
+			delay_color = "#dc3545";
+		}
+		else
+		{
+			// Pending
+			status_color = "status-yellow";
+			delay_color = "#888";
+		}
+		// Date formatting
+		row.put("order_no",rec.Order_Confirmation_ID);
+		row.put("customer",rec.Customer_Name.Customer_Name);
+		row.put("product",rec.Product_Details.Product_Name);
+		row.put("committed_date",committed.toString("dd-MMM-yyyy"));
+		if(actual != null)
+		{
+			row.put("actual_dispatch",actual.toString("dd-MMM-yyyy"));
+		}
+		else
+		{
+			row.put("actual_dispatch","-");
+		}
+		row.put("delay",delay_days);
+		row.put("reason",ifnull(rec.Remarks,"-"));
+		row.put("status",status);
+		row.put("status_color",status_color);
+		row.put("delay_color",delay_color);
+		table_list.add(row);
+	}
+	info table_list;
+	// Summary counts
+	total_count = table_list.size();
+	ontime_count = 0;
+	delayed_count = 0;
+	critical_count = 0;
+	pending_count = 0;
+	for each  row in table_list
+	{
+		s = row.get("status");
+		if(s == "On Time")
+		{
+			ontime_count = ontime_count + 1;
+		}
+		else if(s == "Delayed")
+		{
+			delayed_count = delayed_count + 1;
+		}
+		else if(s == "Critical")
+		{
+			critical_count = critical_count + 1;
+		}
+		else
+		{
+			pending_count = pending_count + 1;
+		}
+	}
+	result.put("table_data",table_list);
+	result.put("total_count",total_count);
+	result.put("ontime_count",ontime_count);
+	result.put("delayed_count",delayed_count);
+	result.put("critical_count",critical_count);
+	result.put("pending_count",pending_count);
+	return result;
+}
+
+
+
+list productionDashboard.getPlannedVsActualProductionMonthly()
+{
+	// Current Date
+	curr_date = zoho.currentdate;
+	// Current Year
+	current_year = curr_date.getYear();
+	// Result List
+	result_list = List();
+	// Temporary storage
+	temp_list = List();
+	// Max value tracker
+	global_max = 0;
+	// Height scaling
+	height_scale = 0.85;
+	// Month names
+	month_names = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+	// Loop through all 12 months
+	for each  month_no in {1,2,3,4,5,6,7,8,9,10,11,12}
+	{
+		// Month Start
+		month_start = (current_year + "-" + month_no + "-01").toDate();
+		// Month End
+		next_month = month_start.addMonth(1);
+		month_end = next_month.subDay(1);
+		// Prevent future months
+		if(month_start > curr_date)
+		{
+			break;
+		}
+		// Current running month adjustment
+		if(month_end > curr_date)
+		{
+			month_end = curr_date;
+		}
+		// Planned Count
+		planned_count = Add_Work_Order_SERVO[Status != "Draft" && Date_field >= month_start && Date_field <= month_end].count();
+		// Actual Count
+		actual_count = Add_Work_Order_SERVO[Status == "Completed" && Date_field >= month_start && Date_field <= month_end].count();
+		// Track global max
+		if(planned_count > global_max)
+		{
+			global_max = planned_count;
+		}
+		if(actual_count > global_max)
+		{
+			global_max = actual_count;
+		}
+		// Store temp data
+		month_map = Map();
+		month_map.put("month",month_names.get(month_no - 1));
+		month_map.put("planned_count",planned_count);
+		month_map.put("actual_count",actual_count);
+		month_map.put("start_date",month_start.toString("dd-MMM-yyyy"));
+		month_map.put("end_date",month_end.toString("dd-MMM-yyyy"));
+		temp_list.add(month_map);
+	}
+	// Generate proportional heights
+	for each  item in temp_list
+	{
+		planned_count = item.get("planned_count");
+		actual_count = item.get("actual_count");
+		if(global_max > 0)
+		{
+			planned_height = (planned_count * 100.0 / global_max * height_scale).round(2);
+			actual_height = (actual_count * 100.0 / global_max * height_scale).round(2);
+		}
+		else
+		{
+			planned_height = 0;
+			actual_height = 0;
+		}
+		item.put("planned_height",planned_height);
+		item.put("actual_height",actual_height);
+		result_list.add(item);
+	}
+	return result_list;
+}
+
+
+
+list productionDashboard.getPlannedVsActualProductionWeekly()
+{
+	// Current Date
+	curr_date = zoho.currentdate;
+	// Month Start
+	month_start = curr_date.toStartOfMonth();
+	// Month End
+	next_month = month_start.addMonth(1);
+	month_end = next_month.subDay(1);
+	// Final Result List
+	result_list = List();
+	// Global maximum bar height
+	max_bar_height = 250;
+	// First store all counts
+	temp_list = List();
+	global_max = 0;
+	// Loop through 4 weeks
+	for each  week_no in {1,2,3,4}
+	{
+		// Week Start
+		week_start = month_start.addDay((week_no - 1) * 7);
+		// Skip future weeks
+		if(week_start > curr_date)
+		{
+			continue;
+		}
+		// Week End
+		week_end = week_start.addDay(6);
+		// Prevent month overflow
+		if(week_end > month_end)
+		{
+			week_end = month_end;
+		}
+		// Prevent future date overflow
+		if(week_end > curr_date)
+		{
+			week_end = curr_date;
+		}
+		// Planned Count
+		planned_count = Add_Work_Order_SERVO[Status != "Draft" && Date_field >= week_start && Date_field <= week_end].count();
+		// Actual Count
+		actual_count = Add_Work_Order_SERVO[Status == "Completed" && Date_field >= week_start && Date_field <= week_end].count();
+		// Find global max
+		if(planned_count > global_max)
+		{
+			global_max = planned_count;
+		}
+		if(actual_count > global_max)
+		{
+			global_max = actual_count;
+		}
+		week_map = Map();
+		week_map.put("week","Week " + week_no);
+		week_map.put("planned_count",planned_count);
+		week_map.put("actual_count",actual_count);
+		week_map.put("start_date",week_start.toString("dd-MMM"));
+		week_map.put("end_date",week_end.toString("dd-MMM"));
+		temp_list.add(week_map);
+	}
+	height_scale = 0.85;
+	// Generate proportional heights
+	for each  item in temp_list
+	{
+		planned_count = item.get("planned_count");
+		actual_count = item.get("actual_count");
+		if(global_max > 0)
+		{
+			planned_height = (planned_count * 100.0 / global_max * height_scale).round(2);
+			actual_height = (actual_count * 100.0 / global_max * height_scale).round(2);
+			// 			planned_height = (planned_count * max_bar_height) / global_max;
+			// 			actual_height = (actual_count * max_bar_height) / global_max;
+		}
+		else
+		{
+			planned_height = 0;
+			actual_height = 0;
+		}
+		item.put("planned_height",planned_height);
+		item.put("actual_height",actual_height);
+		result_list.add(item);
+	}
+	return result_list;
+}
+
+
+
+
+list productionDashboard.getPlannedVsActualProductionWeekly()
+{
+	// Current Date
+	curr_date = zoho.currentdate;
+	// Month Start
+	month_start = curr_date.toStartOfMonth();
+	// Month End
+	next_month = month_start.addMonth(1);
+	month_end = next_month.subDay(1);
+	// Final Result List
+	result_list = List();
+	// Global maximum bar height
+	max_bar_height = 250;
+	// First store all counts
+	temp_list = List();
+	global_max = 0;
+	// Loop through 4 weeks
+	for each  week_no in {1,2,3,4}
+	{
+		// Week Start
+		week_start = month_start.addDay((week_no - 1) * 7);
+		// Skip future weeks
+		if(week_start > curr_date)
+		{
+			continue;
+		}
+		// Week End
+		week_end = week_start.addDay(6);
+		// Prevent month overflow
+		if(week_end > month_end)
+		{
+			week_end = month_end;
+		}
+		// Prevent future date overflow
+		if(week_end > curr_date)
+		{
+			week_end = curr_date;
+		}
+		// Planned Count
+		planned_count = Add_Work_Order_SERVO[Status != "Draft" && Date_field >= week_start && Date_field <= week_end].count();
+		// Actual Count
+		actual_count = Add_Work_Order_SERVO[Status == "Completed" && Date_field >= week_start && Date_field <= week_end].count();
+		// Find global max
+		if(planned_count > global_max)
+		{
+			global_max = planned_count;
+		}
+		if(actual_count > global_max)
+		{
+			global_max = actual_count;
+		}
+		week_map = Map();
+		week_map.put("week","Week " + week_no);
+		week_map.put("planned_count",planned_count);
+		week_map.put("actual_count",actual_count);
+		week_map.put("start_date",week_start.toString("dd-MMM"));
+		week_map.put("end_date",week_end.toString("dd-MMM"));
+		temp_list.add(week_map);
+	}
+	height_scale = 0.85;
+	// Generate proportional heights
+	for each  item in temp_list
+	{
+		planned_count = item.get("planned_count");
+		actual_count = item.get("actual_count");
+		if(global_max > 0)
+		{
+			planned_height = (planned_count * 100.0 / global_max * height_scale).round(2);
+			actual_height = (actual_count * 100.0 / global_max * height_scale).round(2);
+			// 			planned_height = (planned_count * max_bar_height) / global_max;
+			// 			actual_height = (actual_count * max_bar_height) / global_max;
+		}
+		else
+		{
+			planned_height = 0;
+			actual_height = 0;
+		}
+		item.put("planned_height",planned_height);
+		item.put("actual_height",actual_height);
+		result_list.add(item);
+	}
+	return result_list;
+}
+
+
+
+
+
+list productionDashboard.getPlannedVsActualProductionYearly()
+{
+	// Current Date
+	curr_date = zoho.currentdate;
+	// Current Year
+	current_year = curr_date.getYear();
+	// Result List
+	result_list = List();
+	// Temporary Storage
+	temp_list = List();
+	// Global Maximum
+	global_max = 0;
+	// Height Scale
+	height_scale = 0.85;
+	// Last 5 Years (including current year)
+	start_year = current_year - 4;
+	for each  year_no in {0,1,2,3,4}
+	{
+		year_value = start_year + year_no;
+		// Year Start
+		year_start = (year_value + "-01-01").toDate();
+		// Year End
+		year_end = (year_value + "-12-31").toDate();
+		// Current year adjustment
+		if(year_value == current_year)
+		{
+			year_end = curr_date;
+		}
+		// Planned Count
+		planned_count = Add_Work_Order_SERVO[Status != "Draft" && Date_field >= year_start && Date_field <= year_end].count();
+		// Actual Count
+		actual_count = Add_Work_Order_SERVO[Status == "Completed" && Date_field >= year_start && Date_field <= year_end].count();
+		// Track Global Maximum
+		if(planned_count > global_max)
+		{
+			global_max = planned_count;
+		}
+		if(actual_count > global_max)
+		{
+			global_max = actual_count;
+		}
+		// Store Data
+		year_map = Map();
+		year_map.put("year",year_value.toString());
+		year_map.put("planned_count",planned_count);
+		year_map.put("actual_count",actual_count);
+		year_map.put("start_date",year_start.toString("dd-MMM-yyyy"));
+		year_map.put("end_date",year_end.toString("dd-MMM-yyyy"));
+		temp_list.add(year_map);
+	}
+	// Generate Heights
+	for each  item in temp_list
+	{
+		planned_count = item.get("planned_count");
+		actual_count = item.get("actual_count");
+		if(global_max > 0)
+		{
+			planned_height = ((planned_count * 100.0) / global_max * height_scale).round(2);
+			actual_height = ((actual_count * 100.0) / global_max * height_scale).round(2);
+		}
+		else
+		{
+			planned_height = 0;
+			actual_height = 0;
+		}
+		item.put("planned_height",planned_height);
+		item.put("actual_height",actual_height);
+		result_list.add(item);
+	}
+	return result_list;
+}
+
+
+
+map productionDashboard.getQualityComplaintsAndRework()
+{
+	// rework cases
+	curr_date = zoho.currentdate;
+	week_start = curr_date.toStartOfWeek();
+	rework_cases_count = Rework[Date_field >= curr_date && Date_field <= curr_date].count();
+	rejection_cases_count = Rejection_Module[Date_field >= curr_date && Date_field <= curr_date].count();
+	result_map = Map();
+	result_map.put("rework_count",rework_cases_count);
+	result_map.put("rejection_count",rejection_cases_count);
+	return result_map;
+}
+
+
+map productionDashboard.onTimeDeliveryTrend()
+{
+	curr_date = zoho.currentdate;
+	month_start = curr_date.toStartOfMonth();
+	// Deluge does NOT have toEndOfMonth(), so calculate manually
+	next_month_start = month_start.addMonth(1);
+	month_end = next_month_start.addDay(-1);
+	result = Map();
+	week_list = List();
+	// Force 5 weeks for UI
+	for each  wk in {1,2,3,4,5}
+	{
+		week_start = month_start.addDay((wk - 1) * 7);
+		week_end = week_start.addDay(6);
+		if(week_start > month_end)
+		{
+			break;
+		}
+		if(week_end > month_end)
+		{
+			week_end = month_end;
+		}
+		orders = Order_Confirmation[Commited_Delivery_Date >= week_start && Commited_Delivery_Date <= week_end];
+		total_orders = orders.count();
+		ontime_count = 0;
+		for each  rec in orders
+		{
+			if(rec.Actual_Delivery_Date != null)
+			{
+				if(rec.Actual_Delivery_Date <= rec.Commited_Delivery_Date)
+				{
+					ontime_count = ontime_count + 1;
+				}
+			}
+		}
+		if(total_orders > 0)
+		{
+			ontime_percent = (ontime_count * 100) / total_orders;
+		}
+		else
+		{
+			ontime_percent = 0;
+		}
+		week_map = Map();
+		week_map.put("week_no","Week " + wk);
+		week_map.put("from",week_start);
+		week_map.put("to",week_end);
+		week_map.put("total_orders",total_orders);
+		week_map.put("ontime_orders",ontime_count);
+		week_map.put("ontime_percentage",ontime_percent.round(0));
+		week_list.add(week_map);
+	}
+	result.put("monthly_weekly_trend",week_list);
+	return result;
+}
+
+
+
+
+
+map productionDashboard.reworkTrendMonthly()
+{
+	curr_date = zoho.currentdate;
+	year_start = (curr_date.getYear() + "-01-01").toDate("yyyy-MM-dd");
+	result = Map();
+	month_list = List();
+	for each  m in {1,2,3,4,5,6,7,8,9,10,11,12}
+	{
+		month_start = (curr_date.getYear() + "-" + m + "-01").toDate("yyyy-MM-dd");
+		next_month = month_start.addMonth(1);
+		month_end = next_month.addDay(-1);
+		if(month_start > curr_date)
+		{
+			break;
+		}
+		rework_count = Rework[Date_field >= month_start && Date_field <= month_end].count();
+		total_prod = Add_Work_Order_SERVO[Date_field >= month_start && Date_field <= month_end].count();
+		if(total_prod > 0)
+		{
+			percentage = (rework_count * 100) / total_prod;
+		}
+		else
+		{
+			percentage = 0;
+		}
+		m_map = Map();
+		m_map.put("label",month_start.toString("MMM"));
+		m_map.put("count",rework_count);
+		m_map.put("percentage",percentage.round(1));
+		if(percentage < 3)
+		{
+			m_map.put("status","within");
+		}
+		else
+		{
+			m_map.put("status","above");
+		}
+		month_list.add(m_map);
+	}
+	result.put("monthly",month_list);
+	return result;
+}
+
+
+map productionDashboard.reworkTrendWeekly()
+{
+	curr_date = zoho.currentdate;
+	month_start = curr_date.toStartOfMonth();
+	next_month_start = month_start.addMonth(1);
+	month_end = next_month_start.addDay(-1);
+	result = Map();
+	week_list = List();
+	for each  wk in {1,2,3,4,5}
+	{
+		week_start = month_start.addDay((wk - 1) * 7);
+		week_end = week_start.addDay(6);
+		if(week_start > month_end)
+		{
+			break;
+		}
+		if(week_end > month_end)
+		{
+			week_end = month_end;
+		}
+		rework_count = Rework[Date_field >= week_start && Date_field <= week_end].count();
+		total_prod = Add_Work_Order_SERVO[Date_field >= week_start && Date_field <= week_end].count();
+		if(total_prod > 0)
+		{
+			percentage = (rework_count * 100) / total_prod;
+		}
+		else
+		{
+			percentage = 0;
+		}
+		wk_map = Map();
+		wk_map.put("label","Week " + wk);
+		wk_map.put("from",week_start);
+		wk_map.put("to",week_end);
+		wk_map.put("count",rework_count);
+		wk_map.put("percentage",percentage.round(1));
+		// target coloring (<3% good)
+		if(percentage < 3)
+		{
+			wk_map.put("status","within");
+		}
+		else
+		{
+			wk_map.put("status","above");
+		}
+		week_list.add(wk_map);
+	}
+	result.put("weekly",week_list);
+	return result;
+}
+
+
+
+map productionDashboard.reworkTrendYearly()
+{
+	curr_year = zoho.currentdate.getYear();
+	result = Map();
+	year_list = List();
+	for each  y in {0,1,2,3,4}
+	{
+		year_val = curr_year - y;
+		year_start = (year_val + "-01-01").toDate("yyyy-MM-dd");
+		year_end = (year_val + "-12-31").toDate("yyyy-MM-dd");
+		rework_count = Rework[Date_field >= year_start && Date_field <= year_end].count();
+		total_prod = Add_Work_Order_SERVO[Date_field >= year_start && Date_field <= year_end].count();
+		if(total_prod > 0)
+		{
+			percentage = (rework_count * 100) / total_prod;
+		}
+		else
+		{
+			percentage = 0;
+		}
+		y_map = Map();
+		y_map.put("label",year_val);
+		y_map.put("count",rework_count);
+		y_map.put("percentage",percentage.round(1));
+		if(percentage < 3)
+		{
+			y_map.put("status","within");
+		}
+		else
+		{
+			y_map.put("status","above");
+		}
+		year_list.add(y_map);
+	}
+	result.put("yearly",year_list);
+	return result;
+}
+
+
+void productionDashboard.thisMonthProductsAndIndirectExpense()
+{
+	curr_date = zoho.currentdate;
+	month_start = curr_date.toStartOfMonth();
+	manf_wo_coll = Add_Work_Order_SERVO[Date_field >= month_start && Date_field <= curr_date];
+	// 	<variable> = <form> [ <field> <opr> <expression> ];
+	// N/A
+}
+
+
+list productionDashboard.topFiveRedTagItemsByValue()
+{
+	curr_date = zoho.currentdate;
+	last_month = curr_date.subMonth(1);
+	prod_coll = Product[Is_Red_Tag_Material == true && Last_Order_Date <= last_month] sort by Price desc;
+	count = 0;
+	fin_list = List();
+	for each  prod in prod_coll
+	{
+		if(count <= 5)
+		{
+			aging_days = curr_date.daysBetween(prod.Last_Order_Date);
+			if(aging_days > 100)
+			{
+				priority = "Critical";
+			}
+			else if(aging_days < 100 && aging_days > 70)
+			{
+				priority = "High";
+			}
+			else if(aging_days > 50 && aging_days < 70)
+			{
+				priority = "Medium";
+			}
+			else if(aging_days < 50)
+			{
+				priority = "Low";
+			}
+			curr_map = Map();
+			curr_map.put("item_name",prod.Product_Name);
+			curr_map.put("value",prod.Price);
+			curr_map.put("aging_days",aging_days);
+			curr_map.put("priority",priority);
+			fin_list.add(curr_map);
+		}
+		else
+		{
+			break;
+		}
+		count = count + 1;
+	}
+	return fin_list;
+}

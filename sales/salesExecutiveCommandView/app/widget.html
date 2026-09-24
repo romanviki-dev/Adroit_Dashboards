@@ -1,0 +1,221 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executive Command View</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+
+    <!-- ============================================================
+         LOADING OVERLAY
+         Shows immediately, runs for exactly 5s (see LOADER_DURATION_MS
+         below), then fades out to reveal #dashboard. script.js's
+         loadDashboard() call is unaffected — it still fires on
+         DOMContentLoaded and fetches data in the background while
+         this overlay is showing, so by the time the 5s timer ends
+         the dashboard is normally already populated underneath.
+         ============================================================ -->
+    <div id="loader-overlay">
+        <div class="spinner-shell">
+            <div class="spinner-glow"></div>
+            <svg class="spinner" viewBox="0 0 100 100">
+                <path d="M 30 15 A 40 40 0 0 0 15 30" />
+                <path d="M 70 15 A 40 40 0 0 1 85 30" />
+                <path d="M 15 70 A 40 40 0 0 0 30 85" />
+                <path d="M 85 70 A 40 40 0 0 1 70 85" />
+            </svg>
+        </div>
+        <div id="loader-text">
+            Loading dashboard<span class="loader-dot">.</span><span class="loader-dot">.</span><span class="loader-dot">.</span>
+        </div>
+        <div id="loader-progress-track">
+            <div id="loader-progress-fill"></div>
+        </div>
+    </div>
+
+    <div class="dashboard" id="dashboard">
+        <h1>Executive Command View (Overall)</h1>
+
+        <div id="globalError"></div>
+
+        <!-- Row 1: KPI tiles -->
+        <div class="kpi-container row-1" id="kpiRow">
+            <div class="loading">Loading KPIs…</div>
+        </div>
+
+        <!-- Row 2: Regional Sales & Top Customers -->
+        <div class="kpi-container row-2">
+            <div class="kpi-tile">
+                <div class="kpi-title" style="font-size:20px;">Regional Sales</div>
+                <table class="report-table" id="regionalSalesTable"></table>
+            </div>
+            <div class="kpi-tile">
+                <div class="kpi-title" style="font-size:20px;">Top 10 Customers (by Sales Value)</div>
+                <table class="report-table2" id="topCustomersTable"></table>
+            </div>
+        </div>
+
+        <!-- Row 3: Top 5 Lost Orders -->
+        <div class="kpi-container row-2">
+            <div class="kpi-tile">
+                <div class="kpi-title" style="font-size:20px;">Top 5 Lost Orders (Value)</div>
+                <table class="report-table" id="lostOrdersTable"></table>
+            </div>
+        </div>
+
+        <!-- Monthly Sales Revenue -->
+        <div class="card">
+            <h2 class="card-title">Monthly Sales Revenue</h2>
+            <div class="chart-container">
+                <div class="y-axis-label">Revenue (₹)</div>
+                <div class="bar-chart" id="monthlyBarChart"></div>
+                <div class="x-axis-label">Month</div>
+            </div>
+        </div>
+
+        <!-- Conversion vs Lost Trend -->
+        <div class="card">
+            <h2 class="card-title">Conversion Trend vs Lost Trend</h2>
+            <div class="line-chart" id="lineChartContainer"></div>
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #28a745;"></div>
+                    <span>Conversion Rate</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #dc3545;"></div>
+                    <span>Lost Rate</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid">
+            <!-- Top Customers by Payment -->
+            <div class="card">
+                <h2 class="card-title">Top Customers (Payment)</h2>
+                <div id="topCustomersPaymentList"></div>
+            </div>
+
+            <!-- Top Products -->
+            <div class="card">
+                <h2 class="card-title">Top Products</h2>
+                <div id="topProductsList"></div>
+            </div>
+        </div>
+
+        <div class="grid">
+            <!-- Alerts Summary -->
+            <div class="card">
+                <h2 class="card-title">Alerts Summary</h2>
+                <div id="alertsList"></div>
+            </div>
+
+            <!-- Orders vs Payments -->
+            <div class="card">
+                <h2 class="card-title">Orders vs Payments</h2>
+                <div class="pieContainer">
+                    <div class="pie" id="ordersPie"></div>
+                    <div class="center-circle">
+                        <div class="center-text">Total</div>
+                        <div class="center-value" id="opTotal">0</div>
+                    </div>
+                </div>
+                <div class="legend">
+                    <div class="legend-item">
+                        <div class="legend-color orders-color"></div>
+                        <div class="legend-text" id="opOrdersLegend">Orders: 0% (0)</div>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color payments-color"></div>
+                        <div class="legend-text" id="opPaymentsLegend">Payments: 0% (0)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sales Funnel -->
+        <div class="grid">
+            <div class="card">
+                <h3 class="card-title">Sales Funnel</h3>
+                <div class="funnel-wrapper">
+                    <div class="funnel-container">
+                        <div class="funnel" id="funnelStages"></div>
+                        <div class="funnel-legend" id="funnelLegend"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- YOY Growth -->
+        <div class="card yoy-container">
+            <h2 class="yoy-title">Year-over-Year Growth</h2>
+            <div class="yoy-bars" id="yoyBars"></div>
+        </div>
+
+        <!-- ABC Customer Revenue Analysis -->
+        <div class="card">
+            <h2 class="card-title">ABC Customer Revenue Analysis</h2>
+            <div class="abc-chart" id="abcChart"></div>
+            <div class="abc-description" id="abcDescription"></div>
+        </div>
+    </div>
+
+    <script src="https://static.zohocdn.com/creator/widgets/version/2.0/widgetsdk-min.js"></script>
+  <!-- ApexCharts -- donut/gauge/line/bar charts, replacing the old hand-built CSS/SVG ones -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.45.2/dist/apexcharts.min.js"></script>
+    <!-- Shared runtime: number formatting, drill-down modal, fetch diagnostics -->
+    <script src="./adroitWidgetKit.js"></script>
+    <script src="./script.js"></script>
+
+    <script>
+      // ============================================================
+      // Loader controller
+      // Runs for exactly LOADER_DURATION_MS, then reveals #dashboard.
+      // Kept as a small separate script (not merged into script.js) so
+      // it never interferes with loadDashboard()'s own data-fetch flow —
+      // this only toggles visibility/CSS classes, it never touches DOM
+      // nodes that script.js writes into (#kpiRow, #abcChart, etc).
+      //
+      // If you'd rather the loader wait for data as well as the timer
+      // (so a slow network never reveals a half-loaded page), see the
+      // commented alternative at the bottom of this block.
+      // ============================================================
+      var LOADER_DURATION_MS = 5000;
+
+      function revealDashboard() {
+        var overlay = document.getElementById('loader-overlay');
+        var dashboard = document.getElementById('dashboard');
+        if (!overlay || !dashboard) return;
+
+        overlay.classList.add('loader-fade-out');
+        setTimeout(function () {
+          overlay.style.display = 'none';
+          dashboard.classList.add('reveal');
+        }, 450); // matches the overlay's fade-out animation duration
+      }
+
+      window.addEventListener('load', function () {
+        setTimeout(revealDashboard, LOADER_DURATION_MS);
+      });
+
+      // ---- Alternative: wait for the exact 5s AND for data to be ready ----
+      // Uncomment this and remove the window.addEventListener block above
+      // if you want the loader to stay up past 5s on a slow connection,
+      // instead of ever revealing a dashboard with empty sections.
+      // Requires adding `document.dispatchEvent(new Event('dashboardReady'));`
+      // as the last line inside loadDashboard()'s .then(...) in script.js.
+      //
+      // var minTimeElapsed = false, dataReady = false;
+      // function tryReveal() { if (minTimeElapsed && dataReady) revealDashboard(); }
+      // setTimeout(function () { minTimeElapsed = true; tryReveal(); }, LOADER_DURATION_MS);
+      // document.addEventListener('dashboardReady', function () { dataReady = true; tryReveal(); });
+    </script>
+
+</body>
+
+</html>

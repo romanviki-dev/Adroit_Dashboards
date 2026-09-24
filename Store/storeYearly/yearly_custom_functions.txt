@@ -1,0 +1,1745 @@
+string yearlyStore.formatCurrency(decimal value)
+{
+	if(value >= 100000)
+	{
+		formatted_value = (value / 100000).round(1);
+		return "₹" + formatted_value.toString() + "L";
+	}
+	else if(value >= 1000)
+	{
+		formatted_value = (value / 1000).round(1);
+		return "₹" + formatted_value.toString() + "K";
+	}
+	else if(value > 0)
+	{
+		return "₹" + value.round(0).toString();
+	}
+	return "₹0";
+}
+
+string yearlyStore.formatTrendPercent(float change, bool isLowerBetter)
+{
+	if(change > 0)
+	{
+		// Positive change
+		if(isLowerBetter)
+		{
+			// For metrics where lower is better (costs, lead time)
+			return "↓ " + change.toString() + "%";
+		}
+		else
+		{
+			// For metrics where higher is better (rating, suppliers)
+			return "↑ " + change.toString() + "%";
+		}
+	}
+	else if(change < 0)
+	{
+		// Negative change
+		if(isLowerBetter)
+		{
+			// For metrics where lower is better
+			return "↑ " + (change * -1).toString() + "%";
+		}
+		else
+		{
+			// For metrics where higher is better
+			return "↓ " + (change * -1).toString() + "%";
+		}
+	}
+	else
+	{
+		// No change
+		return "0%";
+	}
+}
+
+map yearlyStore.getAnnualPerformanceSummary()
+{
+	curr_date = zoho.currentdate;
+	current_year = curr_date.getYear();
+	// Define 3 years
+	year_1 = current_year - 2;
+	// 2023
+	year_2 = current_year - 1;
+	// 2024
+	year_3 = current_year;
+	// 2025 (current)
+	res_map = Map();
+	res_map.put("year_1",year_1);
+	res_map.put("year_2",year_2);
+	res_map.put("year_3",year_3);
+	// ========== YEAR 1 (2023) DATA ==========
+	year_1_start = toDate("01-Jan-" + year_1);
+	year_1_end = toDate("31-Dec-" + year_1);
+	// 1. Non-Moving Stock - Year 1
+	year_1_six_months = year_1_end.subMonth(6);
+	year_1_non_moving = Product[ID != null && Available_Stock > 0 && Last_Order_Date < year_1_six_months && Last_Order_Date <= year_1_end];
+	year_1_non_moving_value = 0;
+	for each  prod in year_1_non_moving
+	{
+		year_1_non_moving_value = year_1_non_moving_value + ifnull(prod.Price,0) * ifnull(prod.Available_Stock,0);
+	}
+	res_map.put("year_1_non_moving",thisapp.yearlyStore.formatCurrency(year_1_non_moving_value));
+	res_map.put("year_1_non_moving_raw",year_1_non_moving_value);
+	// 2. Indirect Expense - Year 1
+	year_1_rework = Rework_Register[ID != null && Date_field >= year_1_start && Date_field <= year_1_end].sum(Total_Expence);
+	year_1_indirect = ifnull(year_1_rework,0);
+	res_map.put("year_1_indirect",thisapp.yearlyStore.formatCurrency(year_1_indirect));
+	res_map.put("year_1_indirect_raw",year_1_indirect);
+	// 3. Supplier Rating - Year 1
+	year_1_ratings = Supplier_Rating[ID != null && Date_field >= year_1_start && Date_field <= year_1_end && Total_Rating > 0];
+	year_1_rating_total = 0;
+	year_1_rating_count = 0;
+	for each  rating in year_1_ratings
+	{
+		year_1_rating_total = year_1_rating_total + ifnull(rating.Total_Rating,0);
+		year_1_rating_count = year_1_rating_count + 1;
+	}
+	year_1_avg_rating = 0;
+	if(year_1_rating_count > 0)
+	{
+		year_1_avg_rating = (year_1_rating_total / year_1_rating_count).round(0);
+	}
+	res_map.put("year_1_supplier_rating",year_1_avg_rating.toString() + "%");
+	res_map.put("year_1_supplier_rating_raw",year_1_avg_rating);
+	// 4. Lead Time - Year 1
+	year_1_po = Purchase_Order_Register[ID != null && Received_Date >= year_1_start && Received_Date <= year_1_end && PO_No.PO_Date != null && Received_Date != null];
+	year_1_lead_days = 0;
+	year_1_lead_count = 0;
+	for each  po_reg in year_1_po
+	{
+		if(po_reg.Received_Date != null && po_reg.PO_No.PO_Date != null)
+		{
+			lead_days = daysBetween(po_reg.PO_No.PO_Date,po_reg.Received_Date);
+			if(lead_days >= 0)
+			{
+				year_1_lead_days = year_1_lead_days + lead_days;
+				year_1_lead_count = year_1_lead_count + 1;
+			}
+		}
+	}
+	year_1_avg_lead = 0;
+	if(year_1_lead_count > 0)
+	{
+		year_1_avg_lead = (year_1_lead_days / year_1_lead_count).round(0);
+	}
+	res_map.put("year_1_lead_time",year_1_avg_lead);
+	// 5. Scrap Value Realized - Year 1
+	// Calculate from Material_Rejection_Register (Buy-back + Rejections)
+	year_1_scrap_records = Scrap[ID != null && Date_field >= year_1_start && Date_field <= year_1_end];
+	year_1_scrap = 0;
+	for each  scrap_rec1 in year_1_scrap_records
+	{
+		scrap_products = scrap_rec1.Product_Details;
+		if(scrap_products != null)
+		{
+			for each  prod1 in scrap_products
+			{
+				year_1_scrap = year_1_scrap + ifnull(prod1.Buyback_Cost,0);
+			}
+		}
+	}
+	res_map.put("year_1_scrap",thisapp.yearlyStore.formatCurrency(year_1_scrap));
+	res_map.put("year_1_scrap_raw",year_1_scrap);
+	// 6. New Suppliers - Year 1
+	year_1_suppliers = Vendors[ID != null && Added_Time >= year_1_start && Added_Time <= year_1_end].count();
+	res_map.put("year_1_new_suppliers",year_1_suppliers);
+	// 7. Cost Savings - Year 1
+	// Calculate from multiple sources
+	// a) Second supplier savings (price difference)
+	year_1_second_supplier_savings = 0;
+	// 7. Cost Savings - Year 1
+	year_1_second_supplier_savings = thisapp.yearlyStore.getSecondSupplierSavings(year_1_start,year_1_end);
+	// Combine with scrap value
+	year_1_savings = year_1_second_supplier_savings + year_1_scrap;
+	res_map.put("year_1_cost_savings",thisapp.yearlyStore.formatCurrency(year_1_savings));
+	res_map.put("year_1_cost_savings_raw",year_1_savings);
+	// ========== YEAR 2 (2024) DATA ==========
+	year_2_start = toDate("01-Jan-" + year_2);
+	year_2_end = toDate("31-Dec-" + year_2);
+	// 1. Non-Moving Stock - Year 2
+	year_2_six_months = year_2_end.subMonth(6);
+	year_2_non_moving = Product[ID != null && Available_Stock > 0 && Last_Order_Date < year_2_six_months && Last_Order_Date <= year_2_end];
+	year_2_non_moving_value = 0;
+	for each  prod in year_2_non_moving
+	{
+		year_2_non_moving_value = year_2_non_moving_value + ifnull(prod.Price,0) * ifnull(prod.Available_Stock,0);
+	}
+	res_map.put("year_2_non_moving",thisapp.yearlyStore.formatCurrency(year_2_non_moving_value));
+	res_map.put("year_2_non_moving_raw",year_2_non_moving_value);
+	// 2. Indirect Expense - Year 2
+	year_2_rework = Rework_Register[ID != null && Date_field >= year_2_start && Date_field <= year_2_end].sum(Total_Expence);
+	year_2_indirect = ifnull(year_2_rework,0);
+	res_map.put("year_2_indirect",thisapp.yearlyStore.formatCurrency(year_2_indirect));
+	res_map.put("year_2_indirect_raw",year_2_indirect);
+	// 3. Supplier Rating - Year 2
+	year_2_ratings = Supplier_Rating[ID != null && Date_field >= year_2_start && Date_field <= year_2_end && Total_Rating > 0];
+	year_2_rating_total = 0;
+	year_2_rating_count = 0;
+	for each  rating in year_2_ratings
+	{
+		year_2_rating_total = year_2_rating_total + ifnull(rating.Total_Rating,0);
+		year_2_rating_count = year_2_rating_count + 1;
+	}
+	year_2_avg_rating = 0;
+	if(year_2_rating_count > 0)
+	{
+		year_2_avg_rating = (year_2_rating_total / year_2_rating_count).round(0);
+	}
+	res_map.put("year_2_supplier_rating",year_2_avg_rating.toString() + "%");
+	res_map.put("year_2_supplier_rating_raw",year_2_avg_rating);
+	// 4. Lead Time - Year 2
+	year_2_po = Purchase_Order_Register[ID != null && Received_Date >= year_2_start && Received_Date <= year_2_end && PO_No.PO_Date != null && Received_Date != null];
+	year_2_lead_days = 0;
+	year_2_lead_count = 0;
+	for each  po_reg in year_2_po
+	{
+		if(po_reg.Received_Date != null && po_reg.PO_No.PO_Date != null)
+		{
+			lead_days = daysBetween(po_reg.PO_No.PO_Date,po_reg.Received_Date);
+			if(lead_days >= 0)
+			{
+				year_2_lead_days = year_2_lead_days + lead_days;
+				year_2_lead_count = year_2_lead_count + 1;
+			}
+		}
+	}
+	year_2_avg_lead = 0;
+	if(year_2_lead_count > 0)
+	{
+		year_2_avg_lead = (year_2_lead_days / year_2_lead_count).round(0);
+	}
+	res_map.put("year_2_lead_time",year_2_avg_lead);
+	// 5. Scrap Value - Year 2
+	year_2_scrap_records = Scrap[ID != null && Date_field >= year_2_start && Date_field <= year_2_end];
+	year_2_scrap = 0;
+	for each  scrap_rec in year_2_scrap_records
+	{
+		scrap_products = scrap_rec.Product_Details;
+		for each  prod2 in scrap_products
+		{
+			year_2_scrap = year_2_scrap + ifnull(prod2.Buyback_Cost,0);
+		}
+	}
+	res_map.put("year_2_scrap",thisapp.yearlyStore.formatCurrency(year_2_scrap));
+	res_map.put("year_2_scrap_raw",year_2_scrap);
+	// 6. New Suppliers - Year 2
+	year_2_suppliers = Vendors[ID != null && Added_Time >= year_2_start && Added_Time <= year_2_end].count();
+	res_map.put("year_2_new_suppliers",year_2_suppliers);
+	// 7. Cost Savings - Year 2
+	// 7. Cost Savings - Year 2
+	year_2_second_supplier_savings = thisapp.yearlyStore.getSecondSupplierSavings(year_2_start,year_2_end);
+	year_2_savings = year_2_second_supplier_savings + year_2_scrap;
+	res_map.put("year_2_cost_savings",thisapp.yearlyStore.formatCurrency(year_2_savings));
+	res_map.put("year_2_cost_savings_raw",year_2_savings);
+	// ========== YEAR 3 (2025 - CURRENT) DATA ==========
+	year_3_start = toDate("01-Jan-" + year_3);
+	// 1. Non-Moving Stock - Year 3
+	six_months_ago = curr_date.subMonth(6);
+	year_3_non_moving = Product[ID != null && Available_Stock > 0 && Last_Order_Date < six_months_ago || Last_Order_Date == null];
+	year_3_non_moving_value = 0;
+	for each  prod in year_3_non_moving
+	{
+		year_3_non_moving_value = year_3_non_moving_value + ifnull(prod.Price,0) * ifnull(prod.Available_Stock,0);
+	}
+	res_map.put("year_3_non_moving",thisapp.yearlyStore.formatCurrency(year_3_non_moving_value));
+	res_map.put("year_3_non_moving_raw",year_3_non_moving_value);
+	// 2. Indirect Expense - Year 3
+	year_3_rework = Rework_Register[ID != null && Date_field >= year_3_start && Date_field <= curr_date].sum(Total_Expence);
+	year_3_indirect = ifnull(year_3_rework,0);
+	res_map.put("year_3_indirect",thisapp.yearlyStore.formatCurrency(year_3_indirect));
+	res_map.put("year_3_indirect_raw",year_3_indirect);
+	// 3. Supplier Rating - Year 3
+	year_3_ratings = Supplier_Rating[ID != null && Date_field >= year_3_start && Date_field <= curr_date && Total_Rating > 0];
+	year_3_rating_total = 0;
+	year_3_rating_count = 0;
+	for each  rating in year_3_ratings
+	{
+		year_3_rating_total = year_3_rating_total + ifnull(rating.Total_Rating,0);
+		year_3_rating_count = year_3_rating_count + 1;
+	}
+	year_3_avg_rating = 0;
+	if(year_3_rating_count > 0)
+	{
+		year_3_avg_rating = (year_3_rating_total / year_3_rating_count).round(0);
+	}
+	res_map.put("year_3_supplier_rating",year_3_avg_rating.toString() + "%");
+	res_map.put("year_3_supplier_rating_raw",year_3_avg_rating);
+	// 4. Lead Time - Year 3
+	year_3_po = Purchase_Order_Register[ID != null && Received_Date >= year_3_start && Received_Date <= curr_date && PO_No.PO_Date != null && Received_Date != null];
+	year_3_lead_days = 0;
+	year_3_lead_count = 0;
+	for each  po_reg in year_3_po
+	{
+		if(po_reg.Received_Date != null && po_reg.PO_No.PO_Date != null)
+		{
+			lead_days = daysBetween(po_reg.PO_No.PO_Date,po_reg.Received_Date);
+			if(lead_days >= 0)
+			{
+				year_3_lead_days = year_3_lead_days + lead_days;
+				year_3_lead_count = year_3_lead_count + 1;
+			}
+		}
+	}
+	year_3_avg_lead = 0;
+	if(year_3_lead_count > 0)
+	{
+		year_3_avg_lead = (year_3_lead_days / year_3_lead_count).round(0);
+	}
+	res_map.put("year_3_lead_time",year_3_avg_lead);
+	// 5. Scrap Value - Year 3
+	year_3_scrap_records = Scrap[ID != null && Date_field >= year_3_start && Date_field <= curr_date];
+	year_3_scrap = 0;
+	for each  scrap_rec in year_3_scrap_records
+	{
+		scrap_products = scrap_rec.Product_Details;
+		for each  prod3 in scrap_products
+		{
+			year_3_scrap = year_3_scrap + ifnull(prod3.Buyback_Cost,0);
+		}
+	}
+	res_map.put("year_3_scrap",thisapp.yearlyStore.formatCurrency(year_3_scrap));
+	res_map.put("year_3_scrap_raw",year_3_scrap);
+	// 6. New Suppliers - Year 3
+	year_3_suppliers = Vendors[ID != null && Added_Time >= year_3_start && Added_Time <= curr_date].count();
+	res_map.put("year_3_new_suppliers",year_3_suppliers);
+	// 7. Cost Savings - Year 3
+	// 7. Cost Savings - Year 3
+	year_3_second_supplier_savings = thisapp.yearlyStore.getSecondSupplierSavings(year_3_start,curr_date);
+	year_3_savings = year_3_second_supplier_savings + year_3_scrap;
+	res_map.put("year_3_cost_savings",thisapp.yearlyStore.formatCurrency(year_3_savings));
+	res_map.put("year_3_cost_savings_raw",year_3_savings);
+	// ========== CALCULATE TRENDS (Year 1 to Year 3) ==========
+	// Non-Moving Stock Trend
+	if(year_1_non_moving_value > 0)
+	{
+		non_moving_change = ((year_1_non_moving_value - year_3_non_moving_value) * 100 / year_1_non_moving_value).round(1);
+		res_map.put("non_moving_trend",thisapp.yearlyStore.formatTrendPercent(non_moving_change,true));
+		res_map.put("non_moving_status",thisapp.yearlyStore.getStatusBadge(non_moving_change,true));
+	}
+	else
+	{
+		res_map.put("non_moving_trend","N/A");
+		res_map.put("non_moving_status","average");
+	}
+	// Indirect Expense Trend
+	if(year_1_indirect > 0)
+	{
+		indirect_change = ((year_1_indirect - year_3_indirect) * 100 / year_1_indirect).round(1);
+		res_map.put("indirect_trend",thisapp.yearlyStore.formatTrendPercent(indirect_change,true));
+		res_map.put("indirect_status",thisapp.yearlyStore.getStatusBadge(indirect_change,true));
+	}
+	else
+	{
+		res_map.put("indirect_trend","N/A");
+		res_map.put("indirect_status","average");
+	}
+	// Supplier Rating Trend
+	if(year_1_avg_rating > 0)
+	{
+		rating_change = ((year_3_avg_rating - year_1_avg_rating) * 100 / year_1_avg_rating).round(1);
+		res_map.put("rating_trend",thisapp.yearlyStore.formatTrendPercent(rating_change,false));
+		res_map.put("rating_status",thisapp.yearlyStore.getStatusBadge(rating_change,false));
+	}
+	else
+	{
+		res_map.put("rating_trend","N/A");
+		res_map.put("rating_status","average");
+	}
+	// Lead Time Trend
+	if(year_1_avg_lead > 0)
+	{
+		lead_change = ((year_1_avg_lead - year_3_avg_lead) * 100 / year_1_avg_lead).round(1);
+		res_map.put("lead_time_trend",thisapp.yearlyStore.formatTrendPercent(lead_change,true));
+		res_map.put("lead_time_status",thisapp.yearlyStore.getStatusBadge(lead_change,true));
+	}
+	else
+	{
+		res_map.put("lead_time_trend","N/A");
+		res_map.put("lead_time_status","average");
+	}
+	// Scrap Value Trend
+	if(year_1_scrap > 0)
+	{
+		scrap_change = ((year_3_scrap - year_1_scrap) * 100 / year_1_scrap).round(1);
+		res_map.put("scrap_trend",thisapp.yearlyStore.formatTrendPercent(scrap_change,false));
+		res_map.put("scrap_status",thisapp.yearlyStore.getStatusBadge(scrap_change,false));
+	}
+	else
+	{
+		res_map.put("scrap_trend","N/A");
+		res_map.put("scrap_status","average");
+	}
+	// New Suppliers Trend
+	if(year_1_suppliers > 0)
+	{
+		supplier_change = ((year_3_suppliers - year_1_suppliers) * 100 / year_1_suppliers).round(0);
+		res_map.put("suppliers_trend",thisapp.yearlyStore.formatTrendPercent(supplier_change,false));
+		res_map.put("suppliers_status",thisapp.yearlyStore.getStatusBadge(supplier_change,false));
+	}
+	else
+	{
+		res_map.put("suppliers_trend","N/A");
+		res_map.put("suppliers_status","average");
+	}
+	// Cost Savings Trend
+	if(year_1_savings > 0)
+	{
+		savings_change = ((year_3_savings - year_1_savings) * 100 / year_1_savings).round(1);
+		res_map.put("savings_trend",thisapp.yearlyStore.formatTrendPercent(savings_change,false));
+		res_map.put("savings_status",thisapp.yearlyStore.getStatusBadge(savings_change,false));
+	}
+	else
+	{
+		res_map.put("savings_trend","N/A");
+		res_map.put("savings_status","average");
+	}
+	return res_map;
+}
+
+
+
+map yearlyStore.getCostSavingsBreakdown()
+{
+	curr_date = zoho.currentdate;
+	// Calculate year start manually
+	current_year = curr_date.toString("yyyy").toNumber();
+	year_start = toDate("01-Jan-" + current_year);
+	// Previous year dates
+	prev_year = current_year - 1;
+	prev_year_start = toDate("01-Jan-" + prev_year);
+	prev_year_end = toDate("31-Dec-" + prev_year);
+	// 1. Second Supplier Cost Savings
+	total_cost = 0;
+	saved_cost = 0;
+	// Build a lookup map: product_key -> list of prices
+	product_price_map = Map();
+	// Get all vendors with their product details in ONE query
+	all_vendors = Vendors[ID != null && Product_Details != null];
+	for each  ven in all_vendors
+	{
+		if(ven.Product_Details != null)
+		{
+			for each  prod_detail in ven.Product_Details
+			{
+				if(prod_detail.Product_Name != null && prod_detail.Make != null)
+				{
+					// Create unique key for product
+					product_key = prod_detail.Product_Name + "|" + prod_detail.Make;
+					price = ifnull(prod_detail.Original_Price,0);
+					if(price > 0)
+					{
+						// Add price to the list for this product
+						if(product_price_map.containKey(product_key))
+						{
+							price_list = product_price_map.get(product_key);
+							price_list.add(price);
+							product_price_map.put(product_key,price_list);
+						}
+						else
+						{
+							price_list = List();
+							price_list.add(price);
+							product_price_map.put(product_key,price_list);
+						}
+					}
+				}
+			}
+		}
+	}
+	// Now calculate savings from the map
+	for each  product_key in product_price_map.keys()
+	{
+		price_list = product_price_map.get(product_key);
+		// Only calculate if multiple suppliers exist
+		if(price_list.size() > 1)
+		{
+			min_price = 999999999;
+			max_price = 0;
+			for each  price in price_list
+			{
+				if(price < min_price)
+				{
+					min_price = price;
+				}
+				if(price > max_price)
+				{
+					max_price = price;
+				}
+			}
+			if(max_price > 0 && min_price < max_price && min_price < 999999999)
+			{
+				saved_cost = saved_cost + max_price - min_price;
+				total_cost = total_cost + max_price;
+			}
+		}
+	}
+	// Format second supplier savings with appropriate unit
+	second_supplier_savings = "0";
+	if(saved_cost >= 100000)
+	{
+		value = (saved_cost / 100000).round(1);
+		second_supplier_savings = value.toString() + "L";
+	}
+	else if(saved_cost >= 1000)
+	{
+		value = (saved_cost / 1000).round(1);
+		second_supplier_savings = value.toString() + "K";
+	}
+	else if(saved_cost > 0)
+	{
+		second_supplier_savings = saved_cost.round(0).toString();
+	}
+	second_supplier_percent = 0;
+	if(total_cost > 0)
+	{
+		second_supplier_percent = (saved_cost * 100 / total_cost).round(1);
+	}
+	// 2. Scrap Value Realized
+	scrap_current_year = 0;
+	rej_repl_current = Rejection_And_Replacement_Register[ID != null && Defective_Product != null && Date_field >= year_start && Date_field <= curr_date];
+	for each  dat in rej_repl_current
+	{
+		scrap_current_year = scrap_current_year + ifnull(dat.Defective_Product.Price,0);
+	}
+	// Previous year scrap value
+	scrap_prev_year = 0;
+	rej_repl_prev = Rejection_And_Replacement_Register[ID != null && Defective_Product != null && Date_field >= prev_year_start && Date_field <= prev_year_end];
+	for each  dat in rej_repl_prev
+	{
+		scrap_prev_year = scrap_prev_year + ifnull(dat.Defective_Product.Price,0);
+	}
+	// Format scrap value with appropriate unit
+	scrap_value_realized = "0";
+	if(scrap_current_year >= 100000)
+	{
+		value = (scrap_current_year / 100000).round(1);
+		scrap_value_realized = value.toString() + "L";
+	}
+	else if(scrap_current_year >= 1000)
+	{
+		value = (scrap_current_year / 1000).round(1);
+		scrap_value_realized = value.toString() + "K";
+	}
+	else if(scrap_current_year > 0)
+	{
+		scrap_value_realized = scrap_current_year.round(0).toString();
+	}
+	// Calculate percentage change - UPDATED LOGIC with early-year handling
+	scrap_value_change = "0";
+	days_into_year = daysBetween(year_start,curr_date);
+	if(scrap_prev_year > 0 && scrap_current_year > 0)
+	{
+		change_percent = ((scrap_current_year - scrap_prev_year) * 100 / scrap_prev_year).round(0);
+		if(change_percent > 0)
+		{
+			scrap_value_change = "+" + change_percent.toString();
+		}
+		else if(change_percent < 0)
+		{
+			scrap_value_change = change_percent.toString();
+		}
+		else
+		{
+			scrap_value_change = "0";
+		}
+	}
+	else if(scrap_current_year > 0 && scrap_prev_year == 0)
+	{
+		scrap_value_change = "+100";
+	}
+	else if(scrap_current_year == 0 && scrap_prev_year > 0)
+	{
+		// Early in the year (first 3 months) - data still accumulating
+		if(days_into_year < 90)
+		{
+			scrap_value_change = "Pending";
+		}
+		else
+		{
+			scrap_value_change = "-100";
+		}
+	}
+	else if(scrap_current_year == 0 && scrap_prev_year == 0)
+	{
+		scrap_value_change = "No data";
+	}
+	// 3. Non-Moving Stock Reduction
+	// Current year non-moving stock
+	six_months_ago = curr_date.subMonth(6);
+	current_non_moving = Product[ID != null && Available_Stock > 0 && Last_Order_Date < six_months_ago];
+	current_non_moving_value = 0;
+	for each  prod in current_non_moving
+	{
+		product_value = ifnull(prod.Price,0) * ifnull(prod.Available_Stock,0);
+		current_non_moving_value = current_non_moving_value + product_value;
+	}
+	// Previous year non-moving stock
+	prev_year_six_months = prev_year_end.subMonth(6);
+	prev_non_moving = Product[ID != null && Available_Stock > 0 && Last_Order_Date < prev_year_six_months && Last_Order_Date <= prev_year_end];
+	prev_non_moving_value = 0;
+	for each  prod in prev_non_moving
+	{
+		product_value = ifnull(prod.Price,0) * ifnull(prod.Available_Stock,0);
+		prev_non_moving_value = prev_non_moving_value + product_value;
+	}
+	// Calculate reduction with appropriate unit
+	non_moving_stock_reduction = "0";
+	non_moving_stock_percent = 0;
+	if(prev_non_moving_value > current_non_moving_value && prev_non_moving_value > 0)
+	{
+		reduction_amount = prev_non_moving_value - current_non_moving_value;
+		// Format with appropriate unit
+		if(reduction_amount >= 100000)
+		{
+			value = (reduction_amount / 100000).round(1);
+			non_moving_stock_reduction = value.toString() + "L";
+		}
+		else if(reduction_amount >= 1000)
+		{
+			value = (reduction_amount / 1000).round(1);
+			non_moving_stock_reduction = value.toString() + "K";
+		}
+		else if(reduction_amount > 0)
+		{
+			non_moving_stock_reduction = reduction_amount.round(0).toString();
+		}
+		non_moving_stock_percent = (reduction_amount * 100 / prev_non_moving_value).round(1);
+	}
+	// 4. Indirect Expense Reduction
+	// Current year indirect expenses
+	fabrication_current = 0;
+	rework_current = Rework_Register[ID != null && Date_field >= year_start && Date_field <= curr_date].sum(Total_Expence);
+	transit_current = 0;
+	indirect_current = ifnull(fabrication_current,0) + ifnull(rework_current,0) + ifnull(transit_current,0);
+	// Previous year indirect expenses
+	fabrication_prev = 0;
+	rework_prev = Rework_Register[ID != null && Date_field >= prev_year_start && Date_field <= prev_year_end].sum(Total_Expence);
+	transit_prev = 0;
+	indirect_prev = ifnull(fabrication_prev,0) + ifnull(rework_prev,0) + ifnull(transit_prev,0);
+	// Calculate reduction with appropriate unit
+	indirect_expense_reduction = "0";
+	indirect_expense_percent = 0;
+	if(indirect_prev > indirect_current && indirect_prev > 0)
+	{
+		reduction_amount = indirect_prev - indirect_current;
+		// Format with appropriate unit
+		if(reduction_amount >= 100000)
+		{
+			value = (reduction_amount / 100000).round(1);
+			indirect_expense_reduction = value.toString() + "L";
+		}
+		else if(reduction_amount >= 1000)
+		{
+			value = (reduction_amount / 1000).round(1);
+			indirect_expense_reduction = value.toString() + "K";
+		}
+		else if(reduction_amount > 0)
+		{
+			indirect_expense_reduction = reduction_amount.round(0).toString();
+		}
+		indirect_expense_percent = (reduction_amount * 100 / indirect_prev).round(0);
+	}
+	// 5. Calculate Total Annual Savings
+	// Extract numeric values for total calculation
+	second_supplier_numeric = saved_cost;
+	scrap_numeric = scrap_current_year;
+	// Calculate non-moving stock reduction numeric
+	non_moving_numeric = 0;
+	if(prev_non_moving_value > current_non_moving_value && prev_non_moving_value > 0)
+	{
+		non_moving_numeric = prev_non_moving_value - current_non_moving_value;
+	}
+	// Calculate indirect expense reduction numeric
+	indirect_numeric = 0;
+	if(indirect_prev > indirect_current && indirect_prev > 0)
+	{
+		indirect_numeric = indirect_prev - indirect_current;
+	}
+	total_savings_amount = second_supplier_numeric + scrap_numeric + non_moving_numeric + indirect_numeric;
+	// Format total with appropriate unit
+	total_annual_savings = "0";
+	if(total_savings_amount >= 100000)
+	{
+		value = (total_savings_amount / 100000).round(1);
+		total_annual_savings = value.toString() + "L";
+	}
+	else if(total_savings_amount >= 1000)
+	{
+		value = (total_savings_amount / 1000).round(1);
+		total_annual_savings = value.toString() + "K";
+	}
+	else if(total_savings_amount > 0)
+	{
+		total_annual_savings = total_savings_amount.round(0).toString();
+	}
+	// Build response map
+	res_map = Map();
+	res_map.put("second_supplier_savings",second_supplier_savings);
+	res_map.put("second_supplier_percent",second_supplier_percent);
+	res_map.put("scrap_value_realized",scrap_value_realized);
+	res_map.put("scrap_value_change",scrap_value_change);
+	res_map.put("non_moving_stock_reduction",non_moving_stock_reduction);
+	res_map.put("non_moving_stock_percent",non_moving_stock_percent);
+	res_map.put("indirect_expense_reduction",indirect_expense_reduction);
+	res_map.put("indirect_expense_percent",indirect_expense_percent);
+	res_map.put("total_annual_savings",total_annual_savings);
+	return res_map;
+}
+
+
+map yearlyStore.getMaterialLeadTimeTrend()
+{
+	result = Map();
+	labels = List();
+	values = List();
+	heights = List();
+	quarter_map = Map();
+	max_lead_time = 0;
+	start_date = zoho.currentdate.subMonth(18);
+	// Fetch records
+	po_records = Purchase_Order_Register[ID != null && Received_Date >= start_date && PO_No.PO_Date != null && Received_Date != null];
+	// Process records
+	for each  po in po_records
+	{
+		try 
+		{
+			// Calculate lead time
+			lead_days = daysBetween(po.PO_No.PO_Date,po.Received_Date);
+			if(lead_days < 0 || lead_days == null)
+			{
+				continue;
+			}
+			year = po.Received_Date.getYear();
+			month = po.Received_Date.getMonth();
+			// Determine quarter
+			quarter = "Q4";
+			if(month <= 3)
+			{
+				quarter = "Q1";
+			}
+			else if(month <= 6)
+			{
+				quarter = "Q2";
+			}
+			else if(month <= 9)
+			{
+				quarter = "Q3";
+			}
+			q_key = quarter + "'" + year.toString().right(2);
+			// Update quarter map
+			if(!quarter_map.containKey(q_key))
+			{
+				quarter_map.put(q_key,{"total":lead_days,"count":1});
+			}
+			else
+			{
+				q = quarter_map.get(q_key);
+				q.put("total",q.get("total") + lead_days);
+				q.put("count",q.get("count") + 1);
+				quarter_map.put(q_key,q);
+			}
+		}
+		catch (e)
+		{
+			// Log error and continue
+			info "Error processing PO: " + e;
+			continue;
+		}
+	}
+	/* ---------- FALLBACK WHEN NO DATA ---------- */
+	/* ---------- NORMAL FLOW ---------- */
+	q_keys = quarter_map.keys().sort();
+	// Calculate values and find max
+	for each  q in q_keys
+	{
+		data = quarter_map.get(q);
+		avg = (data.get("total") / data.get("count")).round(0);
+		labels.add(q);
+		values.add(avg);
+		if(avg > max_lead_time)
+		{
+			max_lead_time = avg;
+		}
+	}
+	// Calculate heights (percentage of max)
+	if(max_lead_time > 0)
+	{
+		for each  v in values
+		{
+			h = (v * 100 / max_lead_time).round(0);
+			heights.add(h);
+		}
+	}
+	else
+	{
+		// If somehow max is still 0, add 0 heights
+		for each  v in values
+		{
+			heights.add(0);
+		}
+	}
+	result.put("labels",labels);
+	result.put("values",values);
+	result.put("heights",heights);
+	result.put("max",max_lead_time);
+	return result;
+}
+
+
+map yearlyStore.getMaterialTypeMovementRatio()
+{
+	result = Map();
+	// Totals in RUPEES
+	raw_material_total = 0;
+	trading_total = 0;
+	red_tag_total = 0;
+	// Date range (current year)
+	start_date = zoho.currentdate.getYear() + "-01-01";
+	end_date = zoho.currentdate;
+	// Fetch approved material requisitions
+	material_reqs = Material_Requisition1[Date_field >= start_date && Date_field <= end_date && Status == "Approved"];
+	for each  req in material_reqs
+	{
+		line_items = req.Item_Details;
+		if(line_items == null)
+		{
+			continue;
+		}
+		for each  item in line_items
+		{
+			line_total = item.Line_Total;
+			if(line_total == null || line_total <= 0)
+			{
+				continue;
+			}
+			product_ref = item.Product_Code;
+			if(product_ref == null)
+			{
+				raw_material_total = raw_material_total + line_total;
+				continue;
+			}
+			product = Product[Product_Code == product_ref.Product_Code];
+			if(product == null)
+			{
+				raw_material_total = raw_material_total + line_total;
+				continue;
+			}
+			// Red Tag has highest priority
+			if(product.Is_Red_Tag_Material == true)
+			{
+				red_tag_total = red_tag_total + line_total;
+				continue;
+			}
+			// Classification by name / type
+			product_name = product.Product_Name;
+			product_type = product.Product_Type;
+			if(product_name != null)
+			{
+				name = product_name.toLowerCase();
+				if(name == "raw materials" || name == "manufacturing units" || name == "finished goods")
+				{
+					raw_material_total = raw_material_total + line_total;
+				}
+				else if(name == "service" || name == "tools" || name == "stand by")
+				{
+					trading_total = trading_total + line_total;
+				}
+				else
+				{
+					raw_material_total = raw_material_total + line_total;
+				}
+			}
+			else if(product_type != null)
+			{
+				type = product_type.toLowerCase();
+				if(type.contains("raw") || type.contains("material") || type.contains("manufacturing"))
+				{
+					raw_material_total = raw_material_total + line_total;
+				}
+				else if(type.contains("trading") || type.contains("service") || type.contains("tool"))
+				{
+					trading_total = trading_total + line_total;
+				}
+				else
+				{
+					raw_material_total = raw_material_total + line_total;
+				}
+			}
+			else
+			{
+				raw_material_total = raw_material_total + line_total;
+			}
+		}
+	}
+	// -----------------------------
+	// GRAND TOTAL
+	// -----------------------------
+	grand_total = raw_material_total + trading_total + red_tag_total;
+	// HARD GUARD (NO DATA CASE)
+	if(grand_total <= 0)
+	{
+		result.put("unit","₹");
+		result.put("raw_material_value",0);
+		result.put("raw_material_percent",0);
+		result.put("trading_value",0);
+		result.put("trading_percent",0);
+		result.put("red_tag_value",0);
+		result.put("red_tag_percent",0);
+		result.put("total",0);
+		result.put("raw_degrees",0);
+		result.put("trading_start",0);
+		result.put("trading_degrees",0);
+		result.put("red_tag_start",0);
+		return result;
+	}
+	// -----------------------------
+	// PERCENTAGES
+	// -----------------------------
+	raw_percent = (raw_material_total * 100 / grand_total).round(0);
+	trading_percent = (trading_total * 100 / grand_total).round(0);
+	red_tag_percent = (red_tag_total * 100 / grand_total).round(0);
+	// -----------------------------
+	// AUTO UNIT DETECTION
+	// -----------------------------
+	unit = "₹";
+	divider = 1;
+	if(grand_total >= 100000)
+	{
+		unit = "L";
+		divider = 100000;
+	}
+	else if(grand_total >= 1000)
+	{
+		unit = "K";
+		divider = 1000;
+	}
+	raw_display = (raw_material_total / divider).round(1);
+	trading_display = (trading_total / divider).round(1);
+	red_display = (red_tag_total / divider).round(1);
+	total_display = (grand_total / divider).round(1);
+	// -----------------------------
+	// DONUT ANGLES
+	// -----------------------------
+	raw_degrees = (raw_percent * 360 / 100).round(0);
+	trading_start = raw_degrees;
+	trading_degrees = trading_start + (trading_percent * 360 / 100).round(0);
+	red_tag_start = trading_degrees;
+	// -----------------------------
+	// RESULT MAP
+	// -----------------------------
+	result.put("unit",unit);
+	result.put("raw_material_value",raw_display);
+	result.put("raw_material_percent",raw_percent);
+	result.put("trading_value",trading_display);
+	result.put("trading_percent",trading_percent);
+	result.put("red_tag_value",red_display);
+	result.put("red_tag_percent",red_tag_percent);
+	result.put("total",total_display);
+	result.put("raw_degrees",raw_degrees);
+	result.put("trading_start",trading_start);
+	result.put("trading_degrees",trading_degrees);
+	result.put("red_tag_start",red_tag_start);
+	return result;
+}
+
+float yearlyStore.getSecondSupplierSavings(date fromDate, date toDate)
+{
+	saved_cost = 0;
+	product_price_map = Map();
+	vendors = Vendors[ID != null && Product_Details != null];
+	for each  ven in vendors
+	{
+		for each  pd in ven.Product_Details
+		{
+			if(pd.Product_Name != null && pd.Make != null)
+			{
+				key = pd.Product_Name + "|" + pd.Make;
+				price = ifnull(pd.Original_Price,0);
+				if(price > 0)
+				{
+					if(product_price_map.containKey(key))
+					{
+						lst = product_price_map.get(key);
+						lst.add(price);
+					}
+					else
+					{
+						lst = List();
+						lst.add(price);
+						product_price_map.put(key,lst);
+					}
+				}
+			}
+		}
+	}
+	for each  key in product_price_map.keys()
+	{
+		prices = product_price_map.get(key);
+		if(prices.size() > 1)
+		{
+			min_p = prices.get(0);
+			max_p = prices.get(0);
+			for each  p in prices
+			{
+				min_p = if(p < min_p,p,min_p);
+				max_p = if(p > max_p,p,max_p);
+			}
+			if(max_p > min_p)
+			{
+				saved_cost = saved_cost + max_p - min_p;
+			}
+		}
+	}
+	return saved_cost;
+}
+
+float yearlyStore.getSecondSupplierSavings(date fromDate, date toDate)
+{
+	saved_cost = 0;
+	product_price_map = Map();
+	vendors = Vendors[ID != null && Product_Details != null];
+	for each  ven in vendors
+	{
+		for each  pd in ven.Product_Details
+		{
+			if(pd.Product_Name != null && pd.Make != null)
+			{
+				key = pd.Product_Name + "|" + pd.Make;
+				price = ifnull(pd.Original_Price,0);
+				if(price > 0)
+				{
+					if(product_price_map.containKey(key))
+					{
+						lst = product_price_map.get(key);
+						lst.add(price);
+					}
+					else
+					{
+						lst = List();
+						lst.add(price);
+						product_price_map.put(key,lst);
+					}
+				}
+			}
+		}
+	}
+	for each  key in product_price_map.keys()
+	{
+		prices = product_price_map.get(key);
+		if(prices.size() > 1)
+		{
+			min_p = prices.get(0);
+			max_p = prices.get(0);
+			for each  p in prices
+			{
+				min_p = if(p < min_p,p,min_p);
+				max_p = if(p > max_p,p,max_p);
+			}
+			if(max_p > min_p)
+			{
+				saved_cost = saved_cost + max_p - min_p;
+			}
+		}
+	}
+	return saved_cost;
+}
+
+
+
+string yearlyStore.getStatusBadge(float change, bool isLowerBetter)
+{
+	abs_change = change.abs();
+	is_positive = false;
+	// Determine if this is a positive change based on the metric type
+	if(isLowerBetter)
+	{
+		// For metrics where lower is better (costs, lead time)
+		if(change > 0)
+		{
+			is_positive = true;
+		}
+	}
+	else
+	{
+		// For metrics where higher is better (rating, suppliers, savings)
+		if(change > 0)
+		{
+			is_positive = true;
+		}
+	}
+	// Return appropriate status based on whether change is positive
+	if(is_positive)
+	{
+		// Good change - use positive statuses
+		if(abs_change >= 20)
+		{
+			return "excellent";
+		}
+		else if(abs_change >= 10)
+		{
+			return "good";
+		}
+		else
+		{
+			return "average";
+		}
+	}
+	else
+	{
+		// Bad change - use negative statuses
+		if(abs_change >= 10)
+		{
+			return "poor";
+		}
+		else
+		{
+			return "average";
+		}
+	}
+}
+
+
+map yearlyStore.getSupplierOnboardingAndRating()
+{
+	result = Map();
+	current_year = zoho.currentdate.getYear();
+	supplier_counts = List();
+	supplier_ratings = List();
+	supplier_count_heights = List();
+	supplier_rating_heights = List();
+	max_count = 0;
+	max_rating = 100;
+	/* ---------- YEAR 1 ---------- */
+	y = current_year - 3;
+	year_start = toDate("01-Jan-" + y.toString());
+	year_end = toDate("31-Dec-" + y.toString());
+	count = Vendors[Vendor_Status == "Approved" && Added_Time >= year_start && Added_Time <= year_end].count();
+	supplier_counts.add(count);
+	if(count > max_count)
+	{
+		max_count = count;
+	}
+	rating = Supplier_Rating[Date_field >= year_start && Date_field <= year_end && Total_Rating > 0].avg(Total_Rating);
+	supplier_ratings.add(ifnull(rating,0));
+	/* ---------- YEAR 2 ---------- */
+	y = current_year - 2;
+	year_start = toDate("01-Jan-" + y.toString());
+	year_end = toDate("31-Dec-" + y.toString());
+	count = Vendors[Added_Time >= year_start && Added_Time <= year_end].count();
+	supplier_counts.add(count);
+	if(count > max_count)
+	{
+		max_count = count;
+	}
+	rating = Supplier_Rating[Date_field >= year_start && Date_field <= year_end && Total_Rating > 0].avg(Total_Rating);
+	supplier_ratings.add(ifnull(rating,0));
+	/* ---------- YEAR 3 ---------- */
+	y = current_year - 1;
+	year_start = toDate("01-Jan-" + y.toString());
+	year_end = toDate("31-Dec-" + y.toString());
+	count = Vendors[Added_Time >= year_start && Added_Time <= year_end].count();
+	supplier_counts.add(count);
+	if(count > max_count)
+	{
+		max_count = count;
+	}
+	rating = Supplier_Rating[Date_field >= year_start && Date_field <= year_end && Total_Rating > 0].avg(Total_Rating);
+	supplier_ratings.add(ifnull(rating,0));
+	/* ---------- YEAR 4 ---------- */
+	y = current_year;
+	year_start = toDate("01-Jan-" + y.toString());
+	year_end = toDate("31-Dec-" + y.toString());
+	count = Vendors[Added_Time >= year_start && Added_Time <= year_end].count();
+	supplier_counts.add(count);
+	if(count > max_count)
+	{
+		max_count = count;
+	}
+	rating = Supplier_Rating[Date_field >= year_start && Date_field <= year_end && Total_Rating > 0 && Supplier_Name != null].avg(Total_Rating);
+	supplier_ratings.add(ifnull(rating,0));
+	/* ---------- HEIGHTS ---------- */
+	for each  c in supplier_counts
+	{
+		h = 0;
+		if(max_count > 0)
+		{
+			h = (c * 100 / max_count).round(0);
+		}
+		supplier_count_heights.add(h);
+	}
+	for each  r in supplier_ratings
+	{
+		supplier_rating_heights.add((r * 100 / max_rating).round(0));
+	}
+	result.put("supplier_counts",supplier_counts);
+	result.put("supplier_ratings",supplier_ratings);
+	result.put("supplier_count_heights",supplier_count_heights);
+	result.put("supplier_rating_heights",supplier_rating_heights);
+	result.put("max_count",max_count);
+	return result;
+}
+
+
+
+map yearlyStore.getTileSectionData()
+{
+	curr_date = zoho.currentdate;
+	// Calculate year start manually
+	current_year = curr_date.toString("yyyy").toNumber();
+	year_start = toDate("01-Jan-" + current_year);
+	// Previous year dates
+	prev_year = current_year - 1;
+	prev_year_start = toDate("01-Jan-" + prev_year);
+	prev_year_end = toDate("31-Dec-" + prev_year);
+	// 1. % Reduction in Non-Moving Stock
+	// Current year non-moving stock (stocks that haven't moved in 6+ months as of today)
+	six_months_ago = curr_date.subMonth(6);
+	current_non_moving = Product[ID != null && Available_Stock > 0 && Last_Order_Date < six_months_ago];
+	current_non_moving_value = 0;
+	for each  prod in current_non_moving
+	{
+		product_value = ifnull(prod.Price,0) * ifnull(prod.Available_Stock,0);
+		current_non_moving_value = current_non_moving_value + product_value;
+	}
+	// Previous year non-moving stock (stocks that hadn't moved in 6+ months as of Dec 31 prev year)
+	prev_year_six_months = prev_year_end.subMonth(6);
+	prev_non_moving = Product[ID != null && Available_Stock > 0 && Last_Order_Date < prev_year_six_months && Last_Order_Date <= prev_year_end];
+	prev_non_moving_value = 0;
+	for each  prod in prev_non_moving
+	{
+		product_value = ifnull(prod.Price,0) * ifnull(prod.Available_Stock,0);
+		prev_non_moving_value = prev_non_moving_value + product_value;
+	}
+	red_non_moving_stocks = 0;
+	if(prev_non_moving_value > 0)
+	{
+		red_non_moving_stocks = ((prev_non_moving_value - current_non_moving_value) * 100 / prev_non_moving_value).round(1);
+	}
+	// 2. % Cost Saved via Second Suppliers - OPTIMIZED
+	total_cost = 0;
+	saved_cost = 0;
+	// Build a lookup map: product_key -> list of prices
+	product_price_map = Map();
+	// Get all vendors with their product details in ONE query
+	all_vendors = Vendors[ID != null && Product_Details != null];
+	for each  ven in all_vendors
+	{
+		if(ven.Product_Details != null)
+		{
+			for each  prod_detail in ven.Product_Details
+			{
+				if(prod_detail.Product_Name != null && prod_detail.Make != null)
+				{
+					// Create unique key for product
+					product_key = prod_detail.Product_Name + "|" + prod_detail.Make;
+					price = ifnull(prod_detail.Original_Price,0);
+					if(price > 0)
+					{
+						// Add price to the list for this product
+						if(product_price_map.containKey(product_key))
+						{
+							price_list = product_price_map.get(product_key);
+							price_list.add(price);
+							product_price_map.put(product_key,price_list);
+						}
+						else
+						{
+							price_list = List();
+							price_list.add(price);
+							product_price_map.put(product_key,price_list);
+						}
+					}
+				}
+			}
+		}
+	}
+	info product_price_map;
+	// Now calculate savings from the map
+	for each  product_key in product_price_map.keys()
+	{
+		price_list = product_price_map.get(product_key);
+		// Only calculate if multiple suppliers exist
+		if(price_list.size() > 1)
+		{
+			min_price = 999999999;
+			max_price = 0;
+			for each  price in price_list
+			{
+				if(price < min_price)
+				{
+					min_price = price;
+				}
+				if(price > max_price)
+				{
+					max_price = price;
+				}
+			}
+			if(max_price > 0 && min_price < max_price && min_price < 999999999)
+			{
+				saved_cost = saved_cost + max_price - min_price;
+				total_cost = total_cost + max_price;
+			}
+		}
+	}
+	cost_saved_via_second_supplier = 0;
+	if(total_cost > 0)
+	{
+		cost_saved_via_second_supplier = (saved_cost * 100 / total_cost).round(1);
+	}
+	// 3. % Improvement in Supplier Ratings (YOY Comparison)
+	// Current year average rating
+	current_ratings = Supplier_Rating[ID != null && Date_field >= year_start && Date_field <= curr_date && Total_Rating > 0];
+	current_total = 0;
+	current_count = 0;
+	for each  rating in current_ratings
+	{
+		current_total = current_total + ifnull(rating.Total_Rating,0);
+		current_count = current_count + 1;
+	}
+	current_avg = 0;
+	if(current_count > 0)
+	{
+		current_avg = current_total / current_count;
+	}
+	// Previous year average rating
+	prev_ratings = Supplier_Rating[ID != null && Date_field >= prev_year_start && Date_field <= prev_year_end && Total_Rating > 0];
+	prev_total = 0;
+	prev_count = 0;
+	for each  rating in prev_ratings
+	{
+		prev_total = prev_total + ifnull(rating.Total_Rating,0);
+		prev_count = prev_count + 1;
+	}
+	prev_avg = 0;
+	if(prev_count > 0)
+	{
+		prev_avg = prev_total / prev_count;
+	}
+	improvement_in_supplier_rating = 0;
+	// Calculate ONLY if both years have ratings
+	if(prev_avg > 0 && current_count > 0)
+	{
+		improvement_in_supplier_rating = ((current_avg - prev_avg) * 100 / prev_avg).round(1);
+	}
+	else
+	{
+		improvement_in_supplier_rating = 0;
+	}
+	// 4. Risk Mitigations Implemented (Count from Risk Matrix)
+	risk_management_imp = Service_Executive[ID != null && Status == "Completed" && Risk_matrix != null && Modified_Time >= year_start && Modified_Time <= curr_date].count();
+	// 5. Total Indirect Expense (Fabrication + Rework + Transit)
+	fabrication_expense = 0;
+	rework_expense = Rework_Register[ID != null && Date_field >= year_start && Date_field <= curr_date].sum(Total_Expence);
+	transit_expense = 0;
+	total_indirect_expense = fabrication_expense + rework_expense + transit_expense;
+	// 6. Scrap Value Realized (Buy-back & Rejected Materials)
+	scrap_value_realized = 0;
+	rej_repl = Rejection_And_Replacement_Register[ID != null && Defective_Product != null && Date_field >= year_start && Date_field <= curr_date];
+	for each  dat in rej_repl
+	{
+		scrap_value_realized = ifnull(scrap_value_realized,0) + ifnull(dat.Defective_Product.Price,0);
+	}
+	// 7. Avg. Material Lead Time (Order to Receipt)
+	po_register_records = Purchase_Order_Register[ID != null && Received_Date >= year_start && Received_Date <= curr_date && PO_No.PO_Date != null && Received_Date != null];
+	total_lead_days = 0;
+	lead_count = 0;
+	for each  po_reg in po_register_records
+	{
+		if(po_reg.Received_Date != null && po_reg.PO_No.PO_Date != null)
+		{
+			lead_days = daysBetween(po_reg.PO_No.PO_Date,po_reg.Received_Date);
+			if(lead_days >= 0)
+			{
+				total_lead_days = total_lead_days + lead_days;
+				lead_count = lead_count + 1;
+			}
+		}
+	}
+	avg_mat_lead_time = 0;
+	if(lead_count > 0)
+	{
+		avg_mat_lead_time = (total_lead_days / lead_count).round(0);
+	}
+	// 8. New Suppliers Onboarded
+	new_suppliers_onboarded = Vendors[ID != null && Vendor_Status == "Approved" && Added_Time >= year_start && Added_Time <= curr_date].count();
+	// Response map
+	res_map = Map();
+	res_map.put("red_non_moving_stocks",red_non_moving_stocks);
+	res_map.put("cost_saved_sec_supplier",cost_saved_via_second_supplier);
+	res_map.put("impr_in_supplier_rating",improvement_in_supplier_rating);
+	res_map.put("risk_mgmt_imp",risk_management_imp);
+	res_map.put("total_indirect_exp",total_indirect_expense);
+	res_map.put("scrap_val_rlz",scrap_value_realized);
+	res_map.put("avg_mat_lead_time",avg_mat_lead_time);
+	res_map.put("new_supp_onboarded",new_suppliers_onboarded);
+	return res_map;
+}
+
+
+
+map yearlyStore.getYearlyIndirectExpense()
+{
+	curr_date = zoho.currentdate;
+	curr_year = curr_date.getYear();
+	curr_month = curr_date.getMonth();
+	MAX_EXPENSE = 30.0;
+	raw = List();
+	month_names = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+	// Loop only through months up to current month
+	for each  month_index in {1,2,3,4,5,6,7,8,9,10,11,12}
+	{
+		// Only process months up to current month
+		if(month_index > curr_month)
+		{
+			break;
+		}
+		// Pad month with leading zero if needed
+		month_str = month_index.toString();
+		if(month_index < 10)
+		{
+			month_str = "0" + month_str;
+		}
+		// Calculate month start date
+		date_string = curr_year.toString() + "-" + month_str + "-01";
+		month_start = date_string.toDate("yyyy-MM-dd");
+		// Calculate month end date
+		if(month_index == 12)
+		{
+			next_year = curr_year + 1;
+			next_date_string = next_year.toString() + "-01-01";
+		}
+		else
+		{
+			next_month = month_index + 1;
+			next_month_str = next_month.toString();
+			if(next_month < 10)
+			{
+				next_month_str = "0" + next_month_str;
+			}
+			next_date_string = curr_year.toString() + "-" + next_month_str + "-01";
+		}
+		next_month_start = next_date_string.toDate("yyyy-MM-dd");
+		month_end = next_month_start.subDay(1);
+		// Fetch rework expenses for this month
+		rework_val = Rework_Register[Date_field >= month_start && Date_field <= month_end].sum(Total_Expence);
+		if(rework_val == null)
+		{
+			rework_val = 0;
+		}
+		// Convert to lakhs
+		rework_lakhs = (rework_val / 100000).round(1);
+		raw.add({"month":month_names.get(month_index - 1),"fabrication":0,"rework":rework_lakhs,"transit":0});
+	}
+	// Find max value for dynamic scaling
+	max_rework = 0;
+	for each  r in raw
+	{
+		if(r.get("rework") > max_rework)
+		{
+			max_rework = r.get("rework");
+		}
+	}
+	// Use dynamic max or default 30L
+	if(max_rework > MAX_EXPENSE)
+	{
+		MAX_EXPENSE = max_rework;
+	}
+	// Calculate heights for chart
+	months_data = List();
+	for each  r in raw
+	{
+		fab_val = r.get("fabrication");
+		rew_val = r.get("rework");
+		tra_val = r.get("transit");
+		total_val = fab_val + rew_val + tra_val;
+		// Calculate percentage heights for stacked bar
+		fab_height = (fab_val / MAX_EXPENSE * 100).round(1);
+		rew_height = (rew_val / MAX_EXPENSE * 100).round(1);
+		tra_height = (tra_val / MAX_EXPENSE * 100).round(1);
+		months_data.add({"month":r.get("month"),"fabrication":fab_val,"rework":rew_val,"transit":tra_val,"total":total_val,"fab_height":fab_height,"rew_height":rew_height,"tra_height":tra_height});
+	}
+	result = Map();
+	result.put("months",months_data);
+	result.put("max_expense",MAX_EXPENSE);
+	return result;
+}
+
+map yearlyStore.getYearOverYearComparison()
+{
+	curr_date = zoho.currentdate;
+	// Calculate year start manually
+	current_year = curr_date.toString("yyyy").toNumber();
+	year_start = toDate("01-Jan-" + current_year);
+	// Previous year dates
+	prev_year = current_year - 1;
+	prev_year_start = toDate("01-Jan-" + prev_year);
+	prev_year_end = toDate("31-Dec-" + prev_year);
+	// ========== PREVIOUS YEAR (2024) DATA ==========
+	// 1. Non-Moving Stock - Previous Year
+	prev_year_six_months = prev_year_end.subMonth(6);
+	prev_non_moving = Product[ID != null && Available_Stock > 0 && Last_Order_Date < prev_year_six_months && Last_Order_Date <= prev_year_end];
+	prev_non_moving_value = 0;
+	for each  prod in prev_non_moving
+	{
+		product_value = ifnull(prod.Price,0) * ifnull(prod.Available_Stock,0);
+		prev_non_moving_value = prev_non_moving_value + product_value;
+	}
+	// Format previous year non-moving stock
+	prev_non_moving_stock = "0";
+	if(prev_non_moving_value >= 100000)
+	{
+		value = (prev_non_moving_value / 100000).round(1);
+		prev_non_moving_stock = "₹" + value.toString() + "L";
+	}
+	else if(prev_non_moving_value >= 1000)
+	{
+		value = (prev_non_moving_value / 1000).round(1);
+		prev_non_moving_stock = "₹" + value.toString() + "K";
+	}
+	else if(prev_non_moving_value > 0)
+	{
+		prev_non_moving_stock = "₹" + prev_non_moving_value.round(0).toString();
+	}
+	// 2. Indirect Expense - Previous Year
+	fabrication_prev = 0;
+	rework_prev = Rework_Register[ID != null && Date_field >= prev_year_start && Date_field <= prev_year_end].sum(Total_Expence);
+	transit_prev = 0;
+	prev_indirect_expense = ifnull(fabrication_prev,0) + ifnull(rework_prev,0) + ifnull(transit_prev,0);
+	// Format previous year indirect expense
+	prev_indirect_exp = "0";
+	if(prev_indirect_expense >= 100000)
+	{
+		value = (prev_indirect_expense / 100000).round(1);
+		prev_indirect_exp = "₹" + value.toString() + "L";
+	}
+	else if(prev_indirect_expense >= 1000)
+	{
+		value = (prev_indirect_expense / 1000).round(1);
+		prev_indirect_exp = "₹" + value.toString() + "K";
+	}
+	else if(prev_indirect_expense > 0)
+	{
+		prev_indirect_exp = "₹" + prev_indirect_expense.round(0).toString();
+	}
+	// 3. Avg Supplier Rating - Previous Year
+	prev_ratings = Supplier_Rating[ID != null && Date_field >= prev_year_start && Date_field <= prev_year_end && Total_Rating > 0];
+	prev_total = 0;
+	prev_count = 0;
+	for each  rating in prev_ratings
+	{
+		prev_total = prev_total + ifnull(rating.Total_Rating,0);
+		prev_count = prev_count + 1;
+	}
+	prev_avg_rating = 0;
+	if(prev_count > 0)
+	{
+		prev_avg_rating = (prev_total / prev_count).round(0);
+	}
+	prev_supplier_rating = prev_avg_rating.toString() + "%";
+	// 4. Lead Time - Previous Year
+	prev_po_records = Purchase_Order_Register[ID != null && Received_Date >= prev_year_start && Received_Date <= prev_year_end && PO_No.PO_Date != null && Received_Date != null];
+	prev_total_lead_days = 0;
+	prev_lead_count = 0;
+	for each  po_reg in prev_po_records
+	{
+		if(po_reg.Received_Date != null && po_reg.PO_No.PO_Date != null)
+		{
+			lead_days = daysBetween(po_reg.PO_No.PO_Date,po_reg.Received_Date);
+			if(lead_days >= 0)
+			{
+				prev_total_lead_days = prev_total_lead_days + lead_days;
+				prev_lead_count = prev_lead_count + 1;
+			}
+		}
+	}
+	prev_avg_lead_time = 0;
+	if(prev_lead_count > 0)
+	{
+		prev_avg_lead_time = (prev_total_lead_days / prev_lead_count).round(0);
+	}
+	prev_lead_time = prev_avg_lead_time.toString() + " Days";
+	// ========== CURRENT YEAR (2025) DATA ==========
+	// 1. Non-Moving Stock - Current Year
+	six_months_ago = curr_date.subMonth(6);
+	current_non_moving = Product[ID != null && Available_Stock > 0 && Last_Order_Date < six_months_ago];
+	current_non_moving_value = 0;
+	for each  prod in current_non_moving
+	{
+		product_value = ifnull(prod.Price,0) * ifnull(prod.Available_Stock,0);
+		current_non_moving_value = current_non_moving_value + product_value;
+	}
+	// Format current year non-moving stock
+	curr_non_moving_stock = "0";
+	if(current_non_moving_value >= 100000)
+	{
+		value = (current_non_moving_value / 100000).round(1);
+		curr_non_moving_stock = "₹" + value.toString() + "L";
+	}
+	else if(current_non_moving_value >= 1000)
+	{
+		value = (current_non_moving_value / 1000).round(1);
+		curr_non_moving_stock = "₹" + value.toString() + "K";
+	}
+	else if(current_non_moving_value > 0)
+	{
+		curr_non_moving_stock = "₹" + current_non_moving_value.round(0).toString();
+	}
+	// Calculate change percentage for non-moving stock
+	non_moving_change = 0;
+	non_moving_change_text = "";
+	if(prev_non_moving_value > 0)
+	{
+		non_moving_change = ((prev_non_moving_value - current_non_moving_value) * 100 / prev_non_moving_value).round(1);
+		if(non_moving_change > 0)
+		{
+			non_moving_change_text = "↓ " + non_moving_change.toString() + "%";
+		}
+		else if(non_moving_change < 0)
+		{
+			non_moving_change_text = "↑ " + (non_moving_change * -1).toString() + "%";
+		}
+		else
+		{
+			non_moving_change_text = "0%";
+		}
+	}
+	// 2. Indirect Expense - Current Year
+	fabrication_current = 0;
+	rework_current = Rework_Register[ID != null && Date_field >= year_start && Date_field <= curr_date].sum(Total_Expence);
+	transit_current = 0;
+	current_indirect_expense = ifnull(fabrication_current,0) + ifnull(rework_current,0) + ifnull(transit_current,0);
+	// Format current year indirect expense
+	curr_indirect_exp = "0";
+	if(current_indirect_expense >= 100000)
+	{
+		value = (current_indirect_expense / 100000).round(1);
+		curr_indirect_exp = "₹" + value.toString() + "L";
+	}
+	else if(current_indirect_expense >= 1000)
+	{
+		value = (current_indirect_expense / 1000).round(1);
+		curr_indirect_exp = "₹" + value.toString() + "K";
+	}
+	else if(current_indirect_expense > 0)
+	{
+		curr_indirect_exp = "₹" + current_indirect_expense.round(0).toString();
+	}
+	// Calculate change percentage for indirect expense
+	indirect_change = 0;
+	indirect_change_text = "";
+	if(prev_indirect_expense > 0)
+	{
+		indirect_change = ((prev_indirect_expense - current_indirect_expense) * 100 / prev_indirect_expense).round(0);
+		if(indirect_change > 0)
+		{
+			indirect_change_text = "↓ " + indirect_change.toString() + "%";
+		}
+		else if(indirect_change < 0)
+		{
+			indirect_change_text = "↑ " + (indirect_change * -1).toString() + "%";
+		}
+		else
+		{
+			indirect_change_text = "0%";
+		}
+	}
+	// 3. Avg Supplier Rating - Current Year
+	current_ratings = Supplier_Rating[ID != null && Date_field >= year_start && Date_field <= curr_date && Total_Rating > 0];
+	current_total = 0;
+	current_count = 0;
+	for each  rating in current_ratings
+	{
+		current_total = current_total + ifnull(rating.Total_Rating,0);
+		current_count = current_count + 1;
+	}
+	current_avg_rating = 0;
+	if(current_count > 0)
+	{
+		current_avg_rating = (current_total / current_count).round(0);
+	}
+	curr_supplier_rating = current_avg_rating.toString() + "%";
+	// Calculate change percentage for supplier rating
+	rating_change = 0;
+	rating_change_text = "";
+	if(prev_avg_rating > 0)
+	{
+		rating_change = ((current_avg_rating - prev_avg_rating) * 100 / prev_avg_rating).round(0);
+		if(rating_change > 0)
+		{
+			rating_change_text = "↑ " + rating_change.toString() + "%";
+		}
+		else if(rating_change < 0)
+		{
+			rating_change_text = "↓ " + (rating_change * -1).toString() + "%";
+		}
+		else
+		{
+			rating_change_text = "0%";
+		}
+	}
+	// 4. Lead Time - Current Year
+	current_po_records = Purchase_Order_Register[ID != null && Received_Date >= year_start && Received_Date <= curr_date && PO_No.PO_Date != null && Received_Date != null];
+	current_total_lead_days = 0;
+	current_lead_count = 0;
+	for each  po_reg in current_po_records
+	{
+		if(po_reg.Received_Date != null && po_reg.PO_No.PO_Date != null)
+		{
+			lead_days = daysBetween(po_reg.PO_No.PO_Date,po_reg.Received_Date);
+			if(lead_days >= 0)
+			{
+				current_total_lead_days = current_total_lead_days + lead_days;
+				current_lead_count = current_lead_count + 1;
+			}
+		}
+	}
+	current_avg_lead_time = 0;
+	if(current_lead_count > 0)
+	{
+		current_avg_lead_time = (current_total_lead_days / current_lead_count).round(0);
+	}
+	curr_lead_time = current_avg_lead_time.toString() + " Days";
+	// Calculate change percentage for lead time
+	lead_time_change = 0;
+	lead_time_change_text = "";
+	if(prev_avg_lead_time > 0)
+	{
+		lead_time_change = ((prev_avg_lead_time - current_avg_lead_time) * 100 / prev_avg_lead_time).round(0);
+		if(lead_time_change > 0)
+		{
+			lead_time_change_text = "↓ " + lead_time_change.toString() + "%";
+		}
+		else if(lead_time_change < 0)
+		{
+			lead_time_change_text = "↑ " + (lead_time_change * -1).toString() + "%";
+		}
+		else
+		{
+			lead_time_change_text = "0%";
+		}
+	}
+	// Build response map
+	res_map = Map();
+	// Previous Year Data
+	res_map.put("prev_year",prev_year);
+	res_map.put("prev_non_moving_stock",prev_non_moving_stock);
+	res_map.put("prev_indirect_exp",prev_indirect_exp);
+	res_map.put("prev_supplier_rating",prev_supplier_rating);
+	res_map.put("prev_lead_time",prev_lead_time);
+	// Current Year Data
+	res_map.put("curr_year",current_year);
+	res_map.put("curr_non_moving_stock",curr_non_moving_stock);
+	res_map.put("curr_indirect_exp",curr_indirect_exp);
+	res_map.put("curr_supplier_rating",curr_supplier_rating);
+	res_map.put("curr_lead_time",curr_lead_time);
+	// Change Percentages
+	res_map.put("non_moving_change",non_moving_change_text);
+	res_map.put("indirect_change",indirect_change_text);
+	res_map.put("rating_change",rating_change_text);
+	res_map.put("lead_time_change",lead_time_change_text);
+	return res_map;
+}
+
+

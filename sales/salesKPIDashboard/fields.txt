@@ -1,0 +1,845 @@
+=== leads -> Customer_Calling_follow_up_Format (Customer_Calling_follow_up_Format) ===
+678 record(s) sampled, 22 field(s):
+Status, Customer_Company, GSTIN, Email, Address, Follow_up_Type, Reference, Follow_up_Date, Contact_Person, Phone_Number, Prepared_By, Customer_Number, Attachments, Referrer_Name, Item_Details, Lead_Date, Prepared_By.Employee_Name, Customer_Remarks, Next_Follow_up_Date, Lead_Source, ID, Notes
+
+Sample record:
+{
+  "Status": "Quote Created",
+  "Customer_Company": {
+    "Customer_Name.suffix": "",
+    "Customer_Name.first_name": "M/s. GANESH BAKERY",
+    "ID": "302392000002926053",
+    "Customer_Name.last_name": "",
+    "zc_display_value": "   M/s. GANESH BAKERY    ",
+    "Customer_Name.prefix": ""
+  },
+  "GSTIN": "",
+  "Email": "",
+  "Address": {
+    "Address.district_city": "Coimbatore",
+    "Address.state_province": "",
+    "Address.address_line_2": "",
+    "ID": "302392000002926056",
+    "zc_display_value": " Kanuvai   Coimbatore  ",
+    "Address.address_line_1": "Kanuvai"
+  },
+  "Follow_up_Type": "Call",
+  "Reference": "MD SIR",
+  "Follow_up_Date": "",
+  "Contact_Person": {
+    "prefix": "",
+    "last_name": "",
+    "suffix": "",
+    "first_name": "Mr. MADHAVAN",
+    "zc_display_value": "Mr. MADHAVAN"
+  },
+  "Phone_Number": "+919940512247",
+  "Prepared_By": {
+    "Employee_Name.suffix": "",
+    "Employee_Name.first_name": "Aruna",
+    "Employee_Name.last_name": "K",
+    "ID": "302392000000383071",
+    "Employee_Name.prefix": "",
+    "zc_display_value": "   Aruna K  "
+  },
+  "Customer_Number": "CUS-637",
+  "Attachments": [],
+  "Referrer_Name": {
+    "Add_Referrer": "MD SIR",
+    "ID": "302392000000227027",
+    "zc_display_value": "MD SIR"
+  },
+  "Item_Details": [
+    {
+      "Item_Name": {
+        "Model": "SAEW 325",
+        "ID": "302392000000246355",
+        "zc_display_value": "SAEW 325"
+      },
+      "Quantity": "1",
+      "S_No": "1",
+      "ID": "302392000002926059",
+      "zc_display_value": "1,SAEW 325,1"
+    },
+    {
+      "Item_Name": {
+        "Model": "25 KVA STEP UP AUTO TRANSFORMER - EC ",
+        "ID": "302392000002214005",
+        "zc_display_value": "25 KVA STEP UP AUTO TRANSFORMER - EC "
+      },
+      "Quantity": "1",
+      "S_No": "2",
+      "ID": "302392000002926061",
+      "zc_display_value": "2,25 KVA STEP UP AUTO TRANSFORMER - EC ,1"
+    },
+    {
+      "Item_Name": {
+        "Model": "25 KVA STEP UP AUTO TRANSFORMER - EC ",
+        "ID": "302392000002214005",
+        "zc_display_value": "25 KVA STEP UP AUTO TRANSFORMER - EC "
+      },
+      "Quantity": "1",
+      "S_No": "3",
+      "ID": "302392000002926063",
+      "zc_display_value": "3,25 KVA STEP UP AUTO TRANSFORMER - EC ,1"
+    }
+  ],
+  "Lead_Date": "24-09-2026",
+  "Prepared_By.Employee_Name": {
+    "prefix": "",
+    "last_name": "K",
+    "suffix": "",
+    "first_name": "Aruna",
+    "zc_display_value": "Aruna K"
+  },
+  "Customer_Remarks": "",
+  "Next_Follow_up_Date": "",
+  "Lead_Source": "Phone calls",
+  "ID": "302392000002926065",
+  "Notes": ""
+}
+
+=== quotation -> Quotation1 (Quotation1) ===
+705 record(s) sampled, 42 field(s):
+Follow_up_Type, Transportation, Contact_person, Kind_Attention, Validity1, Item_Details, Payment_Terms, Customer_GST_No, Additional_Notes, Tax_Amount_12, Shipping_Address, Packing1, Subject_form, Division, ID, Tax_Amount_18, Company_Description, Enquiry_Recd_Through, Notes, Status, Grand_Total, Customer_Company, Tax_Amount_5, Additional_Address, Tax_Amount_6, Reference, Total_Amount_in_Words, Customer_Segment, Sub_Total, Quote, Date_field, Customer_Contact_Number, Get_Amounts, Prepared_By_Whom, Billing_Address, Referrer, Tax_Amount_28, Additional_Discount, Delivery, Customer_Calling_follow_up, Place, Phone_No
+
+Sample record:
+{
+  "Follow_up_Type": "Standard",
+  "Transportation": {
+    "Transportation": "Our scope if it is Coimbatore Local/out of Coimbatore & Outstation will be extra",
+    "ID": "302392000000061175",
+    "zc_display_value": "Our scope if it is Coimbatore Local/out of Coimbatore & Outstation will be extra"
+  },
+  "Contact_person": {
+    "prefix": "",
+    "last_name": "",
+    "suffix": "",
+    "first_name": "Mr. MADHAVAN",
+    "zc_display_value": "Mr. MADHAVAN"
+  },
+  "Kind_Attention": "Mr. MADHAVAN",
+  "Validity1": {
+    "Validity": "15 days",
+    "ID": "302392000001983004",
+    "zc_display_value": "15 days"
+  },
+  "Item_Details": [
+    {
+      "Item_Name": {
+        "Model": "SAEW 325",
+        "ID": "302392000000246355",
+        "zc_display_value": "SAEW 325"
+      },
+      "ID": "302392000002926070",
+      "zc_display_value": "SAEW 325"
+    },
+    {
+      "Item_Name": {
+        "Model": "25 KVA STEP UP AUTO TRANSFORMER - EC ",
+        "ID": "302392000002214005",
+        "zc_display_value": "25 KVA STEP UP AUTO TRANSFORMER - EC "
+      },
+      "ID": "302392000002926072",
+      "zc_display_value": "25 KVA STEP UP AUTO TRANSFORMER - EC "
+    },
+    {
+      "Item_Name": {
+        "Model": "25 KVA STEP UP AUTO TRANSFORMER - EC ",
+        "ID": "302392000002214005",
+        "zc_display_value": "25 KVA STEP UP AUTO TRANSFORMER - EC "
+      },
+      "ID": "302392000002926074",
+      "zc_display_value": "25 KVA STEP UP AUTO TRANSFORMER - EC "
+    }
+  ],
+  "Payment_Terms": {
+    "Payment_Terms": "50 % advance along with your PO and balance before dispatch",
+    "ID": "302392000000061087",
+    "zc_display_value": "50 % advance along with your PO and balance before dispatch"
+  },
+  "Customer_GST_No": "",
+  "Additional_Notes": "<div><p class=\"MsoBodyText\" style=\"margin-top: 0px\"><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><b><span class=\"colour\" style=\"color: rgb(255, 0, 0)\">FEW</span></b></span><span style=\"letter-spacing: -0.55pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><b><span class=\"colour\" style=\"color: rgb(255, 0, 0)\"> </span></b></span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><b><span class=\"colour\" style=\"color: rgb(255, 0, 0)\">OF</span></b></span><span style=\"letter-spacing: -0.35pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><b><span class=\"colour\" style=\"color: rgb(255, 0, 0)\"> </span></b></span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><b><span class=\"colour\" style=\"color: rgb(255, 0, 0)\">OUR</span></b></span><span style=\"letter-spacing: -0.5pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><b><span class=\"colour\" style=\"color: rgb(255, 0, 0)\"> </span></b></span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><b><span class=\"colour\" style=\"color: rgb(255, 0, 0)\">PRESTIGIOUS</span></b></span><span style=\"letter-spacing: -0.5pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><b><span class=\"colour\" style=\"color: rgb(255, 0, 0)\"> </span></b></span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><b><span class=\"colour\" style=\"color: rgb(255, 0, 0)\">CUSTOMERS</span></b></span><span style=\"letter-spacing: -0.4pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><b><span class=\"colour\" style=\"color: rgb(255, 0, 0)\"> </span></b></span></span><span style=\"letter-spacing: -0.2pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><b><span class=\"colour\" style=\"color: rgb(255, 0, 0)\">ARE</span></b></span></span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><br /></span></p><ul dir=\"ltr\"><li><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">TEXMO</span><span style=\"letter-spacing: -0.55pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">INDUSTRIES</span><span style=\"letter-spacing: -0.5pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">(ALL</span><span style=\"letter-spacing: -0.5pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">THEIR</span><span style=\"letter-spacing: -0.4pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">UNITS)</span></span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><br /></span></li><li><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">ROOTS</span><span style=\"letter-spacing: -0.4pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">INDUSTRIES</span><span style=\"letter-spacing: -0.45pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">LTD</span><span style=\"letter-spacing: -0.45pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">(ALL</span><span style=\"letter-spacing: -0.45pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">THEIR</span><span style=\"letter-spacing: -0.35pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">UNITS)</span></span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><br /></span></li><li><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">CRI</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">PUMPS</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">(ALL</span><span style=\"letter-spacing: -0.4pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">THEIR</span><span style=\"letter-spacing: -0.15pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">UNITS)</span></span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><br /></span></li><li><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">PSR</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">SILKS</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">SAREES</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">INDIA</span><span style=\"letter-spacing: -0.35pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">P.LTD</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">(ALL</span><span style=\"letter-spacing: -0.4pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">THEIR</span><span style=\"letter-spacing: -0.25pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">UNITS)</span></span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><br /></span></li><li><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">SCM</span><span style=\"letter-spacing: -0.5pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">CREATIONS</span><span style=\"letter-spacing: -0.6pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">(CHENNAI</span><span style=\"letter-spacing: -0.45pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">SILKS)</span><span style=\"letter-spacing: -0.45pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">ALL</span><span style=\"letter-spacing: -0.5pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">THEIR</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span style=\"letter-spacing: -0.2pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">UNITS</span></span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><br /></span></li><li><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">THE</span><span style=\"letter-spacing: -0.45pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">INDIAN</span><span style=\"letter-spacing: -0.35pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">PUBLIC</span><span style=\"letter-spacing: -0.25pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">SCHOOL</span><span style=\"letter-spacing: -0.55pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">(ALL</span><span style=\"letter-spacing: -0.45pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">THEIR</span><span style=\"letter-spacing: -0.35pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">BRANCHES</span><span style=\"letter-spacing: -0.45pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">IN</span><span style=\"letter-spacing: -0.35pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">TAMILNADU)</span></span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><br /></span></li><li><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"; letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">DECHATHALON</span></span><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"; letter-spacing: 0.4pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"; letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">SPORTS</span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><br /></span></li><li><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">DECCAN</span><span style=\"letter-spacing: -0.35pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">INDUSTRIES</span></span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><br /></span></li><li><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">BULL</span><span style=\"letter-spacing: -0.6pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">MACHINE</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span style=\"letter-spacing: -0.2pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">WORKS</span></span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><br /></span></li><li><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">LAKSHMI</span><span style=\"letter-spacing: -0.5pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">MACHINE</span><span style=\"letter-spacing: -0.45pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">WORKS</span><span style=\"letter-spacing: -0.45pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span style=\"letter-spacing: -0.2pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">(LMW)</span></span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><br /></span></li><li><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">PSG</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">COLLEGE</span><span style=\"letter-spacing: -0.25pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">OF</span><span style=\"letter-spacing: -0.2pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">TECHNOLOGY</span></span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><br /></span></li><li><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">ANNAPOORNA</span><span style=\"letter-spacing: -0.7pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">PEOPLES</span><span style=\"letter-spacing: -0.45pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span style=\"letter-spacing: -0.2pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">PARK</span></span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><br /></span></li><li><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">SE</span><span style=\"letter-spacing: -0.4pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">CONSULTANCY</span><span style=\"letter-spacing: -0.25pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">&</span><span style=\"letter-spacing: -0.4pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">SERVICES</span></span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><br /></span></li><li><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">NATIONAL</span><span style=\"letter-spacing: -0.6pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">MODEL</span><span style=\"letter-spacing: -0.5pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">SCHOOL</span></span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><br /></span></li><li><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">PSR</span><span style=\"letter-spacing: -0.4pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">FASHIONS</span><span style=\"letter-spacing: -0.35pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">AND</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">LIFESTYLES</span><span style=\"letter-spacing: -0.35pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">PRIVATE</span><span style=\"letter-spacing: -0.2pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">LIMITED</span></span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><br /></span></li><li><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">THE</span><span style=\"letter-spacing: -0.5pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">SOUTH</span><span style=\"letter-spacing: -0.45pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">INDIA</span><span style=\"letter-spacing: -0.4pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">TEXTILE</span><span style=\"letter-spacing: -0.4pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">RESEARCH</span><span style=\"letter-spacing: -0.35pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">ASSOCIATION</span></span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><br /></span></li><li><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">BISLERI INTERNATIONAL – BANGLORE</span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><br /></span></li><li><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">630</span><span style=\"letter-spacing: -0.15pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">KVA</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">OIL</span><span style=\"letter-spacing: -0.25pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">COOLED</span><span style=\"letter-spacing: -0.2pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">STABILIZER</span><span style=\"letter-spacing: -0.05pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">–</span><span style=\"letter-spacing: -0.25pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">BTC</span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">FOODS</span><span style=\"letter-spacing: -0.15pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">–</span><span style=\"letter-spacing: -0.05pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">MYSORE</span></span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><br /></span></li><li><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">600</span><span style=\"letter-spacing: -0.15pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">KVA</span><span style=\"letter-spacing: -0.25pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">OIL</span><span style=\"letter-spacing: -0.25pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">COOLED</span><span style=\"letter-spacing: -0.2pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">STABILIZER</span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">–</span><span style=\"letter-spacing: -0.15pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">BURUNDI</span><span style=\"letter-spacing: -0.35pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">–</span><span style=\"letter-spacing: -0.05pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">EAST</span><span style=\"letter-spacing: -0.15pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">AFRICA</span></span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><br /></span></li><li><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">500</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">KVA</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">OIL</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">COOLED</span><span style=\"letter-spacing: -0.25pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">STABILIZER</span><span style=\"letter-spacing: -0.15pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">(3</span><span style=\"letter-spacing: -0.15pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">NOS)</span><span style=\"letter-spacing: -0.05pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">–</span><span style=\"letter-spacing: -0.25pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">SAUDI</span><span style=\"letter-spacing: -0.35pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">PLASTIC</span><span style=\"letter-spacing: -0.15pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">CONTAINER</span><span style=\"letter-spacing: -0.05pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">–</span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">RIYADH</span><span style=\"letter-spacing: -0.2pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">–</span><span style=\"letter-spacing: -0.15pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">SAUDI</span><span style=\"letter-spacing: -0.2pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">ARABIA</span></span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><br /></span></li><li><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">500</span><span style=\"letter-spacing: -0.25pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">KVA</span><span style=\"letter-spacing: -0.35pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">OIL</span><span style=\"letter-spacing: -0.35pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">COOLED</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">STABILIZER</span><span style=\"letter-spacing: -0.05pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">-</span><span style=\"letter-spacing: -0.25pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">THENPANDIAN</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">SPINNING</span><span style=\"letter-spacing: -0.35pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">MILLS</span></span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><br /></span></li><li><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">350</span><span style=\"letter-spacing: -0.15pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">KVA</span><span style=\"letter-spacing: -0.35pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">OIL</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">COOLED</span><span style=\"letter-spacing: -0.2pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">STABILIZER</span><span style=\"letter-spacing: -0.15pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">–</span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">AKR</span><span style=\"letter-spacing: -0.15pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">TEXTILES</span><span style=\"letter-spacing: -0.15pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">–</span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> BANGLORE</span></span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><br /></span></li><li><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">350</span><span style=\"letter-spacing: -0.15pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">KVA</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">OIL</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">COOLED</span><span style=\"letter-spacing: -0.2pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">STABILIZER</span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">–</span><span style=\"letter-spacing: -0.2pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">BISLERI</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">(GOWRI</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">FOODS</span><span style=\"letter-spacing: -0.2pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">&</span><span style=\"letter-spacing: -0.15pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">BEVERAGES)</span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">–</span><span style=\"letter-spacing: -0.05pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">MYSORE</span></span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><br /></span></li><li><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">350</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">KVA</span><span style=\"letter-spacing: -0.35pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">OIL</span><span style=\"letter-spacing: -0.25pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">COOLED</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">STABILIZER</span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">–</span><span style=\"letter-spacing: -0.25pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">BISLERI</span><span style=\"letter-spacing: -0.2pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">INTERNATIONAL</span><span style=\"letter-spacing: -0.2pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">–</span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> COIMBATORE</span></span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><br /></span></li><li><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">300</span><span style=\"letter-spacing: -0.25pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">KVA</span><span style=\"letter-spacing: -0.35pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">OIL</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">COOLED</span><span style=\"letter-spacing: -0.2pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">STABILIZER</span><span style=\"letter-spacing: -0.15pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">–</span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">THE</span><span style=\"letter-spacing: -0.05pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">INDIAN</span><span style=\"letter-spacing: -0.25pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">PUBLIC</span><span style=\"letter-spacing: -0.15pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">SCHOOL</span><span style=\"letter-spacing: -0.2pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">-</span><span style=\"letter-spacing: -0.15pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">COIMBATORE</span></span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><br /></span></li><li><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">250</span><span style=\"letter-spacing: -0.35pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">KVA</span><span style=\"letter-spacing: -0.35pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">OIL</span><span style=\"letter-spacing: -0.35pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">COOLED</span><span style=\"letter-spacing: -0.2pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">STABILIZER</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">–</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">BISLERI</span><span style=\"letter-spacing: -0.25pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">INTERNATIONAL–</span><span style=\"letter-spacing: -0.05pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">BANGLORE</span></span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><br /></span></li><li><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">250</span><span style=\"letter-spacing: -0.15pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">KVA</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">OIL</span><span style=\"letter-spacing: -0.25pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">COOLED</span><span style=\"letter-spacing: -0.25pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">STABILIZER</span><span style=\"letter-spacing: -0.05pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">–</span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">NATRAJ</span><span style=\"letter-spacing: -0.15pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">PRINT</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">PROCESS</span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">-</span><span style=\"letter-spacing: -0.15pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">TIRUPUR</span></span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\"><br /></span></li><li><span class=\"font\" style=\"font-family: Calibri, \"sans-serif\"\"><span class=\"size\" style=\"font-size: 11pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">60</span><span style=\"letter-spacing: -0.2pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">KVA</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">OIL</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">COOLED</span><span style=\"letter-spacing: -0.25pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">SERVO</span><span style=\"letter-spacing: -0.25pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">STABILIZER</span><span style=\"letter-spacing: -0.15pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">(300</span><span style=\"letter-spacing: -0.25pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">NOS)</span><span style=\"letter-spacing: -0.25pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">TO</span><span style=\"letter-spacing: -0.25pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">NIGERIA</span><span style=\"letter-spacing: -0.15pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">SOUTH</span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">AFRICA</span><span style=\"letter-spacing: -0.35pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">OUR</span><span style=\"letter-spacing: -0.15pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">RECENT</span><span style=\"letter-spacing: -0.3pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span class=\"font\" style=\"font-family: Carlito, sans-serif\">EXPORT</span><span style=\"letter-spacing: -0.25pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\"> </span></span><span style=\"letter-spacing: -0.1pt\"><span class=\"font\" style=\"font-family: Carlito, sans-serif\">PROJECT</span></span></span></span><br /></li></ul></div>",
+  "Tax_Amount_12": "",
+  "Shipping_Address": {},
+  "Packing1": {
+    "Packing_Type": "Normal Packing",
+    "ID": "302392000002045002",
+    "zc_display_value": "Normal Packing"
+  },
+  "Subject_form": {
+    "Subject_field": "Offer for 25 KVA \"ADROIT\" Make Air Cooled Servo Stabilizer / 25 KVA Auto Transformer - Reg.",
+    "ID": "302392000002926067",
+    "zc_display_value": "Offer for 25 KVA \"ADROIT\" Make Air Cooled Servo Stabilizer / 25 KVA Auto Transformer - Reg."
+  },
+  "Division": {},
+  "ID": "302392000002926076",
+  "Tax_Amount_18": "",
+  "Company_Description": "We thank you for your enquiry and with reference to the Telecon had with our MD, regarding  the requirement of above said items, we are submitting below our best competitive offer for your kind perusal. Indeed pleasure talking to you and take this opportunity to introduce ourselves to you, We Adroit Power Systems, ISO 9001 - 2015 certified Company, Manufacturing and Marketing of Power Conditioning and Power Back up Products. (Servo Stabilizers, Online Ups, Isolation Transformer, Static Stabilizer, OVCD (Over Voltage Cut off device) Active Harmonic Filters etc., for over 30 years of Experience. Also we are a Business Partner for TSi Power-The Advanced IGBT PWM Voltage Precision Line Conditioner (Static Voltage Stabilizer), DELTA Products (Next Gen. Energy Efficient Online UPS, AHF (Active Harmonic Filters) and SVG (Static Var Generators) and TMEiC (Toshiba Mitsubishi Electric) the next generation energy efficient higher capacity industrial 3Ph OnLine UPS. We are also OEM supplier engaged in contractual Mfg. Of Servo Stabilizers for few top brands and Exporters to Middle East n African Countries.",
+  "Enquiry_Recd_Through": {
+    "ID": "302392000000597003",
+    "Enquiry_Recd_Through": "TELECON",
+    "zc_display_value": "TELECON"
+  },
+  "Notes": "",
+  "Status": "Sent",
+  "Grand_Total": "",
+  "Customer_Company": {
+    "Customer_Name.suffix": "",
+    "Customer_Name.first_name": "M/s. GANESH BAKERY",
+    "ID": "302392000002926053",
+    "Customer_Name.last_name": "",
+    "zc_display_value": "   M/s. GANESH BAKERY    ",
+    "Customer_Name.prefix": ""
+  },
+  "Tax_Amount_5": "",
+  "Additional_Address": {},
+  "Tax_Amount_6": "",
+  "Reference": "MD SIR",
+  "Total_Amount_in_Words": "",
+  "Customer_Segment": {},
+  "Sub_Total": "",
+  "Quote": "SO-631",
+  "Date_field": "24-09-2026",
+  "Customer_Contact_Number": "+919940512247",
+  "Get_Amounts": "false",
+  "Prepared_By_Whom": {
+    "Employee_Name.suffix": "",
+    "Employee_Name.first_name": "Aruna",
+    "Employee_Name.last_name": "K",
+    "ID": "302392000000383071",
+    "Employee_Name.prefix": "",
+    "zc_display_value": "   Aruna K  "
+  },
+  "Billing_Address": {
+    "Address.postal_Code": "",
+    "Address.district_city": "Coimbatore",
+    "Address.address_line_2": "",
+    "ID": "302392000002926056",
+    "zc_display_value": " Kanuvai   Coimbatore  ",
+    "Address.address_line_1": "Kanuvai"
+  },
+  "Referrer": {
+    "Add_Referrer": "MD SIR",
+    "ID": "302392000000227027",
+    "zc_display_value": "MD SIR"
+  },
+  "Tax_Amount_28": "",
+  "Additional_Discount": "",
+  "Delivery": {
+    "Delivery": "Within 2 weeks delivery after receiving your confirmation order",
+    "ID": "302392000000668133",
+    "zc_display_value": "Within 2 weeks delivery after receiving your confirmation order"
+  },
+  "Customer_Calling_follow_up": {
+    "ID": "302392000002926065",
+    "Customer_Number": "CUS-637",
+    "zc_display_value": "CUS-637"
+  },
+  "Place": {
+    "ID": "302392000000592129",
+    "zc_display_value": "Coimbatore",
+    "Place": "Coimbatore"
+  },
+  "Phone_No": "+918807002622"
+}
+
+=== orderConfirmation -> All_Order_Confirmations (All_Order_Confirmations) ===
+183 record(s) sampled, 78 field(s):
+Reviewed_Accepted_On, Delivery_Address, Type_field1, Actual_Installation_Date, Customer_Name, Input_Range, ORC_To, Work_Order_No, Quotation_Date, PMV_Start_Date, Production_Status, Referrer_Name, PO_Date, Remarks, Work_Order_Type, Capacity, Installed_By, Trading_Product, DC_Voltage, ID, City_Delivery, Packing_Charges_Taxation, Discount_Amount, Status, Quotation_No, Warranty, PMV_End_Date, Contact_No, Product_Details, PO_No, Order_Confirmation_ID, Product_Details1, Serial_No, Commited_Delivery_Date, Follow_Up_By, Customer_Type, Item_Category, Vendor_Serial_No, Taxation, Application, Edit_Request_Status, Quote_Amount, Feedback_Status, Commited, Category, Discount, ORC_Amount, HSN_Code, Contact_Person, DC_No_Date, GSTIN_No, Actual_Delivery_Date, Product_Details2, Payment_Details, Type_Of_Product, Payment_Status, Inv_No, Order_Taken_By1, Customer_Type_Order_Taken_By, Oil_Qty, Notes, Inst_Report, Dispatch_Through, Output_Range, Warranty_Visits_Per_Year, Quantity, Product_Received, Final_Amount, Part_Code_No, Date_field, SRS_NO1, Packing_Charges_Others, Product_Price, Inst_Date, Regulation, Notify_Store, Product_Type, PCB_Board_Type
+
+Sample record:
+{
+  "Reviewed_Accepted_On": "23-09-2026",
+  "Delivery_Address": {
+    "Address.district_city": "Pune",
+    "Address.state_province": "",
+    "Address.address_line_2": "NDA Pashan Link Road Bavdhan ",
+    "ID": "302392000002591031",
+    "zc_display_value": " Perennial House Plot No.70 Sagar Soc.  NDA Pashan Link Road Bavdhan  Pune  ",
+    "Address.address_line_1": "Perennial House Plot No.70 Sagar Soc. "
+  },
+  "Type_field1": {
+    "Type_field": "AIR COOLED",
+    "ID": "302392000000615154",
+    "zc_display_value": "AIR COOLED"
+  },
+  "Actual_Installation_Date": "",
+  "Customer_Name": {
+    "Customer_Name.suffix": "",
+    "Customer_Name.first_name": "M/s. PERENNIAL TECHNOLOGIES PVT LTD",
+    "ID": "302392000002591028",
+    "Customer_Name.last_name": "",
+    "zc_display_value": "   M/s. PERENNIAL TECHNOLOGIES PVT LTD    ",
+    "Customer_Name.prefix": ""
+  },
+  "Input_Range": {
+    "ID": "302392000002926041",
+    "Range": "415V",
+    "zc_display_value": "415V"
+  },
+  "ORC_To": "NIL",
+  "Work_Order_No": "",
+  "Quotation_Date": "19-08-2026",
+  "PMV_Start_Date": "",
+  "Production_Status": "Order Drafted",
+  "Referrer_Name": {
+    "Add_Referrer": "DIRECT",
+    "ID": "302392000000286097",
+    "zc_display_value": "DIRECT"
+  },
+  "PO_Date": "05-09-2026",
+  "Remarks": "(i) Note: Between Phases and 127 Between Phase and Neutral / (ii) STEP-DOWN IT WITH ENCLOSURE",
+  "Work_Order_Type": "Trading Work Order",
+  "Capacity": {
+    "Capacity_Name": "125KVA 3PH A/C Tx",
+    "ID": "302392000002926039",
+    "zc_display_value": "125KVA 3PH A/C Tx"
+  },
+  "Installed_By": "",
+  "Trading_Product": {
+    "Trading_Product": "ISOLATION TRANSFORMER",
+    "ID": "302392000002225130",
+    "zc_display_value": "ISOLATION TRANSFORMER"
+  },
+  "DC_Voltage": "NIL",
+  "ID": "302392000002926048",
+  "City_Delivery": "PUNE",
+  "Packing_Charges_Taxation": {
+    "Tax": "18%",
+    "ID": "302392000000597031",
+    "zc_display_value": "18%"
+  },
+  "Discount_Amount": "",
+  "Status": "Draft",
+  "Quotation_No": {
+    "Quote": "SO-323",
+    "ID": "302392000002591041",
+    "zc_display_value": "SO-323"
+  },
+  "Warranty": {
+    "Warranty": "12 Months",
+    "ID": "302392000000061091",
+    "zc_display_value": "12 Months"
+  },
+  "PMV_End_Date": "",
+  "Contact_No": "+919764400161",
+  "Product_Details": {
+    "Model": "125 KVA  ISOLATION TRANSFORMER - EC",
+    "ID": "302392000002582008",
+    "zc_display_value": "125 KVA  ISOLATION TRANSFORMER - EC"
+  },
+  "PO_No": "PTPL-FY-26-27-CAРEX-SEP-11",
+  "Order_Confirmation_ID": "183",
+  "Product_Details1": [],
+  "Serial_No": "",
+  "Commited_Delivery_Date": "05-10-2026",
+  "Follow_Up_By": "SALES",
+  "Customer_Type": "New",
+  "Item_Category": {
+    "ID": "302392000000862067",
+    "zc_display_value": "ISOLATION TRANSFORMER",
+    "Name": "ISOLATION TRANSFORMER"
+  },
+  "Vendor_Serial_No": "",
+  "Taxation": {
+    "Tax": "18%",
+    "ID": "302392000000597031",
+    "zc_display_value": "18%"
+  },
+  "Application": "IT SECTOR",
+  "Edit_Request_Status": "Draft",
+  "Quote_Amount": "183844.41",
+  "Feedback_Status": "Draft",
+  "Commited": "",
+  "Category": {
+    "Category": "ISOLATION TRANSFORMER",
+    "ID": "302392000000647081",
+    "zc_display_value": "ISOLATION TRANSFORMER"
+  },
+  "Discount": "",
+  "ORC_Amount": "",
+  "HSN_Code": "850440",
+  "Contact_Person": {
+    "prefix": "",
+    "last_name": "",
+    "suffix": "",
+    "first_name": "Mr. SHUBHAM",
+    "zc_display_value": "Mr. SHUBHAM"
+  },
+  "DC_No_Date": "",
+  "GSTIN_No": "27AADCP6596J1ZS",
+  "Actual_Delivery_Date": "",
+  "Product_Details2": [],
+  "Payment_Details": "",
+  "Type_Of_Product": {
+    "Type_Of_Product": "AIR COOLED",
+    "ID": "302392000000399003",
+    "zc_display_value": "AIR COOLED"
+  },
+  "Payment_Status": {
+    "Payment_Terms": "50 % Advance Received & Balance 50 % Before Dispatch",
+    "ID": "302392000000747082",
+    "zc_display_value": "50 % Advance Received & Balance 50 % Before Dispatch"
+  },
+  "Inv_No": "",
+  "Order_Taken_By1": {
+    "Employee_Name.suffix": "",
+    "Employee_Name.first_name": "MANOHARI",
+    "Employee_Name.last_name": "K",
+    "ID": "302392000000494016",
+    "Employee_Name.prefix": "",
+    "zc_display_value": "   MANOHARI K  "
+  },
+  "Customer_Type_Order_Taken_By": "",
+  "Oil_Qty": "",
+  "Notes": "",
+  "Inst_Report": "",
+  "Dispatch_Through": "VEHICLE ARRANGED BY OUR SCOPE & TO PAY BASIS",
+  "Output_Range": {
+    "Output_Range": "220V",
+    "ID": "302392000000542102",
+    "zc_display_value": "220V"
+  },
+  "Warranty_Visits_Per_Year": "",
+  "Quantity": "1.00",
+  "Product_Received": "false",
+  "Final_Amount": "183844.41",
+  "Part_Code_No": "TRANSFORMER",
+  "Date_field": "24-09-2026",
+  "SRS_NO1": "414",
+  "Packing_Charges_Others": "5800.00",
+  "Product_Price": "150000.35",
+  "Inst_Date": "",
+  "Regulation": "NIL",
+  "Notify_Store": "false",
+  "Product_Type": "Main Product",
+  "PCB_Board_Type": ""
+}
+
+=== paymentTracking -> Payment_Trackings_Format (Payment_Trackings_Format) ===
+38 record(s) sampled, 38 field(s):
+Advance_Amount, Balance_Amount, Customer_Name, ORC_Amount, HSN_Code, Input_Range, ORC_To, Contact_Person, Qtn, Sales_order_No, GSTIN_No, Remark_If_any_Ref_You_Can_Ask, Payment_Details, Payment_Date, Invoice_No, ID, Packing_Charges_Taxation, Discount_Amount, Payment_Amount_Without_Tax, Qtn_Date, Payment_ID, Due_Date, Output_Range, Contact_No, Quantity, S_No, Final_Amount, Product_Details, Follow_upStatus, Get_Amounts, Payment_Amount, Packing_Charges_Others, Item_Category, Product_Price, Order_Taken_By, Taxation, Remarks1, Follow_up_date
+
+Sample record:
+{
+  "Advance_Amount": "",
+  "Balance_Amount": "",
+  "Customer_Name": {
+    "Customer_Name.suffix": "",
+    "Customer_Name.first_name": "M/s. ESS TEE EXPORTS",
+    "ID": "302392000002592004",
+    "Customer_Name.last_name": "INDIA PVT LTD",
+    "zc_display_value": "   M/s. ESS TEE EXPORTS INDIA PVT LTD  ",
+    "Customer_Name.prefix": ""
+  },
+  "ORC_Amount": "",
+  "HSN_Code": "85049090",
+  "Input_Range": {},
+  "ORC_To": "NIL",
+  "Contact_Person": {
+    "prefix": "",
+    "last_name": "",
+    "suffix": "",
+    "first_name": "Mr. THINAKARAN",
+    "zc_display_value": "Mr. THINAKARAN"
+  },
+  "Qtn": {
+    "Quote": "SO-324R1",
+    "ID": "302392000002613011",
+    "zc_display_value": "SO-324R1"
+  },
+  "Sales_order_No": {
+    "ID": "302392000002645129",
+    "Sales_Order_No": "338",
+    "zc_display_value": "338"
+  },
+  "GSTIN_No": "33AAGCE8963R1ZS",
+  "Remark_If_any_Ref_You_Can_Ask": "",
+  "Payment_Details": "",
+  "Payment_Date": "29-08-2026",
+  "Invoice_No": "",
+  "ID": "302392000002684182",
+  "Packing_Charges_Taxation": {},
+  "Discount_Amount": "",
+  "Payment_Amount_Without_Tax": "",
+  "Qtn_Date": "21-08-2026",
+  "Payment_ID": "PMT-38",
+  "Due_Date": "04-09-2026",
+  "Output_Range": {},
+  "Contact_No": "+919843311971",
+  "Quantity": "1.00",
+  "S_No": "",
+  "Final_Amount": "6490.00",
+  "Product_Details": {
+    "Model": "BATTERY RACK 26AH - 10NOS",
+    "ID": "302392000001777040",
+    "zc_display_value": "BATTERY RACK 26AH - 10NOS"
+  },
+  "Follow_upStatus": "Un Paid",
+  "Get_Amounts": "false",
+  "Payment_Amount": "",
+  "Packing_Charges_Others": "",
+  "Item_Category": {
+    "ID": "302392000000656003",
+    "zc_display_value": "BATTERY RACK",
+    "Name": "BATTERY RACK"
+  },
+  "Product_Price": "5500.00",
+  "Order_Taken_By": {
+    "Employee_Name.suffix": "",
+    "Employee_Name.first_name": "THANGARAJ",
+    "Employee_Name.last_name": "",
+    "ID": "302392000001792036",
+    "Employee_Name.prefix": "",
+    "zc_display_value": "   THANGARAJ    "
+  },
+  "Taxation": {
+    "Tax": "18%",
+    "ID": "302392000000597031",
+    "zc_display_value": "18%"
+  },
+  "Remarks1": "",
+  "Follow_up_date": ""
+}
+
+=== quotationFollowUp -> Quotation_Follow_Up_Format (Quotation_Follow_Up_Format) ===
+736 record(s) sampled, 22 field(s):
+Status, Type_field, Item_Details_QF, Customer_Company, GSTIN, Enquiry_recd_thru, Contact_No, Follow_up_Date, Contact_Person, Qty_of_Battery, Follow_up_ID, Follow_up, Date_field, Remarks, Whom1, Qty_of_Rack_and_wood, ID, Qtn_No, Has_Follow_up, Quote_Date, Place, Feasabilities
+
+Sample record:
+{
+  "Status": "Pending",
+  "Type_field": "Quote",
+  "Item_Details_QF": [
+    {
+      "Item_Name": {
+        "Model": "SAW 360",
+        "ID": "302392000000246307",
+        "zc_display_value": "SAW 360"
+      },
+      "Quantity": "1.00",
+      "S_No": "1",
+      "ID": "302392000002923121",
+      "zc_display_value": "1,SAW 360,1.00,157647.00",
+      "Unit_Price": "157647.00"
+    }
+  ],
+  "Customer_Company": {
+    "Customer_Name.suffix": "",
+    "Customer_Name.first_name": "Mr. RAJASEKAR",
+    "ID": "302392000002902078",
+    "Customer_Name.last_name": "",
+    "zc_display_value": "   Mr. RAJASEKAR    ",
+    "Customer_Name.prefix": ""
+  },
+  "GSTIN": "",
+  "Enquiry_recd_thru": "MSME EXPO 2026",
+  "Contact_No": "+918124245671",
+  "Follow_up_Date": "24-09-2026",
+  "Contact_Person": {
+    "prefix": "",
+    "last_name": "",
+    "suffix": "",
+    "first_name": "Mr. RAJASEKAR",
+    "zc_display_value": "Mr. RAJASEKAR"
+  },
+  "Qty_of_Battery": "",
+  "Follow_up_ID": "SO-630",
+  "Follow_up": [],
+  "Date_field": "24-09-2026",
+  "Remarks": "",
+  "Whom1": {
+    "Employee_Name.suffix": "",
+    "Employee_Name.first_name": "ABDUR ",
+    "Employee_Name.last_name": "RAHMAN",
+    "ID": "302392000002826096",
+    "Employee_Name.prefix": "",
+    "zc_display_value": "   ABDUR  RAHMAN  "
+  },
+  "Qty_of_Rack_and_wood": "",
+  "ID": "302392000002923118",
+  "Qtn_No": {
+    "Quote": "SO-616",
+    "ID": "302392000002902088",
+    "zc_display_value": "SO-616"
+  },
+  "Has_Follow_up": "false",
+  "Quote_Date": "22-09-2026",
+  "Place": "Hosur",
+  "Feasabilities": ""
+}
+
+=== preSiteVisit -> Customer_Pre_Site_Visit_Observation1 (Customer_Pre_Site_Visit_Observation1) ===
+14 record(s) sampled, 25 field(s):
+Visit_Date, Customer_Name, Starting_Current, Photos_Documents, Incoming_Voltage_Details, Remarks, High_Voltage, Customer_Expectation, ID, Connected_Load, Status, Capacity_Of_the_Machine, Order_Taken_By_Whom, Power_Audit_Findings, Prepared_By, Observation_ID, Normal_Load_Current, Competitor_Details, Installation_Location_Notes, Customer_Phone_NO, Power_Audit_Required, Max_Load_Current, EB_Source, Voltage_between_neutral_and_earth, Customer_Address
+
+Sample record:
+{
+  "Visit_Date": "20-11-2025",
+  "Customer_Name": {
+    "Customer_Name.suffix": "",
+    "Customer_Name.first_name": "Joseph",
+    "ID": "302392000000123645",
+    "Customer_Name.last_name": "Surya",
+    "zc_display_value": "   Joseph Surya  ",
+    "Customer_Name.prefix": ""
+  },
+  "Starting_Current": "",
+  "Photos_Documents": "",
+  "Incoming_Voltage_Details": "",
+  "Remarks": "",
+  "High_Voltage": "",
+  "Customer_Expectation": "",
+  "ID": "302392000000729035",
+  "Connected_Load": "",
+  "Status": "Completed",
+  "Capacity_Of_the_Machine": "",
+  "Order_Taken_By_Whom": {},
+  "Power_Audit_Findings": "",
+  "Prepared_By": {},
+  "Observation_ID": "ID-14",
+  "Normal_Load_Current": "",
+  "Competitor_Details": "",
+  "Installation_Location_Notes": "",
+  "Customer_Phone_NO": "+916369757525",
+  "Power_Audit_Required": [],
+  "Max_Load_Current": "",
+  "EB_Source": "",
+  "Voltage_between_neutral_and_earth": "",
+  "Customer_Address": {
+    "country": "British Indian Ocean Territory",
+    "district_city": "tiruvannamalai",
+    "latitude": "-7.39918",
+    "address_line_1": "Moongilthuraipattu",
+    "state_province": "tamil nadu",
+    "address_line_2": "eleanganny X road",
+    "postal_code": "606753",
+    "zc_display_value": "Moongilthuraipattu, eleanganny X road, tiruvannamalai, tamil nadu, 606753, British Indian Ocean Territory",
+    "longitude": "72.46053"
+  }
+}
+
+=== customerFeedback -> All_Customer_Feedback (All_Customer_Feedback) ===
+1 record(s) sampled, 21 field(s):
+Overall_Performance, Ability_of_our_products_to_meet_your_application_functional_requirements, Customer_references_for_our_Stabilizer, Quality_of_Our_Product, Contact_No, Contact_Person, Response_Time, MODEL_Of_OUR_STABILIZER, REVIEWED_BY, AUTHORIZED_PERSON, Other_Information, Date_field, Our_Services, CAPACITY_OF_OUR_STABILIZER_UPS_SOLAR, Remarks, Complaint_Handling, TYPE_OF_APPLICATION_CONNECTED_LOAD, ID, Delivery, Name_of_Customer, Customer_FeedBack
+
+Sample record:
+{
+  "Overall_Performance": "10",
+  "Ability_of_our_products_to_meet_your_application_functional_requirements": "10",
+  "Customer_references_for_our_Stabilizer": "Work is Good",
+  "Quality_of_Our_Product": "10",
+  "Contact_No": "+916369757525",
+  "Contact_Person": {
+    "prefix": "",
+    "last_name": "Surya S",
+    "suffix": "",
+    "first_name": "Joseph",
+    "zc_display_value": "Joseph Surya S"
+  },
+  "Response_Time": "10",
+  "MODEL_Of_OUR_STABILIZER": "Sample",
+  "REVIEWED_BY": {
+    "Employee_Name.suffix": "",
+    "Employee_Name.first_name": "ABIRAMI",
+    "Employee_Name.last_name": "",
+    "ID": "302392000000307011",
+    "Employee_Name.prefix": "",
+    "zc_display_value": "   ABIRAMI    "
+  },
+  "AUTHORIZED_PERSON": {
+    "Employee_Name.suffix": "",
+    "Employee_Name.first_name": "Aruna",
+    "Employee_Name.last_name": "K",
+    "ID": "302392000000383071",
+    "Employee_Name.prefix": "",
+    "zc_display_value": "   Aruna K  "
+  },
+  "Other_Information": "Work is Good",
+  "Date_field": "27-04-2026",
+  "Our_Services": "10",
+  "CAPACITY_OF_OUR_STABILIZER_UPS_SOLAR": {},
+  "Remarks": "Work is Good",
+  "Complaint_Handling": "10",
+  "TYPE_OF_APPLICATION_CONNECTED_LOAD": "",
+  "ID": "302392000001721015",
+  "Delivery": "10",
+  "Name_of_Customer": {
+    "Customer_Name.suffix": "",
+    "Customer_Name.first_name": "Joseph",
+    "ID": "302392000000123645",
+    "Customer_Name.last_name": "Surya",
+    "zc_display_value": "   Joseph Surya  ",
+    "Customer_Name.prefix": ""
+  },
+  "Customer_FeedBack": "CUS-1"
+}
+
+=== srs -> Sales_Order_Entry_SRS_Report (Sales_Order_Entry_SRS_Report) ===
+177 record(s) sampled, 55 field(s):
+Delivery_Address, Customer_type, Company_Customer_Name, GSTIN, Input_Range, Approved_By, Quotation_Date, Is_Battery_Rack_Include, Sales_Order_No, Contact_person, Referrer_Name, Name_of_the_product, Capacity, Remarks, Trading_Product, DC_Voltage, Capacity_suggested_by_whom, Is_Battery_Include, ID, Packing_Charges_Taxation, Status, Quotation_No, Warranty, Quotation_No.Grand_Total, ORC_to, Packing_Charges, Purchase_Order_Number, Prepared_By, Part_Code, Item_Category, Committed_Delivery_Date, Type_Of_the_Product, Taxation, Application, ORC_Amount, Transportation, Reference_Name, Installation_Status, Payment_Status, Contact_Number, Purchase_Order_Date, Required_Delivery_Date, Reference_Mobile_No, Type_field, SRS_No, Dispatch_Through, Output_Range, Quantity, Customer_Segment, Final_Amount, Date_field, Billing_Address, Product_Price, Hsn_Code, order_taken_by
+
+Sample record:
+{
+  "Delivery_Address": {
+    "Address.postal_Code": "411021",
+    "Address.district_city": "Pune",
+    "Address.address_line_2": "NDA Pashan Link Road Bavdhan ",
+    "ID": "302392000002591031",
+    "zc_display_value": " Perennial House Plot No.70 Sagar Soc.  NDA Pashan Link Road Bavdhan  Pune 411021",
+    "Address.address_line_1": "Perennial House Plot No.70 Sagar Soc. "
+  },
+  "Customer_type": "New",
+  "Company_Customer_Name": {
+    "Customer_Name.suffix": "",
+    "Customer_Name.first_name": "M/s. PERENNIAL TECHNOLOGIES PVT LTD",
+    "ID": "302392000002591028",
+    "Customer_Name.last_name": "",
+    "zc_display_value": "   M/s. PERENNIAL TECHNOLOGIES PVT LTD    ",
+    "Customer_Name.prefix": ""
+  },
+  "GSTIN": "27AADCP6596J1ZS",
+  "Input_Range": {
+    "ID": "302392000002926041",
+    "Range": "415V",
+    "zc_display_value": "415V"
+  },
+  "Approved_By": {
+    "Employee_Name.suffix": "",
+    "Employee_Name.first_name": "SHANTHKUMAR /",
+    "Employee_Name.last_name": "VIMALA",
+    "ID": "302392000000551087",
+    "Employee_Name.prefix": "",
+    "zc_display_value": "   SHANTHKUMAR / VIMALA  "
+  },
+  "Quotation_Date": "19-08-2026",
+  "Is_Battery_Rack_Include": "false",
+  "Sales_Order_No": "414",
+  "Contact_person": {
+    "prefix": "",
+    "last_name": "",
+    "suffix": "",
+    "first_name": "Mr. SHUBHAM",
+    "zc_display_value": "Mr. SHUBHAM"
+  },
+  "Referrer_Name": {
+    "Add_Referrer": "DIRECT",
+    "ID": "302392000000286097",
+    "zc_display_value": "DIRECT"
+  },
+  "Name_of_the_product": {
+    "Model": "125 KVA  ISOLATION TRANSFORMER - EC",
+    "ID": "302392000002582008",
+    "zc_display_value": "125 KVA  ISOLATION TRANSFORMER - EC"
+  },
+  "Capacity": {
+    "Capacity_Name": "125KVA 3PH A/C Tx",
+    "ID": "302392000002926039",
+    "zc_display_value": "125KVA 3PH A/C Tx"
+  },
+  "Remarks": "(i) Note: Between Phases and 127 Between Phase and Neutral / (ii) WITH ENCLOSURE",
+  "Trading_Product": {
+    "Trading_Product": "ISOLATION TRANSFORMER",
+    "ID": "302392000002225130",
+    "zc_display_value": "ISOLATION TRANSFORMER"
+  },
+  "DC_Voltage": "NIL",
+  "Capacity_suggested_by_whom": "CUSTOMER",
+  "Is_Battery_Include": "false",
+  "ID": "302392000002926044",
+  "Packing_Charges_Taxation": {
+    "Tax": "18%",
+    "ID": "302392000000597031",
+    "zc_display_value": "18%"
+  },
+  "Status": "Confirmed",
+  "Quotation_No": {
+    "Quote": "SO-323",
+    "ID": "302392000002591041",
+    "zc_display_value": "SO-323"
+  },
+  "Warranty": {
+    "Warranty": "12 Months",
+    "ID": "302392000000061091",
+    "zc_display_value": "12 Months"
+  },
+  "Quotation_No.Grand_Total": "177000.00",
+  "ORC_to": "NIL",
+  "Packing_Charges": "5800.00",
+  "Purchase_Order_Number": "PTPL-FY-26-27-CAРEX-SEP-11",
+  "Prepared_By": {
+    "Employee_Name.suffix": "",
+    "Employee_Name.first_name": "Aruna",
+    "Employee_Name.last_name": "K",
+    "ID": "302392000000383071",
+    "Employee_Name.prefix": "",
+    "zc_display_value": "   Aruna K  "
+  },
+  "Part_Code": "TRANSFORMER",
+  "Item_Category": {
+    "Type_field": "Finished Product",
+    "ID": "302392000000862067",
+    "zc_display_value": "ISOLATION TRANSFORMER - Finished Product",
+    "Name": "ISOLATION TRANSFORMER"
+  },
+  "Committed_Delivery_Date": "05-10-2026",
+  "Type_Of_the_Product": {
+    "Type_Of_Product": "AIR COOLED",
+    "ID": "302392000000399003",
+    "zc_display_value": "AIR COOLED"
+  },
+  "Taxation": {
+    "Tax": "18%",
+    "ID": "302392000000597031",
+    "zc_display_value": "18%"
+  },
+  "Application": "",
+  "ORC_Amount": "",
+  "Transportation": "ACTUALS",
+  "Reference_Name": "DIRECT MAIL / MANOHARI",
+  "Installation_Status": "Customer Scope",
+  "Payment_Status": {
+    "Payment_Terms": "50 % Advance Received & Balance 50 % Before Dispatch",
+    "ID": "302392000000747082",
+    "zc_display_value": "50 % Advance Received & Balance 50 % Before Dispatch"
+  },
+  "Contact_Number": "+919764400161",
+  "Purchase_Order_Date": "05-09-2026",
+  "Required_Delivery_Date": "05-10-2026",
+  "Reference_Mobile_No": "",
+  "Type_field": "Quote",
+  "SRS_No": {},
+  "Dispatch_Through": "VEHICLE ARRANGED BY OUR SCOPE & TO PAY BASIS",
+  "Output_Range": {
+    "Output_Range": "220V",
+    "ID": "302392000000542102",
+    "zc_display_value": "220V"
+  },
+  "Quantity": "1.00",
+  "Customer_Segment": {
+    "Customer_Segment": "IT SECTORS",
+    "ID": "302392000000237075",
+    "zc_display_value": "IT SECTORS"
+  },
+  "Final_Amount": "183844.41",
+  "Date_field": "24-09-2026",
+  "Billing_Address": {
+    "Address.postal_Code": "411021",
+    "Address.district_city": "Pune",
+    "Address.address_line_2": "NDA Pashan Link Road Bavdhan ",
+    "ID": "302392000002591031",
+    "zc_display_value": " Perennial House Plot No.70 Sagar Soc.  NDA Pashan Link Road Bavdhan  Pune 411021",
+    "Address.address_line_1": "Perennial House Plot No.70 Sagar Soc. "
+  },
+  "Product_Price": "150000.35",
+  "Hsn_Code": "850440",
+  "order_taken_by": {
+    "Employee_Name.suffix": "",
+    "Employee_Name.first_name": "MANOHARI",
+    "Employee_Name.last_name": "K",
+    "ID": "302392000000494016",
+    "Employee_Name.prefix": "",
+    "zc_display_value": "   MANOHARI K  "
+  }
+}

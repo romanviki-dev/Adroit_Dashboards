@@ -1,0 +1,16 @@
+{
+  "locale": ["en"],
+  "service": "CREATOR",
+  "cspDomains": {
+    "connect-src": []
+  },
+  "config": [],
+  "modules": {
+    "widgets": [
+      {
+        "name": "Production Dashboard",
+        "location": "/app/widget.html"
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "locale": ["en"],
+  "service": "CREATOR",
+  "cspDomains": {
+    "connect-src": []
+  },
+  "config": [],
+  "modules": {
+    "widgets": [
+      {
+        "name": "Adroit Service Performance Summary",
+        "location": "/app/widget.html"
+      }
+    ]
+  }
+}

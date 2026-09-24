@@ -1,0 +1,16 @@
+{
+  "locale": ["en"],
+  "service": "CREATOR",
+  "cspDomains": {
+    "connect-src": []
+  },
+  "config": [],
+  "modules": {
+    "widgets": [
+      {
+        "name": "Store Today's Snapshot",
+        "location": "/app/widget.html"
+      }
+    ]
+  }
+}

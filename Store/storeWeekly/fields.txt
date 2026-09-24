@@ -1,0 +1,260 @@
+=== materialRequisition -> All_Material_Requisitions1 (All_Material_Requisitions1) ===
+100 record(s) sampled, 28 field(s):
+User, Customer_Name, Message, Total_Quantity, Material_Requisition_ID, Issued_by1, Item_Details, Department, Remarks, Bill_No, Received_From_By, DC_Date, ID, Defective_Items, Added_Time, Status, DC_Number, Customer_Type_Of_Call, Grand_Total, Modified_Time, Under_Warranty_Quality_Material, Approved_by, Rerturn, Rejection_Replacement, Date_field, Total_Line_Items, Payment, Issued_by
+
+Sample record:
+{
+  "User": {},
+  "Customer_Name": {},
+  "Message": "3/8 X3/4 MM PLAIN WASHER - Stock: Failed\n5/16 X 3/4MM PLAIN WASHER - Stock: Failed\n3/8X7/8 MM PLAIN WASHER - Stock: OK\n10 MM SPRING WASHER - Stock: Failed\nBLACK TAPE - Stock: OK\nBLUE TAPE - Stock: OK\nRED TAPE - Stock: OK\nGREEN TAPE - Stock: OK\nYELLOW TAPE - Stock: OK\n",
+  "Total_Quantity": "903",
+  "Material_Requisition_ID": "100",
+  "Issued_by1": "",
+  "Item_Details": [
+    {
+      "Returned_Item_Qty": "0",
+      "Product_Code": {
+        "Product_Code": "3/8 X3/4 MM PLAIN WASHER",
+        "ID": "302392000000358819",
+        "zc_display_value": "3/8 X3/4 MM PLAIN WASHER"
+      },
+      "Quantity": "200",
+      "ID": "302392000002884043",
+      "Previous_Returned_Qty": "0",
+      "zc_display_value": "3/8 X3/4 MM PLAIN WASHER 200 0 0"
+    },
+    {
+      "Returned_Item_Qty": "0",
+      "Product_Code": {
+        "Product_Code": "5/16 X 3/4MM PLAIN WASHER",
+        "ID": "302392000000962166",
+        "zc_display_value": "5/16 X 3/4MM PLAIN WASHER"
+      },
+      "Quantity": "364",
+      "ID": "302392000002884045",
+      "Previous_Returned_Qty": "0",
+      "zc_display_value": "5/16 X 3/4MM PLAIN WASHER 364 0 0"
+    },
+    {
+      "Returned_Item_Qty": "0",
+      "Product_Code": {
+        "Product_Code": "3/8X7/8 MM PLAIN WASHER",
+        "ID": "302392000001100048",
+        "zc_display_value": "3/8X7/8 MM PLAIN WASHER"
+      },
+      "Quantity": "216",
+      "ID": "302392000002884047",
+      "Previous_Returned_Qty": "0",
+      "zc_display_value": "3/8X7/8 MM PLAIN WASHER 216 0 0"
+    },
+    {
+      "Returned_Item_Qty": "0",
+      "Product_Code": {
+        "Product_Code": "10 MM SPRING WASHER",
+        "ID": "302392000000358867",
+        "zc_display_value": "10 MM SPRING WASHER"
+      },
+      "Quantity": "111",
+      "ID": "302392000002884049",
+      "Previous_Returned_Qty": "0",
+      "zc_display_value": "10 MM SPRING WASHER 111 0 0"
+    },
+    {
+      "Returned_Item_Qty": "0",
+      "Product_Code": {
+        "Product_Code": "BLACK TAPE",
+        "ID": "302392000000358435",
+        "zc_display_value": "BLACK TAPE"
+      },
+      "Quantity": "2",
+      "ID": "302392000002884051",
+      "Previous_Returned_Qty": "0",
+      "zc_display_value": "BLACK TAPE 2 0 0"
+    },
+    {
+      "Returned_Item_Qty": "0",
+      "Product_Code": {
+        "Product_Code": "BLUE TAPE",
+        "ID": "302392000000358431",
+        "zc_display_value": "BLUE TAPE"
+      },
+      "Quantity": "1",
+      "ID": "302392000002884053",
+      "Previous_Returned_Qty": "0",
+      "zc_display_value": "BLUE TAPE 1 0 0"
+    },
+    {
+      "Returned_Item_Qty": "0",
+      "Product_Code": {
+        "Product_Code": "RED TAPE",
+        "ID": "302392000000358423",
+        "zc_display_value": "RED TAPE"
+      },
+      "Quantity": "2",
+      "ID": "302392000002884055",
+      "Previous_Returned_Qty": "0",
+      "zc_display_value": "RED TAPE 2 0 0"
+    },
+    {
+      "Returned_Item_Qty": "0",
+      "Product_Code": {
+        "Product_Code": "GREEN TAPE",
+        "ID": "302392000000358439",
+        "zc_display_value": "GREEN TAPE"
+      },
+      "Quantity": "5",
+      "ID": "302392000002884057",
+      "Previous_Returned_Qty": "0",
+      "zc_display_value": "GREEN TAPE 5 0 0"
+    },
+    {
+      "Returned_Item_Qty": "0",
+      "Product_Code": {
+        "Product_Code": "YELLOW TAPE",
+        "ID": "302392000000358427",
+        "zc_display_value": "YELLOW TAPE"
+      },
+      "Quantity": "2",
+      "ID": "302392000002884059",
+      "Previous_Returned_Qty": "0",
+      "zc_display_value": "YELLOW TAPE 2 0 0"
+    }
+  ],
+  "Department": "Production",
+  "Remarks": "",
+  "Bill_No": "",
+  "Received_From_By": {},
+  "DC_Date": "19-09-2026",
+  "ID": "302392000002884061",
+  "Defective_Items": [],
+  "Added_Time": "19-09-2026 10:43:28",
+  "Status": "Closed",
+  "DC_Number": "",
+  "Customer_Type_Of_Call": {},
+  "Grand_Total": "0.00",
+  "Modified_Time": "19-09-2026 10:43:28",
+  "Under_Warranty_Quality_Material": "",
+  "Approved_by": "",
+  "Rerturn": "false",
+  "Rejection_Replacement": "",
+  "Date_field": "19-09-2026",
+  "Total_Line_Items": "9",
+  "Payment": "",
+  "Issued_by": {}
+}
+
+=== product -> All_Product (All_Product) ===
+1000 record(s) sampled, 17 field(s):
+Product_Image, Modified_Time, Minimum_Stock_Level, Cloned_From.Is_Red_Tag_Material, Product_Name, Is_Red_Tag_Material, Red_Tagged_Date, Product_Units, Available_Stock, Product_Code, Product_Status, Price, Group_Name, ID, Product_Type, SPEC, Last_Order_Date
+
+Sample record:
+{
+  "Product_Image": "",
+  "Modified_Time": "17-06-2026 11:22:41",
+  "Minimum_Stock_Level": "0",
+  "Cloned_From.Is_Red_Tag_Material": "",
+  "Product_Name": "Auto Transformer 40KVA 3:3",
+  "Is_Red_Tag_Material": "false",
+  "Red_Tagged_Date": "",
+  "Product_Units": {},
+  "Available_Stock": "0.00",
+  "Product_Code": "AT 40KVA 3:3",
+  "Product_Status": "Active",
+  "Price": "0.00",
+  "Group_Name": {},
+  "ID": "302392000001277007",
+  "Product_Type": {
+    "ID": "302392000000603459",
+    "Product_Type": "Finished Goods",
+    "zc_display_value": "Finished Goods"
+  },
+  "SPEC": "",
+  "Last_Order_Date": ""
+}
+
+=== rework -> All_Rework_Registers (All_Rework_Registers) ===
+3 record(s) sampled, 18 field(s):
+Status, DC_Number, Follow_Up_Date, User, Received_Date, Product_Name, Quantity, Make, Adroid_DC_No, Rework_Cost, Petrol_Cost, Date_field, Decision_box, Taken_by, Total_Expence, Supplier, ID, Man_Hour_Cost
+
+Sample record:
+{
+  "Status": "Pending",
+  "DC_Number": "",
+  "Follow_Up_Date": "",
+  "User": {
+    "Employee_Name.suffix": "",
+    "Employee_Name.first_name": "RANJANI",
+    "Employee_Name.last_name": "S",
+    "ID": "302392000000497249",
+    "Employee_Name.prefix": "",
+    "zc_display_value": "   RANJANI S  "
+  },
+  "Received_Date": "08-09-2026",
+  "Product_Name": {
+    "Product_Code": "28A DIMMER",
+    "Product_Name": "DIMMER",
+    "ID": "302392000001045448",
+    "zc_display_value": "DIMMER - 28A DIMMER"
+  },
+  "Quantity": "1",
+  "Make": {
+    "Manufacture_Name": "CPF",
+    "ID": "302392000001993007",
+    "zc_display_value": "CPF"
+  },
+  "Adroid_DC_No": "498/27.08.26",
+  "Rework_Cost": "",
+  "Petrol_Cost": "",
+  "Date_field": "08-09-2026",
+  "Decision_box": "false",
+  "Taken_by": "",
+  "Total_Expence": "",
+  "Supplier": {},
+  "ID": "302392000002766023",
+  "Man_Hour_Cost": ""
+}
+
+=== rejection -> Rejection_Replacement_Register_Format (Rejection_Replacement_Register_Format) ===
+41 record(s) sampled, 18 field(s):
+Status, Follow_Up_Date, Type_field, Received_From, Remarks_Rejection_Replacement, Reference, Make, Material_Requisition_ID, Adroit_DC_Number, Date_field, Department, Supplier_DC_Number, Decision_box, Defective_Product, Qty, Nature_of_Issue, Supplier, ID
+
+Sample record:
+{
+  "Status": "Pending",
+  "Follow_Up_Date": "",
+  "Type_field": "Replacement",
+  "Received_From": {
+    "Employee_Name.suffix": "",
+    "Employee_Name.first_name": "HIRANJITH",
+    "Employee_Name.last_name": "",
+    "ID": "302392000001372025",
+    "Employee_Name.prefix": "",
+    "zc_display_value": "   HIRANJITH    "
+  },
+  "Remarks_Rejection_Replacement": "",
+  "Reference": "",
+  "Make": {
+    "Manufacture_Name": "CT",
+    "ID": "302392000002025103",
+    "zc_display_value": "CT"
+  },
+  "Material_Requisition_ID": {},
+  "Adroit_DC_Number": "605/02.09.26",
+  "Date_field": "18-08-2026",
+  "Department": "Production",
+  "Supplier_DC_Number": "",
+  "Decision_box": "false",
+  "Defective_Product": {
+    "Product_Code": "50/ 30mA   CT COIL",
+    "ID": "302392000000358179",
+    "zc_display_value": "50/ 30mA   CT COIL"
+  },
+  "Qty": "2",
+  "Nature_of_Issue": "NOT WORKING",
+  "Supplier": {
+    "Vendor_Supplier_Name": "Indtra Industries",
+    "ID": "302392000000321773",
+    "zc_display_value": "Indtra Industries"
+  },
+  "ID": "302392000002580074"
+}

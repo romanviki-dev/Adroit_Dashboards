@@ -1,0 +1,218 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Director Overview Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Link to the separated CSS file -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- Zoho SDK (v2 — ZOHO.CREATOR.DATA.getRecords, matching every other adroit dashboard) -->
+  <script src="https://static.zohocdn.com/creator/widgets/version/2.0/widgetsdk-min.js"></script>
+  <!-- ApexCharts -- donut/gauge/line/bar charts, replacing the old hand-built CSS/SVG ones -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.45.2/dist/apexcharts.min.js"></script>
+</head>
+<body>
+  <div id="root">
+    <!-- Loader -->
+    <div id="loader-wrap" class="loader-wrap">
+      <div class="loader"></div>
+      <p>Loading dashboard data…</p>
+    </div>
+
+    <!-- Main Dashboard Container (Hidden until loaded) -->
+    <div id="dashboard-container" class="dashboard" style="display: none;">
+      <div class="page-title">Overall Dashboard</div>
+      <div id="warn-banner-container"></div>
+
+      <!-- 1. KPI Tiles -->
+      <div class="kpi-section">
+        <div class="kpi-tile t-red">
+          <div class="kpi-title">Warranty Expense</div>
+          <div class="kpi-value" id="val-warranty">₹ 0</div>
+        </div>
+        <div class="kpi-tile t-yellow">
+          <div class="kpi-title">Post Warranty</div>
+          <div class="kpi-value" id="val-post-warranty">₹ 0</div>
+        </div>
+        <div class="kpi-tile t-gray">
+          <div class="kpi-title">Indirect Expenses</div>
+          <div class="kpi-value" id="val-indirect">₹ 0</div>
+        </div>
+        <div class="kpi-tile t-green">
+          <div class="kpi-title">Invoice Amounts (₹)</div>
+          <div class="kpi-value" id="val-invoice-tiles">₹ 0</div>
+        </div>
+      </div>
+
+      <!-- 2. Service Health Summary -->
+      <div class="section">
+        <div class="section-title">Service Health Summary</div>
+        <div class="cards">
+          <div class="card"><h3>Total Open Calls</h3><p id="val-open-calls">0</p></div>
+          <div class="card"><h3>Ageing</h3><p id="val-ageing">0</p></div>
+          <div class="card"><h3>Complaints %</h3><p id="val-complaints-pct">0%</p></div>
+          <div class="card"><h3>Google Review %</h3><p id="val-google-pct">0%</p></div>
+          <div class="card"><h3>Average Rating</h3><p id="val-avg-rating-health">0</p></div>
+        </div>
+      </div>
+
+      <!-- 3. Customer Satisfaction -->
+      <div class="section">
+        <div class="section-title" id="satisfaction-title">Customer Satisfaction (0 reviews)</div>
+        <div class="satisfaction-grid">
+          <div>
+            <div class="rating-display">
+              <div class="rating-score" id="val-satisfaction-score">0</div>
+              <div class="rating-stars" id="satisfaction-stars">☆☆☆☆☆</div>
+              <div class="rating-label">Average Customer Rating</div>
+            </div>
+            <div class="month-bars" id="month-bars-container">
+              <!-- Dynamically populated month bars -->
+            </div>
+          </div>
+          <div>
+            <h3 style="font-size:16px;font-weight:600;margin-bottom:15px;color:#1f2937;">Recent Complaints</h3>
+            <div class="complaints-list" id="complaints-list">
+              <!-- Dynamically populated complaints -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Cross-Department Alerts -->
+      <div class="section">
+        <div class="section-title">Cross-Department Alerts</div>
+        <div class="alert-grid">
+          <div>
+            <div class="card full-width">
+              <h3>No. of Calls Delayed due to Material Unavailability</h3>
+              <p id="val-material-unavail">0</p>
+            </div>
+          </div>
+          <div>
+            <h4 style="margin-bottom:10px;color:#333;font-size:15px;font-weight:600;">Overall Delay Impact (Material Unavailability)</h4>
+            <div class="progress-bar">
+              <div class="progress-fill" id="val-delay-impact-bar" style="width:0%">0%</div>
+            </div>
+            <div style="margin-top:8px;font-size:12px;color:#6b7280;">(Percentage of total service calls affected)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Cost vs Revenue -->
+      <div class="section">
+        <div class="section-title">Cost vs Revenue (Service)</div>
+        <div class="cost-revenue-grid">
+          <div class="cost-cards">
+            <div class="card"><h3>Invoiced Amount</h3><p id="val-invoiced-amount">₹0</p></div>
+            <div class="card"><h3>Complaint Cost</h3><p id="val-complaint-cost">₹0</p></div>
+          </div>
+          <div class="donut-container">
+            <div id="cost-revenue-chart" style="max-width:220px;margin:0 auto"></div>
+            <p class="center-value" id="val-cost-revenue-pct" style="text-align:center">0%</p>
+            <div class="donut-legend">
+              <div id="val-legend-complaint"><span class="dot red"></span> Complaint Cost 0%</div>
+              <div id="val-legend-invoice"><span class="dot green"></span> Invoiced Amount 0%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Engineer Efficiency Index -->
+      <div class="section">
+        <div class="section-title">Engineer Efficiency Index</div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr><th>Engineer</th><th>Calls Completed</th><th>Customer Feedback</th><th>Delay %</th><th>Cost Efficiency</th><th>Performance Score</th></tr>
+            </thead>
+            <tbody id="engineer-table-body">
+              <!-- Dynamically populated engineers -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 7. Risk & Compliance Summary -->
+      <div class="section">
+        <div class="section-title">Risk &amp; Compliance Summary</div>
+        <div class="risk-layout">
+          <div class="kpi-left">
+            <div class="kpi-box"><h4>Total Inspections</h4><p id="val-total-inspections">0</p></div>
+            <div class="kpi-box"><h4>Calibration</h4><p id="val-calibration-count">0</p></div>
+            <div class="kpi-box"><h4>Vehicle Register Signed</h4><p id="val-vehicle-register">0</p></div>
+          </div>
+          <div class="risk-bars">
+            <div id="risk-bars-chart" style="width:100%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8. Customer Experience Summary -->
+      <div class="section">
+        <div class="section-title">Customer Experience Summary</div>
+        <div class="customer-layout">
+          <div class="google-box">
+            <h3>Average Google Rating</h3>
+            <div class="rating-value" id="val-google-rating-cx">N/A</div>
+            <div class="stars">
+              <span class="star filled">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+            </div>
+            <div class="subtext">Based on customer reviews</div>
+          </div>
+          <div class="gauge-box">
+            <h3>Satisfaction Index</h3>
+            <div data-drill="cx.index"><div id="cx-gauge-chart"></div></div>
+            <div class="subtext">Overall customer happiness</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 9. Repeat Issues -->
+      <div class="section" id="repeat-issues-container">
+        <!-- Toggled by JS -->
+      </div>
+
+      <!-- 10. Invoice Amount Trend -->
+      <div class="card" style="text-align:center;">
+        <h3>Invoice Amount Trend</h3>
+        <div id="invoice-trend-chart"></div>
+      </div>
+
+      <!-- 11. Repeat Calls & Feedback Trend -->
+      <div class="split-row">
+        <div class="card">
+          <h3>Repeat Calls Reason Breakdown</h3>
+          <div id="reason-pie-chart"></div>
+          <div class="legend" style="margin-top:12px;">
+            <span id="val-reason-k"><span class="dot" style="background:#3b82f6;"></span>Lack of Knowledge: 0%</span>
+            <span id="val-reason-p"><span class="dot" style="background:#16a34a;"></span>Parts Unavailability: 0%</span>
+            <span id="val-reason-w"><span class="dot" style="background:#f59e0b;"></span>Power Issue: 0%</span>
+          </div>
+        </div>
+        <div class="gauge-cnt2-container">
+          <div class="gauge-cnt2-inside-heading" id="val-feedback-avg">Service Feedback Trend (Avg: 0/5)</div>
+          <div id="feedback-gauge-chart"></div>
+        </div>
+      </div>
+
+      <!-- 12. AMC Conversion -->
+      <div class="chart-card">
+        <div class="chart-title">AMC Offer vs Closed – Conversion Chart</div>
+        <div id="amc-container">
+          <!-- Toggled by JS -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Shared runtime: number formatting, drill-down modal, fetch diagnostics -->
+  <script src="adroitWidgetKit.js"></script>
+  <!-- Link to the separated JS file -->
+  <script src="script.js"></script>
+</body>
+</html>
