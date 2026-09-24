@@ -254,6 +254,31 @@ h1 {
 }
 @keyframes drawUnderline { to { width:60px; } }
 
+/* Orders vs Payments donut — .pieContainer/.pie/.center-circle/.legend had no
+   CSS at all, so the ApexCharts donut and its "Total" overlay text were just
+   sitting in normal document flow with no shared positioning context, which
+   is why they never lined up. .pieContainer is the single positioning parent
+   both the chart (absolute, filling it) and the overlay (absolute, centered
+   on it) are pinned to, so they always share the same center regardless of
+   card width. Height matches the 250px chart.height set in script.js so the
+   overlay's vertical center matches the donut's vertical center too. */
+.pieContainer { position:relative; width:100%; height:250px; margin:4px auto 0; }
+.pieContainer .pie { position:absolute; inset:0; }
+.center-circle {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; pointer-events:none; z-index:2;
+}
+.center-text { font-size:.72rem; font-weight:600; color:#64748b; text-transform:uppercase; letter-spacing:.05em; }
+.center-value { font-size:1.6rem; font-weight:700; color:#0f172a; line-height:1.2; }
+.legend { display:flex; flex-direction:column; gap:8px; margin-top:16px; }
+.legend-item { display:flex; align-items:center; gap:8px; font-size:.85rem; color:#334155; }
+.legend-color { width:12px; height:12px; border-radius:3px; flex-shrink:0; }
+.legend-text { font-size:.9rem; color:#334155; }
+/* Matches AK.categoricalColors(2) — blue/orange — which is what the donut itself is drawn with. */
+.orders-color { background:#2a78d6; }
+.payments-color { background:#eb6834; }
+
 /* Monthly bar chart */
 .chart-container { position:relative; display:flex; flex-direction:column; align-items:center; width:100%; }
 .y-axis-label { position:absolute; left:-6px; top:40%; transform:rotate(-90deg) translateX(50%); font-size:13px; color:#333; white-space:nowrap; }
@@ -278,31 +303,6 @@ h1 {
 .bar:hover .value { opacity:1; }
 .month { margin-top:8px; font-size:13px; font-weight:500; color:#444; text-align:center; }
 .x-axis-label { text-align:center; margin-top:15px; font-size:14px; color:#333; }
-
-/* Pie chart */
-.pieContainer { height:300px; display:flex; justify-content:center; align-items:center; position:relative; }
-.pie {
-  width:250px; height:250px; max-width:100%; aspect-ratio:1/1; border-radius:50%; position:relative;
-  box-shadow:0 5px 15px rgba(0,0,0,0.1);
-  transition:transform .4s var(--ease-out-back), box-shadow .4s ease;
-  animation:popIn .6s .1s var(--ease-out-back) both;
-}
-.pie:hover { transform:scale(1.03); box-shadow:0 10px 26px rgba(0,0,0,0.2); }
-.center-circle {
-  position:absolute; width:100px; height:100px; border-radius:50%; background:#fff;
-  top:50%; left:50%; transform:translate(-50%,-50%); box-shadow:0 2px 10px rgba(0,0,0,0.1);
-  display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:10;
-  transition:transform .3s var(--ease-out-back);
-}
-.pie:hover .center-circle { transform:translate(-50%,-50%) scale(1.06); }
-.center-text { font-size:.9rem; font-weight:600; color:#333; }
-.center-value { font-size:1.2rem; font-weight:700; color:#667eea; }
-.legend { display:flex; justify-content:center; margin-top: var(--gap-md); gap:20px; flex-wrap:wrap; }
-.legend-item { display:flex; align-items:center; gap:8px; }
-.legend-color { width:16px; height:16px; border-radius:4px; flex-shrink:0; }
-.orders-color { background:#2a78d6; }
-.payments-color { background:#eb6834; }
-.legend-text { font-size:.9rem; color:#555; }
 
 /* Line chart */
 .line-chart { position:relative; height:250px; margin-top: var(--gap-md); padding:20px 0; overflow-x:auto; }

@@ -77,26 +77,20 @@
    ---------------------------------------------------------------- */
 const CFG = {
   reports: {
-    // BROKEN — confirmed via a live fields.txt dump, not a guess: this exact name returned
-    // "code 2930: Error Occurred." Every other confirmed report in this app follows an
-    // "All_<Form>" naming convention; this one is "Add_<Form>", which looks like a Deluge
-    // add-form link name rather than a report link name. "All_Work_Order_SERVO" is a
-    // plausible alternate given that pattern, but it is NOT verified — click the "Fields"
-    // button on the dashboard and try it before trusting it.
+    // CONFIRMED via the latest fields.txt — the real report was neither the old
+    // "Add_Work_Order_SERVO" nor the guessed "All_Work_Order_SERVO" alternate; it's this.
+    // 116 records, 105 fields.
     workOrder: "Detailed_Work_Order_SERVO_Stabilizer",
     orderConfirmation: "All_Order_Confirmations",  // confirmed — used by salesExecutiveCommandView / sales_performance_summary, and via this dashboard's own fields.txt
-    // VALID report name (fields.txt got a clean response, not an error) but it returned ZERO
-    // records — either Production genuinely has no rework logged, or this is the wrong report:
-    // the Store dashboards read the same-sounding "Rework" form from "All_Rework_Registers"
-    // (which DOES have records) instead of "All_Reworks". Worth confirming with whoever owns
-    // the Production app whether Production rework is really a separate, currently-empty log,
-    // or whether this should point at All_Rework_Registers too.
+    // VALID report name (fields.txt got a clean response, not an error) but it STILL returns
+    // ZERO records as of the latest scan — either Production genuinely has no rework logged
+    // yet, or this is the wrong report: the Store dashboards read the same-sounding "Rework"
+    // form from "All_Rework_Registers" (which DOES have records) instead of "All_Reworks".
+    // Still worth confirming with whoever owns the Production app.
     rework: "All_Reworks",
-    // These two names were changed after the last fields.txt scan (which tested the singular
-    // "All_Rejection_Module" / "All_Preventive_Maintenance" and got "code 2894: No report
-    // named ... found" for both). That scan is now stale for these two — it did not test the
-    // plural names currently configured here. Click "Fields" on the dashboard and rescan to
-    // confirm whether these plural names actually resolve.
+    // CONFIRMED via the latest fields.txt — the plural names now resolve. Rejection has 10
+    // records; Preventive Maintenance is a valid report but currently has 0 records (not a
+    // naming problem anymore, just no data logged yet).
     rejection: "All_Rejection_Modules",
     preventiveMaintenance: "All_Preventive_Maintenances",
     product: "All_Product"                          // confirmed — used by every Store dashboard, and via this dashboard's own fields.txt
@@ -104,9 +98,9 @@ const CFG = {
 
   fields: {
     workOrder: {
-      date: "Date_field",       // VERIFY
-      status: "Status",         // VERIFY — compared against "Draft" and "Completed"
-      manHours: "Man_Hours"     // VERIFY — powers the new Today's & Weekly Overview panel (Man-Hours Logged tiles)
+      date: "Date_field",       // confirmed via fields.txt
+      status: "Status",         // confirmed via fields.txt — compared against "Draft" and "Completed"
+      manHours: "Man_Hours"     // confirmed via fields.txt — powers the Today's & Weekly Overview panel (Man-Hours Logged tiles)
     },
     orderConfirmation: {
       // All 7 confirmed via this dashboard's own fields.txt dump.
@@ -123,8 +117,10 @@ const CFG = {
       date: "Date_field" // VERIFY
     },
     rejection: {
-      date: "Date_field" // VERIFY
+      date: "Date_field" // confirmed via fields.txt
     },
+    // Still unconfirmed — All_Preventive_Maintenances has 0 records, so none of these 4
+    // field names have been seen against real data yet.
     preventiveMaintenance: {
       maintenanceDate: "Preventive_Maintenance_Date", // VERIFY
       frequency: "Frequency",                          // VERIFY — values: Monthly / 3 Months / 6 Months / Annually

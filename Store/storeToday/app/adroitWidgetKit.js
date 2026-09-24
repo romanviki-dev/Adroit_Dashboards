@@ -509,7 +509,28 @@ window.AdroitKit = (function () {
     ".ak-field-sample{margin-top:10px}",
     ".ak-field-sample summary{cursor:pointer;font-size:11.5px;color:#2563eb;font-weight:500}",
     ".ak-field-sample pre{margin:8px 0 0;background:#0f172a;color:#e2e8f0;padding:12px;border-radius:8px;",
-    "font-size:11px;overflow:auto;max-height:220px;line-height:1.5;white-space:pre-wrap;word-break:break-word}"
+    "font-size:11px;overflow:auto;max-height:220px;line-height:1.5;white-space:pre-wrap;word-break:break-word}",
+
+    ".ak-funnel-wrap{display:flex;align-items:stretch;gap:18px;width:100%;",
+    "font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}",
+    ".ak-funnel{display:flex;flex-direction:column;flex:0 0 42%;min-width:90px}",
+    ".ak-funnel-row{position:relative;width:100%;flex-shrink:0}",
+    ".ak-funnel-seg{position:absolute;inset:0;transition:filter .15s ease}",
+    ".ak-funnel-legend{display:flex;flex-direction:column;flex:1;min-width:0}",
+    ".ak-funnel-legend-row{display:flex;align-items:center;gap:8px;flex-shrink:0;border-bottom:1px solid #f1f5f9}",
+    ".ak-funnel-legend-row:last-child{border-bottom:none}",
+    ".ak-funnel-row-click{cursor:pointer}",
+    ".ak-funnel-row-click:hover .ak-funnel-seg{filter:brightness(1.08)}",
+    ".ak-funnel-row-click.ak-funnel-legend-row:hover{background:#f8fafc}",
+    ".ak-funnel-legend-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}",
+    ".ak-funnel-legend-label{font-size:12.5px;color:#475569;flex:1;min-width:0;overflow:hidden;",
+    "text-overflow:ellipsis;white-space:nowrap}",
+    ".ak-funnel-legend-value{font-size:13.5px;font-weight:700;color:#0f172a;white-space:nowrap}",
+
+    ".ak-gauge{position:relative;width:100%;display:flex;flex-direction:column;align-items:center;",
+    "font-family:'Poppins',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}",
+    ".ak-gauge-svg{max-width:220px}",
+    ".ak-gauge-label{font-size:11.5px;color:#94a3b8;margin-top:2px;text-align:center}"
   ].join("");
 
   function ensureStyles() {
@@ -1062,62 +1083,146 @@ window.AdroitKit = (function () {
   }
 
   /**
-   * A real funnel shape (centered, narrowing bars) via ApexCharts — there is
-   * no native funnel series type, so this uses the standard recipe: a
-   * stacked horizontal bar with an invisible "padding" series on each side
-   * of the real value, which centers each bar and makes it narrow as the
-   * value shrinks.
+   * A real funnel shape — continuously narrowing trapezoid segments, stacked
+   * top to bottom, each one's width driven by its value relative to the
+   * largest stage. ApexCharts has no native funnel series type, and the
+   * previous approach (a stacked horizontal bar with an invisible "padding"
+   * series) rendered the padding segment with a visible default color
+   * instead of hiding it, so bars came out as flat, wrongly-sized blocks
+   * instead of a taper. This builds the shape directly with CSS clip-path
+   * polygons instead, which is exact and needs no charting library at all.
    *
    * @param {string} containerId
    * @param {Array}  stages  [{ label, value, drillKey? }, ...], in funnel order
    */
   function mountFunnel(containerId, stages) {
-    if (typeof ApexCharts === "undefined") {
-      console.warn("[" + DASHBOARD + "] mountFunnel('" + containerId + "'): ApexCharts is not loaded " +
-        "— add <script src=\"https://cdn.jsdelivr.net/npm/apexcharts@3.45.2/dist/apexcharts.min.js\"></script> to widget.html.");
-      return null;
-    }
     var el = document.getElementById(containerId);
     if (!el) { console.warn("[" + DASHBOARD + "] mountFunnel: no element #" + containerId); return null; }
+    ensureStyles();
+
+    if (!stages || !stages.length) {
+      el.innerHTML = emptyPanel("No funnel stages to show.");
+      return null;
+    }
 
     var values = stages.map(function (s) { return num(s.value); });
     var maxValue = Math.max.apply(null, values.concat([1]));
-    var padding = values.map(function (v) { return (maxValue - v) / 2; });
-    var colors = ordinalColors(stages.length);
-    var hasDrill = stages.some(function (s) { return !!s.drillKey; });
-
-    return mountChart(containerId, {
-      chart: {
-        type: "bar", stacked: true, height: Math.max(220, stages.length * 64),
-        fontFamily: "Poppins, sans-serif", toolbar: { show: false },
-        events: hasDrill ? {
-          dataPointSelection: function (ev, ctx, opts) {
-            if (opts.seriesIndex !== 1) return;
-            var key = stages[opts.dataPointIndex] && stages[opts.dataPointIndex].drillKey;
-            if (key) openDrill(key);
-          }
-        } : {}
-      },
-      series: [
-        { name: "", data: padding },
-        { name: "Count", data: values.map(function (v, i) { return { y: v, fillColor: colors[i] }; }) }
-      ],
-      xaxis: {
-        categories: stages.map(function (s) { return s.label; }),
-        labels: { show: false }, axisBorder: { show: false }, axisTicks: { show: false }
-      },
-      grid: { show: false, padding: { left: 0, right: 20 } },
-      plotOptions: { bar: { horizontal: true, barHeight: "70%", borderRadius: 3 } },
-      legend: { show: false },
-      dataLabels: {
-        enabledOnSeries: [1], style: { colors: ["#fff"], fontWeight: 600 },
-        formatter: function (val) { return int(val && val.y !== undefined ? val.y : val); }
-      },
-      tooltip: {
-        enabledOnSeries: [1],
-        y: { formatter: function (val) { return int(val); }, title: { formatter: function () { return ""; } } }
-      }
+    // Small floor so a genuinely 0-value stage still renders as a visible
+    // sliver instead of vanishing — kept low (not the old 22%) because
+    // labels no longer have to fit INSIDE the shape (see below), so a
+    // narrow true-to-value taper reads correctly without crowding text.
+    var MIN_PCT = 6, MAX_PCT = 100;
+    var widths = values.map(function (v) {
+      return MIN_PCT + (MAX_PCT - MIN_PCT) * (v / maxValue);
     });
+    var colors = ordinalColors(stages.length);
+    var rowHeight = stages.length > 5 ? 46 : 58;
+
+    // Labels live in their own full-width column next to the shape, never
+    // inside a trapezoid — a narrow (near-zero) segment used to force its
+    // "Label: value" text to overflow into the row above/below it, which is
+    // what made the funnel look broken. Text in a separate column can never
+    // collide with the taper, no matter how thin a segment gets.
+    var shapeRows = stages.map(function (s, i) {
+      var topW = widths[i];
+      var botW = i < widths.length - 1 ? widths[i + 1] : widths[i];
+      var clip = "polygon(" +
+        "calc(50% - " + topW / 2 + "%) 0%, calc(50% + " + topW / 2 + "%) 0%, " +
+        "calc(50% + " + botW / 2 + "%) 100%, calc(50% - " + botW / 2 + "%) 100%)";
+      return "<div class='ak-funnel-row' style='height:" + rowHeight + "px'>" +
+        "<div class='ak-funnel-seg' style='clip-path:" + clip + ";background:" + colors[i] + "'></div></div>";
+    }).join("");
+
+    var legendRows = stages.map(function (s, i) {
+      var clickable = !!s.drillKey;
+      return "<div class='ak-funnel-legend-row" + (clickable ? " ak-funnel-row-click" : "") + "' " +
+        (clickable ? "data-ak-funnel-drill='" + esc(s.drillKey) + "' role='button' tabindex='0'" : "") +
+        " style='height:" + rowHeight + "px'>" +
+        "<span class='ak-funnel-legend-dot' style='background:" + colors[i] + "'></span>" +
+        "<span class='ak-funnel-legend-label'>" + esc(s.label) + "</span>" +
+        "<span class='ak-funnel-legend-value'>" + int(values[i]) + "</span>" +
+        "</div>";
+    }).join("");
+
+    el.innerHTML =
+      "<div class='ak-funnel-wrap'>" +
+      "<div class='ak-funnel' style='height:" + (rowHeight * stages.length) + "px'>" + shapeRows + "</div>" +
+      "<div class='ak-funnel-legend' style='height:" + (rowHeight * stages.length) + "px'>" + legendRows + "</div>" +
+      "</div>";
+
+    if (stages.some(function (s) { return !!s.drillKey; })) {
+      Array.prototype.forEach.call(el.querySelectorAll("[data-ak-funnel-drill]"), function (row) {
+        var go = function () { openDrill(row.getAttribute("data-ak-funnel-drill")); };
+        row.addEventListener("click", go);
+        row.addEventListener("keydown", function (ev) {
+          if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); go(); }
+        });
+      });
+    }
+
+    return { destroy: function () { el.innerHTML = ""; } };
+  }
+
+  /**
+   * Semi-circle gauge with a needle pointer, drawn entirely as SVG. The
+   * ApexCharts build this app loads (3.45.2, checked directly against its
+   * source) has no needle/radialBar-needle feature — that only exists in
+   * much newer ApexCharts releases, and jumping this app's pinned CDN
+   * version that far forward risks silently breaking every other chart on
+   * every dashboard with no way to test it live first. A hand-drawn SVG arc
+   * + needle needs no charting library at all and its geometry is exact by
+   * construction (plain trigonometry), so there's nothing to verify against
+   * an unfamiliar library version.
+   *
+   * @param {string} containerId
+   * @param {number} percent  0-100
+   * @param {object} [opts]
+   *   color      arc + needle-tip color (default categorical blue)
+   *   label      small caption under the value, e.g. "Quote Accuracy"
+   *   valueText  override the big center number (default: percent + "%")
+   *   dark       true for a dark card background — flips track/text/needle
+   *              colors to stay legible instead of near-invisible dark-on-dark
+   */
+  function mountGauge(containerId, percent, opts) {
+    var el = document.getElementById(containerId);
+    if (!el) { console.warn("[" + DASHBOARD + "] mountGauge: no element #" + containerId); return null; }
+    opts = opts || {};
+    ensureStyles();
+
+    var pct = Math.max(0, Math.min(100, num(percent)));
+    var color = opts.color || CHART_PALETTE.blue;
+    var trackColor = opts.dark ? "#334155" : "#e5e7eb";
+    var needleColor = opts.dark ? "#f1f5f9" : "#1e293b";
+    var textColor = opts.dark ? "#ffffff" : "#0f172a";
+
+    // Semi-circle, radius 90, centered at (100,100), spanning the top half.
+    var R = 90, CX = 100, CY = 100;
+    var TOTAL_LEN = Math.PI * R; // arc length of a half-circle
+    var progressLen = (pct / 100) * TOTAL_LEN;
+
+    // Needle angle: pct=0 -> pointing left (180°), pct=100 -> pointing right (0°).
+    var theta = Math.PI - (pct / 100) * Math.PI;
+    var needleR = R * 0.74;
+    var tipX = CX + needleR * Math.cos(theta);
+    var tipY = CY - needleR * Math.sin(theta);
+
+    var svg =
+      "<svg viewBox='0 0 200 112' class='ak-gauge-svg' style='width:100%;height:auto'>" +
+      "<path d='M 10 100 A " + R + " " + R + " 0 0 1 190 100' fill='none' stroke='" + trackColor + "' stroke-width='16' stroke-linecap='round'/>" +
+      "<path d='M 10 100 A " + R + " " + R + " 0 0 1 190 100' fill='none' stroke='" + color + "' stroke-width='16' " +
+      "stroke-linecap='round' stroke-dasharray='" + progressLen + " " + TOTAL_LEN + "'/>" +
+      "<line x1='" + CX + "' y1='" + CY + "' x2='" + tipX.toFixed(2) + "' y2='" + tipY.toFixed(2) + "' " +
+      "stroke='" + needleColor + "' stroke-width='4' stroke-linecap='round'/>" +
+      "<circle cx='" + CX + "' cy='" + CY + "' r='7' fill='" + needleColor + "'/>" +
+      "<text x='" + CX + "' y='86' text-anchor='middle' font-family='Poppins,sans-serif' font-weight='700' " +
+      "font-size='24' fill='" + textColor + "'>" + esc(opts.valueText || int(pct) + "%") + "</text>" +
+      "</svg>";
+
+    el.innerHTML = "<div class='ak-gauge'>" + svg +
+      (opts.label ? "<div class='ak-gauge-label' style='color:" + (opts.dark ? "#94a3b8" : "#64748b") + "'>" +
+        esc(opts.label) + "</div>" : "") + "</div>";
+
+    return { destroy: function () { el.innerHTML = ""; } };
   }
 
   /* ==============================================================
@@ -1185,7 +1290,7 @@ window.AdroitKit = (function () {
 
     // charts
     mountChart: mountChart, chartColors: CHART_PALETTE, categoricalColors: categoricalColors,
-    mountFunnel: mountFunnel, ordinalColors: ordinalColors,
+    mountFunnel: mountFunnel, ordinalColors: ordinalColors, mountGauge: mountGauge,
 
     // drill-down
     defineDrill: defineDrill, bindDrill: bindDrill, autoBind: autoBind,

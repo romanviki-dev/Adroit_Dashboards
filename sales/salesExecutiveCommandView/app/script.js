@@ -92,7 +92,7 @@ const COLS = {
     { label: "Reason", value: "Type_Of_Lost" }
   ],
   customer: [
-    { label: "Customer", value: "Customer_Company" },
+    { label: "Customer", value: "Customer_Name" }, // confirmed via fields.txt — Customer_Company doesn't exist on All_Customers
     { label: "Code", value: "Customer_Code" },
     { label: "Status", value: "Status" }
   ],
@@ -941,7 +941,8 @@ function abcClassification(db) {
     // revenue that put them in this category (not a raw report record, so
     // the modal's columns read it back as plain fields, not lookups).
     const row = {
-      Customer_Company: cust ? cust.Customer_Company : ("(customer #" + id + ")"),
+      // Customer_Company doesn't exist on All_Customers — confirmed via fields.txt, the real field is Customer_Name.
+      Customer_Company: cust ? lookupDisplay(cust.Customer_Name) : ("(customer #" + id + ")"),
       Customer_Code: code,
       Revenue: rev
     };
@@ -1279,11 +1280,9 @@ function renderFunnel(db) {
     ["Payments Received", db.paymentMade.length]
   ];
 
-  document.getElementById("funnelLegend").innerHTML = stages.map(function (s) {
-    return '<div class="funnel-legend-item"><div class="funnel-legend-text"><div class="funnel-legend-title">' +
-      escapeHtml(s[0]) + '</div><div class="funnel-legend-value">Count: ' + s[1] + '</div></div></div>';
-  }).join("");
-
+  // AK.mountFunnel renders its own shape + legend as one unit now — the
+  // separate #funnelLegend list this used to build alongside it was showing
+  // the exact same label/count a second time right next to the funnel.
   AK.mountFunnel("funnelStages", stages.map(function (s) { return { label: s[0], value: s[1] }; }));
 }
 

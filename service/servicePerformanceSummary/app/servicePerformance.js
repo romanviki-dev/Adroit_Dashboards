@@ -182,7 +182,13 @@ var DATASETS = {
     label: "Service Call Log",
     stage: "today",
     criteria: function (today) {
-      return '(Date_field >= "' + criteriaDate(minDate(startOfYear(today), startOfWeek(today))) + '" || Status == "Pending")';
+      // Real Status value for a not-yet-closed call is "Open" (confirmed via fields.txt — none of
+      // 273 sampled records ever have "Pending"). This criteria previously only widened the fetch
+      // for Status == "Pending", which never matched anything server-side either, so any open call
+      // older than the year/week start was silently excluded from the dataset entirely — not just
+      // mis-bucketed client-side. That's why every weekly "pending" metric (Pending Call Ageing,
+      // Engineer-wise pending split, etc.) read as 0 regardless of the real week's data.
+      return '(Date_field >= "' + criteriaDate(minDate(startOfYear(today), startOfWeek(today))) + '" || Status == "Open")';
     },
     fields: ["Date_field", "Status", "Customer_Name", "Service_Engineer_Name",
       "Nature_Of_Calls", "Repeat_Call_Reason", "Service_Call_Log_No"]
@@ -504,7 +510,10 @@ function calcTodayTiles(D, today) {
 
   var twoDaysBefore = addDays(today, -2);
   var pendingOld = callLogs.filter(function (c) {
-    return text(c.Status) === "Pending" && onOrBefore(c.Date_field, twoDaysBefore);
+    // Service_Call_Logs' real Status value for a not-yet-closed call is "Open", not "Pending" —
+    // confirmed via fields.txt. "Pending" never matches any of the 273 sampled records, which was
+    // silently zeroing out every pending-call metric derived from this report.
+    return text(c.Status) === "Open" && onOrBefore(c.Date_field, twoDaysBefore);
   });
 
   var rated = function (f, value) { return text(f.Rating) === value; };
@@ -516,7 +525,7 @@ function calcTodayTiles(D, today) {
 
   // Customers with two or more pending calls logged today.
   var pendingTodayGroups = groupBy(
-    callLogs.filter(function (c) { return isToday(c.Date_field) && text(c.Status) === "Pending"; }),
+    callLogs.filter(function (c) { return isToday(c.Date_field) && text(c.Status) === "Open"; }),
     function (c) { return lookupId(c.Customer_Name); }
   );
   var repeatedCount = 0;
@@ -698,7 +707,8 @@ function calcEngineerWeekly(D, today) {
   var perEngineer = engineers.map(function (eng) {
     var mine = calls.filter(function (c) { return lookupId(c.Service_Engineer_Name) === String(eng.ID); });
     var completed = mine.filter(function (c) { return text(c.Status) === "Completed"; });
-    var pending = mine.filter(function (c) { return text(c.Status) === "Pending"; });
+    // Real value is "Open", not "Pending" — see calcPendingAging's note below.
+    var pending = mine.filter(function (c) { return text(c.Status) === "Open"; });
     totalCalls += mine.length;
 
     var completedPercent = 0, pendingPercent = 0;
@@ -742,7 +752,7 @@ function calcEngineerWeekly(D, today) {
 function calcRepeatCallPercentWeekly(D, today) {
   var from = addDays(today, -6);
   var calls = (D.serviceCallLogs || []).filter(function (c) {
-    return hasValue(c.Customer_Name) && inRange(c.Date_field, from, today) && text(c.Status) !== "Pending";
+    return hasValue(c.Customer_Name) && inRange(c.Date_field, from, today) && text(c.Status) !== "Open";
   });
   if (calls.length === 0) return { percent: 0, src: [] };
 
@@ -799,7 +809,10 @@ function calcStandbyPending(D, today) {
  */
 function calcPendingAging(D, today) {
   var monthStart = startOfMonth(today);
-  var pending = (D.serviceCallLogs || []).filter(function (c) { return text(c.Status) === "Pending"; });
+  // Real Status value for a not-yet-closed call is "Open" (confirmed via fields.txt — "Pending"
+  // matches none of the 273 sampled Service_Call_Logs records), so this always returned 0 rows
+  // and every weekly ageing bucket showed Total: 0 regardless of the real week's data.
+  var pending = (D.serviceCallLogs || []).filter(function (c) { return text(c.Status) === "Open"; });
   var weeks = [];
 
   [0, 7, 14, 21].forEach(function (offset) {
@@ -994,7 +1007,7 @@ function calcIndirectExpense(D, today) {
 function calcRepeatCallAnalysis(D, today) {
   var from = startOfMonth(today);
   var pending = (D.serviceCallLogs || []).filter(function (c) {
-    return hasValue(c.Customer_Name) && inRange(c.Date_field, from, today) && text(c.Status) === "Pending";
+    return hasValue(c.Customer_Name) && inRange(c.Date_field, from, today) && text(c.Status) === "Open";
   });
 
   var customers = 0, rows = [];
@@ -1149,7 +1162,7 @@ function calcRepeatCallTrend(D, today) {
 
   (D.serviceCallLogs || [])
     .filter(function (c) {
-      return inRange(c.Date_field, yearStart, today) && text(c.Status) !== "Pending" && hasValue(c.Customer_Name);
+      return inRange(c.Date_field, yearStart, today) && text(c.Status) !== "Open" && hasValue(c.Customer_Name);
     })
     .forEach(function (c) {
       var customers = perMonth[parseDate(c.Date_field).getMonth()];
@@ -1484,8 +1497,8 @@ function defineTodayDrills(today) {
 
   drill("today.pendingCalls", "Pending Calls > 48 Hrs", R.SERVICE_CALL_LOG, COLS.callLog,
     function () { return t().pending_calls; },
-    "Service Call Log where Status = Pending and Date is on or before " + fmtDateMon(addDays(today, -2)),
-    "No call has been sitting in Pending for more than 48 hours. That is a good result, not missing data.");
+    "Service Call Log where Status = Open and Date is on or before " + fmtDateMon(addDays(today, -2)),
+    "No call has been sitting Open for more than 48 hours. That is a good result, not missing data.");
 
   drill("today.regret", "Customer Regret Cases", R.SERVICE_FEEDBACK, COLS.feedback,
     function () { return t().customer_regret_cases_count; },
@@ -1598,7 +1611,7 @@ function defineWeeklyDrills(today) {
     drill("weekly.eng." + i + ".c", "Completed — " + e.engineer_name, R.SERVICE_CALL_LOG, COLS.callLog,
       function () { return VIEW.weekly.engineer.per_engineer[i]._completed; }, window + ", Status = Completed");
     drill("weekly.eng." + i + ".p", "Pending — " + e.engineer_name, R.SERVICE_CALL_LOG, COLS.callLog,
-      function () { return VIEW.weekly.engineer.per_engineer[i]._pending; }, window + ", Status = Pending");
+      function () { return VIEW.weekly.engineer.per_engineer[i]._pending; }, window + ", Status = Open");
   });
 
   v.aging.forEach(function (w, i) {

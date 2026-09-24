@@ -65,8 +65,14 @@ const CFG = {
       vendorName: "Vendor_Name",           // confirmed
       // VERIFY — the PO amount field. The first of these that exists is used.
       amountCandidates: ["Total_Amount", "Grand_Total", "PO_Amount", "Net_Amount", "Final_Amount", "Total"],
-      // VERIFY — who raised the PO. The first of these that exists is used.
-      employeeCandidates: ["Prepared_By", "Raised_By", "Employee_Name", "Added_User", "Created_By"]
+      // "User" is the confirmed real field name (from the Purchase Order form itself, in the Zoho
+      // app builder — a lookup to the raising employee). It does NOT currently come back from the
+      // All_Purchase_Orders report's field list even with field_config: "all" — the report's own
+      // column config excludes it, which is a Zoho-side setting, not something this code can fix.
+      // Fix in Zoho: Reports > All_Purchase_Orders > add "User" to the report's visible/exposed
+      // fields. The moment that's done, this resolves automatically — no further code change needed.
+      // The other candidates are kept as a fallback in case a differently-named field is used instead.
+      employeeCandidates: ["User", "Prepared_By", "Raised_By", "Employee_Name", "Added_User", "Created_By"]
     },
     rejection: {
       date: "Date_field",                  // confirmed
@@ -608,7 +614,9 @@ async function main() {
     console.log("PO amount field   :", resolveField(purchaseOrder, F.purchaseOrder.amountCandidates) ||
       "NONE of " + F.purchaseOrder.amountCandidates.join(", ") + " — PO amounts will show as " + rupees(0));
     console.log("PO employee field :", resolveField(purchaseOrder, F.purchaseOrder.employeeCandidates) ||
-      "NONE of " + F.purchaseOrder.employeeCandidates.join(", ") + " — the Employee column will be blank");
+      "NONE of " + F.purchaseOrder.employeeCandidates.join(", ") + " — the Employee column will be blank. " +
+      "The real field is \"User\" on the Purchase Order form; add it to Reports > All_Purchase_Orders' " +
+      "visible fields in the Zoho app builder to fix this (a report config change, not a code issue).");
     console.log("PO number field   :", resolveField(purchaseOrder, [F.purchaseOrder.poNo]) ||
       "'" + F.purchaseOrder.poNo + "' not returned — the PO Number column will be blank");
     console.log("MR hour source    :", resolveField(matReq, [F.materialRequisition.addedTime, F.materialRequisition.modifiedTime]) ||

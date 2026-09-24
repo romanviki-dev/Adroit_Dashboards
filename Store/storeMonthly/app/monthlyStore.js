@@ -34,7 +34,7 @@ const CFG = {
     purchaseOrder: "All_Purchase_Orders",                 // confirmed via fields.txt
     supplierRating: "Supplier_Rating_Report",             // confirmed via fields.txt
     vendors: "All_Vendors",                               // confirmed via fields.txt
-    tools: "All_Tools",                                   // still unconfirmed — not in the fields.txt dump, VERIFY
+    tools: "All_Tools",                                   // report name confirmed valid via fields.txt — currently 0 records, not a naming problem
     rejectionReplacement: "Rejection_Replacement_Register_Format" // confirmed (from weekly dashboard)
   },
   fields: {

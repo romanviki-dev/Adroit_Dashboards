@@ -112,10 +112,13 @@ const CFG = {
   },
 
   /* KPIs the Custom API never actually returned — the previous script.js
-     said as much in its own comments. They render as "n/a" instead of 0. */
+     said as much in its own comments. They render as "n/a" instead of 0.
+     YoY / QoQ growth used to be listed here too, but the client's own
+     Deluge codebase has sales.Yearoveryeardata(), which computes exactly
+     this from Order_Confirmation.Final_Amount by calendar quarter — the
+     data was there all along. Ported below in computeQuarterGrowth(). */
   unsourced: [
     "Admin Efficiency gauge",
-    "YoY growth", "QoQ growth",
     "Sales Effectiveness",
     "Lead Quality (IndiaMART / Justdial / Referral / Trade India)",
     "Profit Margin (needs a cost source)"
@@ -222,6 +225,43 @@ function changePct(current, previous) {
   return Math.round(((current - previous) / previous) * 100);
 }
 
+/**
+ * Ported from the client's own Deluge function sales.Yearoveryeardata():
+ * calendar-quarter revenue off Order_Confirmation.Final_Amount, compared
+ * two ways — YoY (this quarter vs the same quarter last year) and QoQ
+ * (this quarter vs the immediately preceding quarter, which may cross a
+ * year boundary). The original Deluge function only computed the YoY side
+ * (per quarter, to find the "top quarter") — QoQ is a natural extension of
+ * the same quarter-revenue building block, using data that already exists.
+ */
+function quarterOf(month) { return Math.floor(month / 3) + 1; } // 0-11 -> 1-4
+function quarterRange(year, q) {
+  const startMonth = (q - 1) * 3;
+  return { start: new Date(year, startMonth, 1), end: new Date(year, startMonth + 3, 0) };
+}
+function quarterRevenue(orders, year, q) {
+  const r = quarterRange(year, q);
+  return orders.reduce((s, o) => {
+    const d = AK.parseDate(o[F.orderConfirmation.date]);
+    return (d && d >= r.start && d <= r.end) ? s + num(o[F.orderConfirmation.finalAmount]) : s;
+  }, 0);
+}
+function computeQuarterGrowth(orders) {
+  const year = TODAY.getFullYear();
+  const q = quarterOf(TODAY.getMonth());
+  const thisQ = quarterRevenue(orders, year, q);
+
+  const lastYearSameQ = quarterRevenue(orders, year - 1, q);
+  const yoy = changePct(thisQ, lastYearSameQ);
+
+  let prevQ = q - 1, prevQYear = year;
+  if (prevQ < 1) { prevQ = 4; prevQYear = year - 1; }
+  const prevQRevenue = quarterRevenue(orders, prevQYear, prevQ);
+  const qoq = changePct(thisQ, prevQRevenue);
+
+  return { quarter: q, year, this_quarter_revenue: thisQ, yoy, qoq };
+}
+
 /* ----------------------------------------------------------------
    3. STATE, COLUMNS, DRILL HELPER
    ---------------------------------------------------------------- */
@@ -314,39 +354,18 @@ function setBadge(id, value) {
   el.classList.remove("badge-positive", "badge-negative");
   el.classList.add(n >= 0 ? "badge-positive" : "badge-negative");
 }
-/** Semicircular speedometer-style radial gauge, single percentage value. */
-function mountGauge(id, percent, color) {
-  AK.mountChart(id, {
-    chart: { type: "radialBar", height: 160, fontFamily: "Poppins, sans-serif", background: "transparent" },
-    theme: { mode: "dark" },
-    series: [Math.max(0, Math.min(100, num(percent)))],
-    colors: [color || AK.chartColors.blue],
-    plotOptions: {
-      radialBar: {
-        hollow: { size: "62%" },
-        startAngle: -90, endAngle: 90,
-        track: { background: "rgba(255,255,255,0.1)" },
-        dataLabels: { show: false }
-      }
-    }
-  });
+/** Plain-text growth value (no badge chrome on these two tiles) — colored by sign. */
+function setGrowthText(id, value) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const n = num(value);
+  el.innerText = (n > 0 ? "+" : "") + cnt(n) + "%";
+  el.style.color = n > 0 ? "#4ade80" : n < 0 ? "#f87171" : "#fff";
 }
-/** Full-circle donut, single percentage value (an existing HTML element shows the number). */
-function mountDonut(id, percent, color) {
-  AK.mountChart(id, {
-    chart: { type: "radialBar", height: 160, fontFamily: "Poppins, sans-serif", background: "transparent" },
-    theme: { mode: "dark" },
-    series: [Math.max(0, Math.min(100, num(percent)))],
-    colors: [color || AK.chartColors.blue],
-    plotOptions: {
-      radialBar: {
-        hollow: { size: "68%" },
-        track: { background: "rgba(255,255,255,0.1)" },
-        dataLabels: { show: false }
-      }
-    }
-  });
-}
+// Gauges on this dashboard now go through AK.mountGauge (shared needle-gauge
+// component in adroitWidgetKit.js) instead of a local ApexCharts radialBar —
+// see that file for why (this app's pinned ApexCharts build has no needle
+// support at all, so it's drawn as plain SVG instead of an ApexCharts type).
 /** A metric with no data source: show "n/a", not a misleading 0. */
 function setUnavailable(id, note) {
   const el = document.getElementById(id);
@@ -507,8 +526,8 @@ function render() {
   SRC.orders = ordersThisMonth;
   drill("kpi.accuracy", "Orders Matching Their Quote", R.orderConfirmation, COLS.order, "accurate",
     "Orders " + monthWindow + " where Final Amount equals Quote Amount");
-  mountGauge("quote-accuracy-chart", accuracy, AK.chartColors.blue);
-  AK.set("val-quote-accuracy", pctOf(accuracy, 0), "kpi.accuracy");
+  AK.mountGauge("quote-accuracy-chart", accuracy, { color: AK.chartColors.blue, dark: true });
+  AK.bindDrill("quote-accuracy-chart", "kpi.accuracy");
 
   const doneLines = lines.filter((l) => statusIn(l[F.quotationFollowUp.lineStatus], CFG.rules.followUpDoneStatuses));
   const pendingLines = lines.filter((l) => !statusIn(l[F.quotationFollowUp.lineStatus], CFG.rules.followUpDoneStatuses));
@@ -519,8 +538,7 @@ function render() {
     "Follow-up lines with Status in " + CFG.rules.followUpDoneStatuses.join("/"));
   drill("kpi.followPending", "Follow-ups Pending", R.quotationFollowUp, COLS.followUpLine, "followPending",
     "Follow-up lines not yet " + CFG.rules.followUpDoneStatuses.join("/"));
-  mountDonut("followup-chart", fPct, AK.chartColors.blue);
-  setText("val-followup-pct", pctOf(fPct, 0));
+  AK.mountGauge("followup-chart", fPct, { color: AK.chartColors.blue, label: "Done", dark: true });
   AK.set("legend-done", "Done (" + cnt(doneLines.length) + ")", "kpi.followDone");
   AK.set("legend-pending", "Pending (" + cnt(pendingLines.length) + ")", "kpi.followPending");
 
@@ -582,18 +600,20 @@ function render() {
     ? Math.round((ordersThisMonth.length * 100) / quotesThisMonth.length) : 0;
   drill("kpi.conversion", "Orders Confirmed", R.orderConfirmation, COLS.order, "orders",
     "Orders " + monthWindow + ", divided by the " + cnt(quotesThisMonth.length) + " quotations raised in the same window");
-  mountDonut("conversion-chart", conversion, AK.chartColors.aqua);
-  AK.set("val-conversion-rate", pctOf(conversion, 0), "kpi.conversion");
+  AK.mountGauge("conversion-chart", conversion, { color: AK.chartColors.aqua, label: "Rate", dark: true });
+  AK.bindDrill("conversion-chart", "kpi.conversion");
 
   /* ============ 3. COMBINED ============ */
 
   renderOrderClosedStrip();
 
+  const growth = computeQuarterGrowth(D.orderConfirmation);
+  setGrowthText("val-yoy-growth", growth.yoy);
+  setGrowthText("val-qoq-growth", growth.qoq);
+
   // Metrics the Custom API never supplied — shown as "n/a" rather than 0 or a
   // misleading empty gauge/ring (no chart is mounted for these at all).
   setUnavailable("val-admin-efficiency", "No admin-efficiency source exists yet.");
-  setUnavailable("val-yoy-growth", "Year-on-year growth needs a full previous-year sales source.");
-  setUnavailable("val-qoq-growth", "Quarter-on-quarter growth needs a previous-quarter sales source.");
   setUnavailable("val-sales-eff", "Sales effectiveness has no defined formula yet.");
   ["q-im", "q-jd", "q-ref", "q-ti"].forEach((id) => setUnavailable(id, "Lead quality scoring is not defined yet."));
   ["bar-q-im", "bar-q-jd", "bar-q-ref", "bar-q-ti"].forEach((id) => setWidth(id, 0));

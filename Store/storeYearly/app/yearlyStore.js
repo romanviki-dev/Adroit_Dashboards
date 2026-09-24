@@ -52,17 +52,14 @@ const CFG = {
     supplierRating: "Supplier_Rating_Report",              // confirmed via fields.txt
     purchaseOrder: "All_Purchase_Orders",                  // confirmed via fields.txt
     vendors: "All_Vendors",                                // confirmed via fields.txt
-    // BROKEN — confirmed via live fields.txt dump, not guesses:
-    //   "All_Scrap"             -> code 2894 "No report named All_Scrap found."
-    //   "All_Service_Executive" -> code 2894 "No report named All_Service_Executive found."
-    // Neither report exists under any name this app's other dashboards reference, so there is
-    // no evidence-based rename to make here. Until the real report names are supplied, both
-    // fetches degrade to empty data (see isNoRecords handling) rather than crashing the page —
-    // scrapValueFromScrapReport() and the "Service Executive" KPI below will read as 0/blank.
-    scrap: "All_Scraps",                                    // VERIFY — report does not exist under this name
+    // RESOLVED — both real report names confirmed directly by the client (app builder URLs/labels),
+    // replacing the earlier broken guesses ("All_Scrap" / "All_Service_Executive", both code 2894
+    // "report not found"). Field names inside CFG.fields.scrap / .serviceExecutive below are still
+    // unverified against real data — no fields.txt dump exists yet for either report.
+    scrap: "All_Scraps",
     rejectionReplacement: "Rejection_Replacement_Register_Format", // confirmed
     materialRequisition: "All_Material_Requisitions1",     // confirmed
-    serviceExecutive: "Service_Executive_Format"              // VERIFY — report does not exist under this name
+    serviceExecutive: "Service_Executive_Format"
   },
   fields: {
     product: {

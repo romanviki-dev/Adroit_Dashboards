@@ -95,24 +95,14 @@
             <!-- Quote Accuracy Score -->
             <div class="kpi-card">
                 <div class="kpi-header">Quote Accuracy Score</div>
-                <div class="speedometer">
-                    <div id="quote-accuracy-chart"></div>
-                </div>
-                <div class="gauge-value" id="val-quote-accuracy">0%</div>
-                <div class="gauge-range"><span>0%</span><span>50%</span><span>100%</span></div>
-                <div class="kpi-subtext" style="text-align: center; margin-top: 8px;">Approved vs Revised</div>
+                <div id="quote-accuracy-chart" style="max-width:170px;margin:8px auto 0;"></div>
+                <div class="kpi-subtext" style="text-align: center; margin-top: 4px;">Approved vs Revised</div>
             </div>
 
             <!-- Quotations Followed Up -->
             <div class="kpi-card">
                 <div class="kpi-header">Quotations Followed Up</div>
-                <div class="donut-chart">
-                    <div id="followup-chart"></div>
-                    <div class="donut-center">
-                        <div class="donut-percentage" id="val-followup-pct">0%</div>
-                        <div class="donut-label">Done</div>
-                    </div>
-                </div>
+                <div id="followup-chart" style="max-width:170px;margin:8px auto 0;"></div>
                 <div class="donut-legend">
                     <div class="legend-item"><span class="legend-color" style="background: #667eea;"></span><span id="legend-done">Done (0)</span></div>
                     <div class="legend-item"><span class="legend-color" style="background: rgba(255,255,255,0.1);"></span><span id="legend-pending">Pending (0)</span></div>
@@ -149,25 +139,21 @@
                 <div class="kpi-header">Quotations Approved</div>
                 <div class="kpi-value" id="val-quotations-approved">0</div>
                 <div class="kpi-subtext">Company - This Quarter</div>
-                <span class="percentage-badge badge-positive" id="badge-approved-change">↑ 0%</span>
             </div>
             <div class="kpi-card">
                 <div class="kpi-header">Pre-Visits Coordinated</div>
                 <div class="kpi-value" id="val-pre-visits">0</div>
                 <div class="kpi-subtext">Scheduled meetings</div>
-                <span class="percentage-badge badge-positive" id="badge-previsits-change">↑ 0%</span>
             </div>
             <div class="kpi-card">
                 <div class="kpi-header">Customer Visits / Meetings</div>
                 <div class="kpi-value" id="val-customer-visits">0</div>
                 <div class="kpi-subtext">Completed this month</div>
-                <span class="percentage-badge badge-positive" id="badge-visits-change">↑ 0%</span>
             </div>
             <div class="kpi-card">
                 <div class="kpi-header">Customer Satisfaction</div>
                 <div class="kpi-value" id="val-customer-satisfaction">0</div>
                 <div class="kpi-subtext">Feedback responses collected</div>
-                <span class="percentage-badge badge-positive" id="badge-satisfaction-change">↑ 0%</span>
             </div>
         </div>
 
@@ -213,13 +199,7 @@
             </div>
             <div class="kpi-card">
                 <div class="kpi-header">Conversion Rate</div>
-                <div class="donut-chart">
-                    <div id="conversion-chart"></div>
-                    <div class="donut-center">
-                        <div class="donut-percentage" id="val-conversion-rate">0%</div>
-                        <div class="donut-label">Rate</div>
-                    </div>
-                </div>
+                <div id="conversion-chart" style="max-width:170px;margin:8px auto 0;"></div>
                 <div class="kpi-subtext" style="text-align: center;">Quotations → Orders</div>
             </div>
         </div>
@@ -244,34 +224,36 @@
             <div class="combined-kpi-card">
                 <div class="kpi-header">Admin Efficiency</div>
                 <div class="gauge-value" id="val-admin-efficiency" style="margin-top:24px">0%</div>
-                <div class="gauge-range"><span>Low</span><span>Medium</span><span>High</span></div>
-                <div class="kpi-subtext" style="text-align: center; margin-top: 8px;">Quote creation & response speed</div>
+                <div class="kpi-subtext" style="text-align: center; margin-top: 4px;">Quote creation & response speed</div>
+                <div class="kpi-nodata-note"><span class="dot"></span>No admin-efficiency data source in Zoho yet</div>
             </div>
 
             <div class="combined-kpi-card">
                 <div class="kpi-header">Growth Metrics</div>
-                <div style="display: flex; justify-content: space-around; margin: 15px 0;">
+                <div style="display: flex; justify-content: space-around; margin: 15px 0 8px;">
                     <div style="text-align: center;">
                         <div style="font-size: 0.8em; color: #a0aec0; margin-bottom: 6px;">YOY</div>
-                        <div style="font-size: 1.3em; font-weight: 700; color: #fff; padding: 30px 0;" id="val-yoy-growth">0%</div>
+                        <div style="font-size: 1.3em; font-weight: 700; color: #fff;" id="val-yoy-growth">0%</div>
                     </div>
                     <div style="text-align: center;">
                         <div style="font-size: 0.8em; color: #a0aec0; margin-bottom: 6px;">QOQ</div>
-                        <div style="font-size: 1.3em; font-weight: 700; color: #fff; padding: 30px 0;" id="val-qoq-growth">0%</div>
+                        <div style="font-size: 1.3em; font-weight: 700; color: #fff;" id="val-qoq-growth">0%</div>
                     </div>
                 </div>
                 <div class="kpi-subtext" style="text-align: center;">Year & quarter comparison</div>
+                <div class="kpi-nodata-note"><span class="dot"></span>Needs a full prior-year/quarter sales source</div>
             </div>
         </div>
 
         <div class="combined-kpi-grid bottom-row">
             <div class="combined-kpi-card">
                 <div class="kpi-header">Sales Effectiveness</div>
-                <div class="donut-chart-sales" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:130px">
+                <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:80px">
                     <div class="donut-percentage" id="val-sales-eff">0%</div>
                     <div class="donut-label">Score</div>
                 </div>
                 <div class="kpi-subtext-sales" style="text-align: center;">Conversion % & Follow-up rate</div>
+                <div class="kpi-nodata-note"><span class="dot"></span>No defined formula/data source yet</div>
             </div>
 
             <div class="combined-kpi-card">
@@ -294,20 +276,17 @@
                         <div class="h-bar-track"><div class="h-bar-fill gradient-green" id="bar-q-ti" style="width: 0%;"></div></div>
                     </div>
                 </div>
+                <div class="kpi-nodata-note"><span class="dot"></span>Lead quality scoring is not defined yet</div>
             </div>
 
             <div class="combined-kpi-card">
                 <div class="kpi-header">Profit Margin</div>
-                <div class="kpi-value" style="color: #48bb78;" id="val-profit-display">₹ 0</div>
-                <div class="progress-container">
-                    <div class="progress-bar-wrapper"><div class="progress-bar-fill" id="bar-profit" style="width: 0%;"></div></div>
-                    <div class="progress-label">
-                        <span id="lbl-sales-amt">Sales: ₹0</span>
-                        <span id="lbl-cost-amt">Cost: ₹0</span>
-                    </div>
+                <div class="kpi-value" id="val-profit-display">n/a</div>
+                <div class="progress-label" style="justify-content: space-between; margin-top: 6px;">
+                    <span id="lbl-sales-amt">Sales: ₹0</span>
+                    <span id="lbl-cost-amt">Cost: n/a</span>
                 </div>
-                <div class="kpi-subtext">Sales vs cost trend (Last 3 Months)</div>
-                <span class="percentage-badge badge-positive" id="badge-profit-trend">↑ 0%</span>
+                <div class="kpi-nodata-note"><span class="dot"></span>No cost data source — only sales value is real</div>
             </div>
         </div>
     </div>
